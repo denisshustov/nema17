@@ -1,7 +1,8 @@
 import time
 from time import sleep
 import RPi.GPIO as GPIO
-
+from threading import Thread
+ 
 
 class Motor_Driver:
 	CW = 1     # Clockwise Rotation
@@ -41,26 +42,30 @@ class Motor_Driver:
 		
 		GPIO.output(self.MODE1, self.RESOLUTION['Full'])
 		GPIO.output(self.MODE2, self.RESOLUTION['Full'])
-		
-	def run(self, rpm):#1 r /s
-		start = time.time()
-
-		if rpm > 0:
-			GPIO.output(self.DIR1, self.CW)
-			GPIO.output(self.DIR2, self.CW)
-		else:
-			GPIO.output(self.DIR1, self.CCW)
-			GPIO.output(self.DIR2, self.CCW)
-		
-		rpm = abs(rpm)
-		print(rpm)
+	
+	def __rpm_to_delay(self, rpm):
+		delay = 0
 		if rpm >= 60:
 			if rpm < 240:	#240 max
-				self.delay = self.delay_const/(rpm/60)
+				delay = self.delay_const/(rpm/60)
 			else:
-				self.delay = self.delay_const/4
+				delay = self.delay_const/4
 		else:			
-			self.delay = self.delay_const*(60/rpm)
+			delay = self.delay_const*(60/rpm)
+		return delay
+
+	def run(self, rpm1, rpm2):#first motor, second motor
+		start = time.time()
+
+		GPIO.output(self.DIR1, rpm1 > 0 if self.CW else self.CCW)
+		GPIO.output(self.DIR2, rpm2 > 0 if self.CW else self.CCW)
+		
+		rpm1 = abs(rpm1)
+		rpm2 = abs(rpm2)
+		print(rpm1)
+		print(rpm2)
+
+		self.delay = self.__rpm_to_delay(rpm1)
 
 		for x in range(self.SPR):
 			GPIO.output(self.STEP1, GPIO.HIGH)
@@ -75,13 +80,12 @@ class Motor_Driver:
 
 		end = time.time() 
 		print(end-start)
-		
+
 def main():
     driver = Motor_Driver(20,21,(14, 15, 18), 26,19,(6, 5, 13))
 	
     try:
-		driver.run(30)
-		driver.run(-30)
+		driver.run(30,-30)
 		# driver.run(120)
 		# driver.run(180)
 		# driver.run(240)
