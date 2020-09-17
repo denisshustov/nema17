@@ -1,0 +1,23 @@
+ppp_controller:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  # Position Controllers --------------------------------------
+  wheel_to_nema17_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wheel_to_nema17
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  wheel_to_nema17_2_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: wheel_to_nema17_2
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  motor_to_brash_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: motor_to_brash
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  motor_to_brash (1)_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: motor_to_brash (1)
+    pid: {p: 100.0, i: 0.01, d: 10.0}

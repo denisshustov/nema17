@@ -1,0 +1,9 @@
+<launch>
+
+<rosparam file="$(find ppp_description)/launch/controller.yaml" command="load"/>
+<node args="wheel_to_nema17_position_controller wheel_to_nema17_2_position_controller motor_to_brash_position_controller motor_to_brash (1)_position_controller joint_state_controller " name="controller_spawner" ns="ppp" output="screen" pkg="controller_manager" respawn="false" type="spawner"/>
+<node name="robot_state_publisher" output="screen" pkg="robot_state_publisher" respawn="false" type="robot_state_publisher">
+  <remap from="/joint_states" to="/ppp/joint_states"/>
+</node>
+
+</launch>
