@@ -10,7 +10,11 @@ http://wiki.ros.org/rosserial_arduino/Tutorials/SRF08%20Ultrasonic%20Range%20Fin
 if add Kalman filter it works slow<br>
 if send in different topics it works slow<br>
 
-#ultrasonic sensors<br>
+<b>RUN</b><br>
+rosrun rosserial_python serial_node.py /dev/ttyUSB0<br>
+rostopic echo /rangeSonar1<br>
+
+#ultrasonic sensors problems<br>
 if error like:<br>
 ~$ roslaunch turtlebot3_bringup turtlebot3_robot.launch <br>
 ... logging to /home/turtlebot3/.ros/log/50d0066c-1356-11e8-861b-a0c589238c19/roslaunch-turtlebot3-2515.log<br>
