@@ -1,5 +1,15 @@
 # nema17
 
+<b>#3_2.ino - arduino scatch for ultrasonic sensors</b><br>
+<br>
+links:
+https://www.intorobotics.com/how-to-use-sensor_msgs-range-ros-for-multiple-sensors-with-rosserial/<br>
+http://cobecoballes-robotics.blogspot.com/2018/08/sonar-ranger-ros-rviz.html<br>
+http://wiki.ros.org/rosserial_arduino/Tutorials/SRF08%20Ultrasonic%20Range%20Finder<br>
+
+if add Kalman filter it works slow<br>
+if send in different topics it works slow<br>
+
 #ultrasonic sensors<br>
 if error like:<br>
 ~$ roslaunch turtlebot3_bringup turtlebot3_robot.launch <br>
