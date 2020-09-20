@@ -4,8 +4,12 @@
 <xacro:property name="body_color" value="Gazebo/Silver" />
 
 <gazebo>
-  <plugin filename="libgazebo_ros_control.so" name="control"/>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    <legacyModeNS>true</legacyModeNS>
+    </plugin>
 </gazebo>
+
 <gazebo reference="base_link">
   <material>${body_color}</material>
   <mu1>0.2</mu1>
@@ -26,8 +30,15 @@
   <mu1>0.2</mu1>
   <mu2>0.2</mu2>
   <selfCollide>true</selfCollide>
+  <selfCollide>true</selfCollide>    
+</gazebo>
+
+<gazebo reference="sonyc_1">
+  <material>${body_color}</material>
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
   <selfCollide>true</selfCollide>
-    <sensor type="ray" name="TeraRanger1">
+      <sensor type="ray" name="TeraRanger1">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
       <update_rate>50</update_rate>
@@ -57,18 +68,11 @@
          <alwaysOn>true</alwaysOn>
          <updateRate>50</updateRate>
          <topicName>sensor/ir_front</topicName>
-         <frameName>wheel_Mirror__1</frameName>
+         <frameName>sonyc_1</frameName>
          <radiation>INFRARED</radiation>
          <fov>0.2967</fov>
       </plugin>
    </sensor>  
-</gazebo>
-
-<gazebo reference="sonyc_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
 </gazebo>
 
 <gazebo reference="sonyc_Mirror__1">
@@ -107,7 +111,7 @@
          <alwaysOn>true</alwaysOn>
          <updateRate>50</updateRate>
          <topicName>sensor/ir_front</topicName>
-         <frameName>sonyc_1</frameName>
+         <frameName>sonyc_Mirror__1</frameName>
          <radiation>INFRARED</radiation>
          <fov>0.2967</fov>
       </plugin>

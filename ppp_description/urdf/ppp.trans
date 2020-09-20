@@ -22,7 +22,7 @@
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>
-
+<!-- 
 <transmission name="Rev14_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="Rev14">
@@ -87,6 +87,6 @@
     <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
-</transmission>
+</transmission> -->
 
 </robot>
