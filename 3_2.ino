@@ -10,7 +10,8 @@
 #include <NewPing.h>
 #include <ros.h>
 #include <ros/time.h>
- #include <std_msgs/Float32MultiArray.h>
+#include <std_msgs/Float32MultiArray.h>
+ #include <std_msgs/ByteMultiArray.h>
  
 #define SONAR_NUM 3          //The number of sensors. 
 #define MAX_DISTANCE 200     //Mad distance to detect obstacles.
@@ -38,6 +39,27 @@ NewPing sonar[SONAR_NUM] = {
 
 
 ros::NodeHandle nh;
+
+
+void messageCb( const std_msgs::ByteMultiArray& toggle_msg)
+{
+  if(toggle_msg.data[0] == 1){
+    digitalWrite(8, HIGH);   
+  else
+    digitalWrite(8, LOW);   
+
+  if(toggle_msg.data[1] == 1)
+    digitalWrite(9, HIGH);   
+  else
+    digitalWrite(9, LOW);   
+   
+  if(toggle_msg.data[2] == 1)
+    digitalWrite(10, HIGH);   
+  else
+    digitalWrite(10, LOW);   
+}
+
+ros::Subscriber<std_msgs::ByteMultiArray> sub("funAndBrushes", &messageCb );
 
 //looping the sensors
 void sensorCycle() {
@@ -76,12 +98,18 @@ int returnLastValidRead(uint8_t sensorArray, uint8_t cm) {
 }
 
 void setup() {
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  
   pingTimer[0] = millis() + 75;
   for (uint8_t i = 1; i < SONAR_NUM; i++)
   pingTimer[i] = pingTimer[i - 1] + PING_INTERVAL;
   
   nh.initNode();
   nh.advertise(pub_sonar1);
+
+  nh.subscribe(sub);
   
   msg.data = (float*)malloc(sizeof(float) * 3);
   msg.data_length = 3;    
@@ -97,3 +125,17 @@ void loop() {
   }
   nh.spinOnce();
 }
+
+
+/*
+rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
+  dim:
+  - label: ''
+    size: 3
+    stride: 0
+  data_offset: 0
+data:
+- 0
+- 1
+- 0" 
+*/
