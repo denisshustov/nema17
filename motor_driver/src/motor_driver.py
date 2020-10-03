@@ -16,14 +16,7 @@ class Motor_Driver:
     SPR = 200   # Steps per Revolution (360 / 1.8)
     delay_const = .00243
 
-    RESOLUTION = {'Full': (0, 0, 0),
-                  'Half': (1, 0, 0),
-                  '1/4': (0, 1, 0),
-                  '1/8': (1, 1, 0),
-                  '1/16': (0, 0, 1),
-                  '1/32': (1, 0, 1)}
-
-    def __init__(self, dir1, step1, mode1, en1, dir2, step2, mode2, en2):
+    def __init__(self, dir1, step1, en1, dir2, step2, en2):
         self.delay = self.delay_const
         self.DIR1 = dir1
         self.STEP1 = step1
@@ -48,17 +41,6 @@ class Motor_Driver:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.DIR2, GPIO.OUT)
         GPIO.setup(self.STEP2, GPIO.OUT)
-
-        # (14, 15, 18)   # Microstep Resolution GPIO Pins
-        self.MODE1 = mode1
-        GPIO.setup(self.MODE1, GPIO.OUT)
-
-        # (14, 15, 18)   # Microstep Resolution GPIO Pins
-        self.MODE2 = mode2
-        GPIO.setup(self.MODE2, GPIO.OUT)
-
-        GPIO.output(self.MODE1, self.RESOLUTION['Full'])
-        GPIO.output(self.MODE2, self.RESOLUTION['Full'])
 
     def __rpm_to_delay(self, rpm):
         if rpm == 0:
@@ -133,13 +115,13 @@ class Driver:
 
         # Calculate wheel speeds in m/s
         self._left_speed = ((angular*0.29)/2)+linear
-        self._right_speed = ((linear*2) - self._left_speed) * -1
+        self._right_speed = ((linear*2) - self._left_speed)
 
     def __init__(self):
         rospy.init_node('driver')
 
         self.motor_driver = Motor_Driver(
-            20, 21, (14, 15, 18), 16,    26, 19, (6, 5, 13), 12)
+            26, 19, 6,    16, 20, 21)
 
         self._left_speed = 0
         self._right_speed = 0
