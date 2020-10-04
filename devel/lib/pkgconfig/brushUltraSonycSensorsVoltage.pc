@@ -1,0 +1,8 @@
+prefix=/home/den/catkin_ws/devel
+
+Name: brushUltraSonycSensorsVoltage
+Description: Description of brushUltraSonycSensorsVoltage
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

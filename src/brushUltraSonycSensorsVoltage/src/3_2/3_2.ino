@@ -123,14 +123,18 @@ void setup() {
 }
 int value = 0;
 float vout = 0.0;
-float vin = 0.0;
+
+float get_voltage()
+{
+  value = analogRead(A0);
+  vout = (value * 5.24) / 1024.0; // see text
+  return vout / (9950.0/(100500.0+9950.0)); 
+}
 
 void loop() {
-  if ((millis() - _timerStart) > LOOPING) {
-    value = analogRead(A0);
-    vout = (value * 5.24) / 1024.0; // see text
-    vin = vout / (9950.0/(100500.0+9950.0)); 
-    msgVolatage.data=vin;
+  if ((millis() - _timerStart) > LOOPING) {    
+    
+    msgVolatage.data = get_voltage();
     pub_voltage.publish(&msgVolatage);
 
     sensorCycle();
@@ -151,7 +155,7 @@ rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
     stride: 0
   data_offset: 0
 data:
-- 0
 - 1
-- 0" 
+- 1
+- 1" 
 */
