@@ -104,7 +104,7 @@ class Motor_Driver:
 
 class Driver:
     def callback(self, msg):
-        rospy.loginfo("Received a /cmd_vel message!")
+        rospy.loginfo("Received a /ppp/cmd_vel message!")
         rospy.loginfo("Linear Components: [%f, %f, %f]" % (
             msg.linear.x, msg.linear.y, msg.linear.z))
         rospy.loginfo("Angular Components: [%f, %f, %f]" % (
@@ -130,7 +130,7 @@ class Driver:
         self._timeout = rospy.get_param('~timeout', 2)
         self._rate = rospy.get_param('~rate', 1000)
 
-        self.ros_sub_twist = rospy.Subscriber("/cmd_vel", Twist, self.callback)
+        self.ros_sub_twist = rospy.Subscriber("/ppp/cmd_vel", Twist, self.callback)
         rospy.loginfo("Initialization complete")
         # rospy.spin()
 

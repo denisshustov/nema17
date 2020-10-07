@@ -155,6 +155,17 @@ rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
     stride: 0
   data_offset: 0
 data:
+- 0
+- 0
+- 0" 
+
+rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
+  dim:
+  - label: ''
+    size: 3
+    stride: 0
+  data_offset: 0
+data:
 - 1
 - 1
 - 1" 
