@@ -1,2 +1,0 @@
-brushUltraSonycSensorsVoltage:motor_driver:ppp_description:razor_imu_9dof
--DCATKIN_DEVEL_PREFIX=/home/den/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/den/catkin_ws/install -G Unix Makefiles
