@@ -7,7 +7,7 @@ from time import sleep
 import RPi.GPIO as GPIO
 import rospy
 from geometry_msgs.msg import Twist
-
+import math
 
 class Motor_Driver:
     CW = 1     # Clockwise Rotation
@@ -111,7 +111,7 @@ class Driver:
             msg.angular.x, msg.angular.y, msg.angular.z))
 
         linear = msg.linear.x
-        angular = msg.angular.z
+        angular = math.degrees(msg.angular.z)  #radians -> degrees
 
         # Calculate wheel speeds in m/s
         self._left_speed = ((angular*0.29)/2)+linear
