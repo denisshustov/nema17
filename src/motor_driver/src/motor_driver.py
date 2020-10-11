@@ -141,8 +141,8 @@ class Driver:
         while not rospy.is_shutdown():
             #print('speed '+str(self._left_speed)+', '+str(self._right_speed))
             delay = rospy.get_time() - self._last_received
-            if delay < self._timeout:
-                self.motor_driver.run(self._left_speed*-1, self._right_speed*-1)
+
+            self.motor_driver.run(self._left_speed*-1, self._right_speed*-1)
             rate.sleep()
 
 
