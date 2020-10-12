@@ -385,6 +385,113 @@
   </collision>
 </link>
 
+<link name="forward_top_1_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="0.06502199144873529 -0.09472380566284748 0.0004895173930853369"/>
+    <mass value="0.48710215659029577"/>
+    <inertia ixx="0.00099" ixy="0.000235" ixz="1e-06" iyy="0.000784" iyz="-1e-06" izz="0.001773"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0.0 -0.149 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp_description/meshes/forward_top_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0.0 -0.149 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp_description/meshes/forward_top_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+
+<link name="forward_top_1_Mirror__1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="0.07845779784140774 0.07359181457392162 0.0004895171912021601"/>
+    <mass value="0.48710223650351714"/>
+    <inertia ixx="0.00099" ixy="-0.000234" ixz="-1e-06" iyy="0.000784" iyz="-1e-06" izz="0.001773"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0.14353 0.01936 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp_description/meshes/forward_top_1_Mirror__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0.14353 0.01936 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp_description/meshes/forward_top_1_Mirror__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="back_top_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="0.07365321533839897 -0.06983833949014678 -0.0010887199497685018"/>
+    <mass value="0.23560428740017997"/>
+    <inertia ixx="0.00038" ixy="0.000345" ixz="1.8e-05" iyy="0.000537" iyz="-1.3e-05" izz="0.000907"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0.14353 0.01936 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp_description/meshes/back_top_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0.14353 0.01936 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp_description/meshes/back_top_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="back_top2_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-0.05499670719604889 -0.05870846160678311 0.0004968868769273244"/>
+    <mass value="0.18961170684744505"/>
+    <inertia ixx="0.000249" ixy="-0.000153" ixz="1e-06" iyy="0.000183" iyz="1e-06" izz="0.000432"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="-0.14353 0.01936 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp_description/meshes/back_top2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="-0.14353 0.01936 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp_description/meshes/back_top2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Lidar_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="1.0794814273332957e-07 2.1384410779645702e-07 0.03500000000000002"/>
+    <mass value="2.114723824855799"/>
+    <inertia ixx="0.001511" ixy="0.0" ixz="-0.0" iyy="0.001511" iyz="-0.0" izz="0.001295"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="7.9e-05 -0.09632 -0.112"/>
+    <geometry>
+      <mesh filename="package://ppp_description/meshes/Lidar_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="7.9e-05 -0.09632 -0.112"/>
+    <geometry>
+      <mesh filename="package://ppp_description/meshes/Lidar_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+
 <joint name="Rev1" type="continuous">
   <origin rpy="0 0 0" xyz="0.04585 0.0 0.021125"/>
   <parent link="nema17_1"/>
@@ -495,5 +602,38 @@
   <parent link="base_link"/>
   <child link="IMU_1"/>
 </joint>
+
+
+
+<joint name="Rigid21" type="fixed">
+  <origin rpy="0 0 0" xyz="0.0 0.149 0.11"/>
+  <parent link="base_link"/>
+  <child link="forward_top_1_1"/>
+</joint>
+
+<joint name="Rigid22_1" type="fixed">
+  <origin rpy="0 0 0" xyz="-0.14353 -0.01936 0.11"/>
+  <parent link="base_link"/>
+  <child link="forward_top_1_Mirror__1"/>
+</joint>
+
+<joint name="Rigid23" type="fixed">
+  <origin rpy="0 0 0" xyz="-0.14353 -0.01936 0.11"/>
+  <parent link="base_link"/>
+  <child link="back_top_1"/>
+</joint>
+
+<joint name="Rigid24" type="fixed">
+  <origin rpy="0 0 0" xyz="0.14353 -0.01936 0.11"/>
+  <parent link="base_link"/>
+  <child link="back_top2_1"/>
+</joint>
+
+<joint name="Rigid25" type="fixed">
+  <origin rpy="0 0 0" xyz="0.143451 0.11568 0.002"/>
+  <parent link="forward_top_1_Mirror__1"/>
+  <child link="Lidar_1"/>
+</joint>
+
 
 </robot>
