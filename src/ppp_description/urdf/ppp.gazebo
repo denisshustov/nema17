@@ -164,7 +164,7 @@
 
 <gazebo reference="Lidar_1">
 	<sensor type="gpu_ray" name="head_rplidar_sensor">
-		<pose>0 0 0 0 0 0</pose>
+		<pose>0.2 0 0.2 0 0 0</pose>
 		<visualize>true</visualize>
 		<update_rate>40</update_rate>
 		<ray>
