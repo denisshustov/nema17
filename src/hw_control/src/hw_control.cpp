@@ -5,121 +5,118 @@
 #include <hardware_interface/robot_hw.h>
 #include <std_msgs/UInt64.h>
 #include <std_msgs/Int16.h>
+// #include <nav_msgs/Odometry.h>
+// #include <geometry_msgs/Twist.h>
 
-#define TICKS_PER_REVOLUTION 300
-#define REVOLUTIONS_PER_TICK .003333333333
-
-class JetsonHW: public hardware_interface::RobotHW
+class pppHW: public hardware_interface::RobotHW
 {
-    public:
-    double velocity_multiplier;
-    JetsonHW(ros::NodeHandle nh)
-    {
-        ros::NodeHandle pnh("~");
-        pnh.param<double>("velocity_multiplier",velocity_multiplier,10.0);
-        ROS_INFO("velocity_multiplier: %f",velocity_multiplier);
 
+//1.8 degree per tick
+#define TICKS_PER_REVOLUTION 200
+#define REVOLUTIONS_PER_TICK 0.005
+
+    pppHW(ros::NodeHandle nh)
+    {
+        //ros::NodeHandle pnh("~");???
+        ROS_INFO("Init HW controller");
+
+        // connect and register the joint state interface
         hardware_interface::JointStateHandle state_handle_left("Rev1", &pos[0], &vel[0],&eff[0]);
         jnt_state_interface.registerHandle(state_handle_left);
 
-        hardware_interface::JointStateHandle state_handle_right("wheel_Mirror__1", &pos[1], &vel[1],&eff[1]);
+        hardware_interface::JointStateHandle state_handle_right("Rev4", &pos[1], &vel[1],&eff[1]);
         jnt_state_interface.registerHandle(state_handle_right);
 
         registerInterface(&jnt_state_interface);
 
 
+        // connect and register the joint position interface
         hardware_interface::JointHandle vel_handle_left(jnt_state_interface.getHandle("Rev1"), &cmd[0]);
         jnt_vel_interface.registerHandle(vel_handle_left);
 
-        hardware_interface::JointHandle vel_handle_right(jnt_state_interface.getHandle("wheel_Mirror__1"), &cmd[0]);
+        hardware_interface::JointHandle vel_handle_right(jnt_state_interface.getHandle("Rev4"), &cmd[1]);
         jnt_vel_interface.registerHandle(vel_handle_right);
 
         registerInterface(&jnt_vel_interface);
 
 
-        motor_left_pub = nh.advertise<std_msgs::Int16>("/ppp/cmd_vel",10);
-        //motor_right_pub = nh.advertise<std_msgs::Int16>("/arduino/motor_right_speed",10);
-        encoder_left_sub=nh.subscribe<std_msgs::UInt64>("/ppp/odom",10, &JetsonHW::leftEncoderCB, this);
-        //encoder_right_sub=nh.subscribe<std_msgs::UInt64>("/arduino/encoder_right_speed",10, &JetsonHW::rightEncoderCB, this);
+        ppp_right_motor = nh.advertise<std_msgs::Int16>("/ppp/right_motor_control",10);
+        ppp_left_motor = nh.advertise<std_msgs::Int16>("/ppp/left_motor_control",10);
+        //ppp_odom_sub = nh.subscribe<nav_msgs::Odometry>("/ppp/odom",10, &pppHW::pppOdomCallBack, this);
 
         prev_left=0;
         prev_right=0;
-        encoder_left=0;
-        encoder_right=0;
         pos[0]=0;
         pos[1]=0;
 
         ROS_INFO("!!!HW LOAD OK!!!");
-            
-//https://gitlab.cci.drexel.edu/kpp55/Autonomous_Vehicles_with_embedded_intelligence/blob/83d126c4a1b9e89cd35e34fde8291290e9e8ba9b/Robot_Development/catkin_ws/rosjet/jet_driver/src/jet_driver_node.cpp
     }
 
     ros::Time getTime() const {return ros::Time::now();}
     ros::Duration getPeriod() const {return ros::Duration(0.01);}
 
-    void leftEncoderCB(const std_msgs::UInt64::ConstPtr& val)
-    {
-        encoder_left = (double)val->data;
-    }
+    // void pppOdomCallBack(const nav_msgs::Odometry::ConstPtr &msg)
+    // {
+    //     odomData = msg->data;
+    // }
  
-    void rightEncoderCB(const std_msgs::UInt64::ConstPtr& val)
-    {
-        encoder_right = (double)val->data;
-    }
-
     void read()
     {
-        left_msg.data=(int)(velocity_multiplier * cmd[0]);
-        right_msg.data=(int)(velocity_multiplier * cmd[1]);
-        motor_left_pub.publish(left_msg);
-        motor_right_pub.publish(right_msg);
+        motor_left_pub.publish(cmd[0]);
+        motor_right_pub.publish(cmd[0]);
     }
 
     void write()
     {
-        vel[0] = REVOLUTIONS_PER_TICK * (encoder_left - prev_left) / getPeriod().toSec();
-        vel[1] = REVOLUTIONS_PER_TICK * (encoder_right - prev_right) / getPeriod().toSec();
-        pos[0] = REVOLUTIONS_PER_TICK * (encoder_left - prev_left);
-        pos[1] = REVOLUTIONS_PER_TICK * (encoder_left - prev_right);
-        prev_left=encoder_left;
-        prev_right=encoder_right;
-        //ROS_INFO(">>>WH vel  = %.2f, %.2f", vel[0], vel[1]);
-
+        vel[0] = REVOLUTIONS_PER_TICK * (cmd[0] - prev_left) / getPeriod().toSec();
+        vel[1] = REVOLUTIONS_PER_TICK * (cmd[1] - prev_right) / getPeriod().toSec();
+        pos[0] = REVOLUTIONS_PER_TICK * (cmd[0] - prev_left);
+        pos[1] = REVOLUTIONS_PER_TICK * (cmd[1] - prev_right);
+        prev_left=cmd[0];
+        prev_right=cmd[1];
+        ROS_INFO(">>>WH vel  = %.2f, %.2f", vel[0], vel[1]);
     }
 
     private:
     hardware_interface::VelocityJointInterface jnt_vel_interface;
     hardware_interface::JointStateInterface jnt_state_interface;
 
+    //controllers will read from the pos, vel and eff variables in your robot
+    //make sure the pos, vel and eff variables always have the latest joint state available
     double pos[2];
     double vel[2];
     double eff[2];
+
+    //controller will write the desired command into the cmd variable
+    //make sure that whatever is written into the cmd variable gets executed by the robot
     double cmd[2];
-    double encoder_left, encoder_right, prev_left, prev_right;
+
+    double prev_left, prev_right;
     std_msgs::Int16 left_msg, right_msg;
-    ros::Publisher motor_left_pub;
-    ros::Publisher motor_right_pub;
-    ros::Subscriber encoder_left_sub;
-    ros::Subscriber encoder_right_sub;
+    double encoder_left, encoder_right, prev_left, prev_right;
+    ros::Publisher ppp_cmd_vel_pub;
+    ros::Subscriber ppp_odom_sub;
+    nav_msgs::Odometry odomData;
+
     
 };
 
 int main(int argc, char * argv[])
 {
-    ros::init(argc, argv, "HWppp");
+    ros::init(argc, argv, "ppp_hw_control");
     ros::NodeHandle nh;
-    JetsonHW jet(nh);
-    controller_manager::ControllerManager cm(&jet, nh);
+    pppHW pppHw(nh);
+    controller_manager::ControllerManager cm(&pppHw, nh);
 
-    ros::Rate rate(1.0/jet.getPeriod().toSec());
+    ros::Rate rate(1.0/pppHw.getPeriod().toSec());
     ros::AsyncSpinner spinner(1);
     spinner.start();
 
     while (ros::ok)
     {
-        jet.read();
-        jet.write();
-        cm.update(jet.getTime(), jet.getPeriod());
+        pppHw.read();
+        pppHw.write();
+        cm.update(pppHw.getTime(), pppHw.getPeriod());
         rate.sleep();            
     }
     spinner.stop();
