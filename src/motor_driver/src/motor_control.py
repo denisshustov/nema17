@@ -9,21 +9,23 @@ import rospy
 from geometry_msgs.msg import Twist
 import math
 from std_msgs.msg import Int32, Float64
+from threading import Thread
 
-
-class Motor_Driver:
+class Motor_Driver(Thread):
     CW = 1     # Clockwise Rotation
     CCW = 0    # Counterclockwise Rotation
 
     SPR = 200   # Steps per Revolution (360 / 1.8)
     delay_const = .00243
 
-    def __init__(self, dir, step, en):
+    def __init__(self, dir, step, en, name, topic_name):
+        Thread.__init__(self)
         self.delay = self.delay_const
         self.DIR = dir
         self.STEP = step
         self.EN = en
         self.prev_rpm = 0
+        self.NAME  = name
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.DIR, GPIO.OUT)
@@ -33,7 +35,28 @@ class Motor_Driver:
         GPIO.output(self.EN, GPIO.HIGH)
         rospy.loginfo("Disabled drivers, speed 0!")
 
+        self._last_received = rospy.get_time()
+        self._wheel_radius = rospy.get_param('~wheel_radius_meters', 0.73)
+        self._timeout = rospy.get_param('~timeout', 2)
+        self._rate = rospy.get_param('~rate', 1000)
+
         GPIO.setmode(GPIO.BCM)
+
+    def run(self):
+        rospy.loginfo("Thread " + self.NAME + " running")
+        self.ros_sub_right = rospy.Subscriber(topic_name, Float64, self.callback) #m/s
+
+        while not rospy.is_shutdown():
+            delay = rospy.get_time() - self._last_received
+            self.run_motor(rpm)
+            rate.sleep()
+
+    def callback(self, msg):
+        if msg.data==0:
+            self.rpm = 0
+        else:
+            self.rpm = (self._wheel_radius * 0.10472) / msg.data
+            rospy.loginfo(self.NAME + " data [%f], RPM [%f]" % (msg.data, rpm))
 
     def __rpm_to_delay(self, rpm):
         if rpm == 0:
@@ -48,7 +71,7 @@ class Motor_Driver:
             delay = self.delay_const*(60/rpm)
         return delay
 
-    def run(self, rpm):
+    def run_motor(self, rpm):
 
         if rpm == 0:
             if self.prev_rpm != rpm:
@@ -90,47 +113,21 @@ class Driver:
    # RPM: Angular velocity, in RPM (Rounds per Minute)
    # '''
 
-    def right_callback(self, msg):
-        if msg.data==0:
-            self.right_motor_driver.run(0)
-        else:
-            rpm = (self._wheel_radius * 0.10472) / msg.data
-            rospy.loginfo("Right data [%f], RPM [%f]" % (msg.data, rpm))
-            self.right_motor_driver.run(rpm)
-
-    def left_callback(self, msg):
-        if msg.data==0:
-            self.right_motor_driver.run(0)
-        else:
-            rpm = (self._wheel_radius * 0.10472) / msg.data
-            rospy.loginfo("Right data [%f], RPM [%f]" % (msg.data, rpm))
-            self.left_motor_driver.run(rpm)
-
     def __init__(self):
         rospy.init_node('driver')
+        self.right_motor_driver = Motor_Driver(26, 19, 6,"right","/ppp/right_motor_control")
+        self.left_motor_driver = Motor_Driver(16, 20, 21,"left","/ppp/left_motor_control")
+        
+        self.right_motor_driver.start()
+        self.left_motor_driver.start()
 
-        self.right_motor_driver = Motor_Driver(26, 19, 6)
-
-        self.left_motor_driver = Motor_Driver(16, 20, 21)
-
-        self._last_received = rospy.get_time()
-        self._wheel_radius = rospy.get_param('~wheel_radius_meters', 2)
-        self._timeout = rospy.get_param('~timeout', 2)
-        self._rate = rospy.get_param('~rate', 1000)
-
-        self.ros_sub_right = rospy.Subscriber("/ppp/right_motor_control", Float64, self.right_callback) #m/s
-        self.ros_sub_left = rospy.Subscriber("/ppp/left_motor_control", Float64, self.left_callback)
         rospy.loginfo("Initialization complete")
         
-
-    def run(self):
-        rospy.spin()
 
 
 def main():
     try:
         driver = Driver()
-        driver.run()
 
     except AttributeError as error:
         print(error)
