@@ -93,18 +93,18 @@ class Driver:
     def right_callback(self, msg):
         if msg.data==0:
             self.right_motor_driver.run(0)
-
-        rpm = (self._wheel_radius * 0.10472) / msg.data
-        rospy.loginfo("Right data [%f], RPM [%f]" % (msg.data, rpm))
-        self.right_motor_driver.run(rpm)
+        else:
+            rpm = (self._wheel_radius * 0.10472) / msg.data
+            rospy.loginfo("Right data [%f], RPM [%f]" % (msg.data, rpm))
+            self.right_motor_driver.run(rpm)
 
     def left_callback(self, msg):
         if msg.data==0:
             self.right_motor_driver.run(0)
-
-        rpm = (self._wheel_radius * 0.10472) / msg.data
-        rospy.loginfo("Right data [%f], RPM [%f]" % (msg.data, rpm))
-        self.left_motor_driver.run(rpm)
+        else:
+            rpm = (self._wheel_radius * 0.10472) / msg.data
+            rospy.loginfo("Right data [%f], RPM [%f]" % (msg.data, rpm))
+            self.left_motor_driver.run(rpm)
 
     def __init__(self):
         rospy.init_node('driver')
