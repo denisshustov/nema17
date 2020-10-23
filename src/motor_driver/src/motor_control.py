@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*-
 
 import time
 import sys
@@ -83,12 +83,12 @@ class Motor_Driver:
 
 
 class Driver:
-    '''
-    v = r × RPM × 0.10472 => v/RPM = r  × 0.10472 => RPM = (r × 0.10472) / v
-    v: Linear velocity, in m/s
-    r: Radius, in meter
-    RPM: Angular velocity, in RPM (Rounds per Minute)
-    '''
+   # '''
+   # v = r x RPM x 0.10472 => v/RPM = r  x 0.10472 => RPM = (r x 0.10472) / v
+   # v: Linear velocity, in m/s
+   # r: Radius, in meter
+   # RPM: Angular velocity, in RPM (Rounds per Minute)
+   # '''
 
     def right_callback(self, msg):
         rpm = (self._wheel_radius * 0.10472) / msg.data
