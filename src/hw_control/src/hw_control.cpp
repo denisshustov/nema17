@@ -40,8 +40,8 @@ class pppHW: public hardware_interface::RobotHW
         registerInterface(&jnt_vel_interface);
 
 
-        ppp_right_motor = nh.advertise<std_msgs::Int16>("/ppp/right_motor_control",10);
-        ppp_left_motor = nh.advertise<std_msgs::Int16>("/ppp/left_motor_control",10);
+        motor_left_pub = nh.advertise<std_msgs::Int16>("/ppp/right_motor_control",10);
+        motor_right_pub = nh.advertise<std_msgs::Int16>("/ppp/left_motor_control",10);
         //ppp_odom_sub = nh.subscribe<nav_msgs::Odometry>("/ppp/odom",10, &pppHW::pppOdomCallBack, this);
 
         prev_left=0;
@@ -63,7 +63,7 @@ class pppHW: public hardware_interface::RobotHW
     void read()
     {
         motor_left_pub.publish(cmd[0]);
-        motor_right_pub.publish(cmd[0]);
+        motor_right_pub.publish(cmd[1]);
     }
 
     void write()
@@ -72,8 +72,8 @@ class pppHW: public hardware_interface::RobotHW
         vel[1] = REVOLUTIONS_PER_TICK * (cmd[1] - prev_right) / getPeriod().toSec();
         pos[0] = REVOLUTIONS_PER_TICK * (cmd[0] - prev_left);
         pos[1] = REVOLUTIONS_PER_TICK * (cmd[1] - prev_right);
-        prev_left=cmd[0];
-        prev_right=cmd[1];
+        prev_left = cmd[0];
+        prev_right = cmd[1];
         ROS_INFO(">>>WH vel  = %.2f, %.2f", vel[0], vel[1]);
     }
 
@@ -94,7 +94,7 @@ class pppHW: public hardware_interface::RobotHW
     double prev_left, prev_right;
     std_msgs::Int16 left_msg, right_msg;
     double encoder_left, encoder_right, prev_left, prev_right;
-    ros::Publisher ppp_cmd_vel_pub;
+    ros::Publisher motor_left_pub, motor_right_pub;
     ros::Subscriber ppp_odom_sub;
     nav_msgs::Odometry odomData;
 
