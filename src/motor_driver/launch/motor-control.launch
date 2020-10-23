@@ -1,4 +1,20 @@
 <launch>
-        <node name="motor_control" pkg="motor_driver" output="screen" type="motor_control.py">
+        <node name="motor_control_right" pkg="motor_driver" output="screen" type="motor_control.py">
+                <param name="dir" value="26" type="int"/>
+                <param name="step" value="19" type="int"/>
+                <param name="en" value="6" type="int"/>
+                <param name="name" value="right" />
+                <param name="topic_name" value="/ppp/right_motor_control" />
+                <param name="wheel_radius_meters" value="0.073" type="double" />
+                <param name="with_debug_info" value="True" type="bool" />
+        </node>
+        <node name="motor_control_left" pkg="motor_driver" output="screen" type="motor_control.py">
+                <param name="dir" value="16" type="int"/>
+                <param name="step" value="20" type="int"/>
+                <param name="en" value="21" type="int"/>
+                <param name="name" value="left" />
+                <param name="topic_name" value="/ppp/left_motor_control" />
+                <param name="wheel_radius_meters" value="0.073" type="double" />
+                <param name="with_debug_info" value="True" type="bool" />
         </node>
 </launch>
