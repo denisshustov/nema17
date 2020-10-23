@@ -26,6 +26,8 @@ class Motor_Driver(Thread):
         self.EN = en
         self.prev_rpm = 0
         self.NAME  = name
+	self.TOPIC_NAME = topic_name
+	self.rpm = 0
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.DIR, GPIO.OUT)
@@ -44,11 +46,12 @@ class Motor_Driver(Thread):
 
     def run(self):
         rospy.loginfo("Thread " + self.NAME + " running")
-        self.ros_sub_right = rospy.Subscriber(topic_name, Float64, self.callback) #m/s
+        self.ros_sub_right = rospy.Subscriber(self.TOPIC_NAME , Float64, self.callback) #m/s
+	rate = rospy.Rate(self._rate)
 
         while not rospy.is_shutdown():
             delay = rospy.get_time() - self._last_received
-            self.run_motor(rpm)
+            self.run_motor(self.rpm)
             rate.sleep()
 
     def callback(self, msg):
@@ -56,7 +59,7 @@ class Motor_Driver(Thread):
             self.rpm = 0
         else:
             self.rpm = (self._wheel_radius * 0.10472) / msg.data
-            rospy.loginfo(self.NAME + " data [%f], RPM [%f]" % (msg.data, rpm))
+            rospy.loginfo(self.NAME + " data [%f], RPM [%f]" % (msg.data, self.rpm))
 
     def __rpm_to_delay(self, rpm):
         if rpm == 0:
@@ -137,8 +140,8 @@ def main():
     except:
         print("Unexpected error:", sys.exc_info()[0])
     finally:
-        GPIO.output(16, GPIO.HIGH)
-        GPIO.output(12, GPIO.HIGH)
+        GPIO.output(6, GPIO.HIGH)
+        GPIO.output(21, GPIO.HIGH)
         GPIO.cleanup()
 
 
