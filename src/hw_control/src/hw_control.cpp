@@ -5,6 +5,7 @@
 #include <hardware_interface/robot_hw.h>
 #include <std_msgs/UInt64.h>
 #include <std_msgs/Int16.h>
+#include <std_msgs/Float64.h>
 // #include <nav_msgs/Odometry.h>
 // #include <geometry_msgs/Twist.h>
 
@@ -14,7 +15,7 @@ class pppHW: public hardware_interface::RobotHW
 //1.8 degree per tick
 #define TICKS_PER_REVOLUTION 200
 #define REVOLUTIONS_PER_TICK 0.005
-
+public:
     pppHW(ros::NodeHandle nh)
     {
         //ros::NodeHandle pnh("~");???
@@ -40,8 +41,8 @@ class pppHW: public hardware_interface::RobotHW
         registerInterface(&jnt_vel_interface);
 
 
-        motor_left_pub = nh.advertise<std_msgs::Int16>("/ppp/right_motor_control",10);
-        motor_right_pub = nh.advertise<std_msgs::Int16>("/ppp/left_motor_control",10);
+        motor_left_pub = nh.advertise<std_msgs::Float64>("/ppp/right_motor_control",10);
+        motor_right_pub = nh.advertise<std_msgs::Float64>("/ppp/left_motor_control",10);
         //ppp_odom_sub = nh.subscribe<nav_msgs::Odometry>("/ppp/odom",10, &pppHW::pppOdomCallBack, this);
 
         prev_left=0;
@@ -62,8 +63,10 @@ class pppHW: public hardware_interface::RobotHW
  
     void read()
     {
-        motor_left_pub.publish(cmd[0]);
-        motor_right_pub.publish(cmd[1]);
+        left_msg_data.data=cmd[0];
+        right_msg_data.data=cmd[1];
+        motor_left_pub.publish(left_msg_data);
+        motor_right_pub.publish(right_msg_data);
     }
 
     void write()
@@ -91,19 +94,18 @@ class pppHW: public hardware_interface::RobotHW
     //make sure that whatever is written into the cmd variable gets executed by the robot
     double cmd[2];
 
+    std_msgs::Float64 left_msg_data, right_msg_data;
     double prev_left, prev_right;
-    std_msgs::Int16 left_msg, right_msg;
-    double encoder_left, encoder_right, prev_left, prev_right;
     ros::Publisher motor_left_pub, motor_right_pub;
     ros::Subscriber ppp_odom_sub;
-    nav_msgs::Odometry odomData;
+    //nav_msgs::Odometry odomData;
 
     
 };
 
 int main(int argc, char * argv[])
 {
-    ros::init(argc, argv, "ppp_hw_control");
+    ros::init(argc, argv, "hw_control");
     ros::NodeHandle nh;
     pppHW pppHw(nh);
     controller_manager::ControllerManager cm(&pppHw, nh);
@@ -115,8 +117,8 @@ int main(int argc, char * argv[])
     while (ros::ok)
     {
         pppHw.read();
-        pppHw.write();
         cm.update(pppHw.getTime(), pppHw.getPeriod());
+        pppHw.write();
         rate.sleep();            
     }
     spinner.stop();
