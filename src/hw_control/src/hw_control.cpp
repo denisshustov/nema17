@@ -77,7 +77,7 @@ public:
         pos[1] = REVOLUTIONS_PER_TICK * (cmd[1] - prev_right);
         prev_left = cmd[0];
         prev_right = cmd[1];
-        ROS_INFO(">>>WH vel  = %.2f, %.2f", vel[0], vel[1]);
+        //ROS_INFO(">>>WH vel  = %.2f, %.2f", vel[0], vel[1]);
     }
 
     private:
