@@ -10,7 +10,7 @@
     <node name="robot_state_publisher" output="screen" pkg="robot_state_publisher"
      respawn="false" type="robot_state_publisher">
 
-    <remap from="/joint_states" to="/ppp/joint_states"/>
+        <remap from="/joint_states" to="/ppp/joint_states"/>
     </node>
 
 </launch>

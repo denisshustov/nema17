@@ -10,13 +10,16 @@
         name="controller_spawner" output="screen" 
         pkg="controller_manager" respawn="false" type="spawner"/>
     
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/>
+
 
     <!-- Rev14_position_controller Rev15_position_controller Rev26_position_controller Rev27_position_controller Rev28_position_controller Rev29_position_controller -->
     <node name="robot_state_publisher" output="screen" pkg="robot_state_publisher"
      respawn="false" type="robot_state_publisher">
 
-    <remap from="/joint_states" to="/ppp/joint_states"/>
+        <remap from="/joint_states" to="/ppp/joint_states"/>
     </node>
 
+    <!-- <arg default="$(find ppp_description)/launch/urdf.rviz" name="rvizconfig"/>
+    <node args="-d $(arg rvizconfig)" name="rviz" pkg="rviz" required="true" type="rviz"/> -->
 </launch>

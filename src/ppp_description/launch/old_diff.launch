@@ -1,0 +1,17 @@
+
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <param command="$(find xacro)/xacro --inorder $(find ppp_description)/urdf/ppp.xacro" name="robot_description"/>
+
+    <arg name="x" default="-2"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0.1"/>
+    
+     <node name="ppp_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+          args="-urdf -param robot_description -model ppp -x $(arg x) -y $(arg y) -z $(arg z)" />
+
+    <rosparam file="$(find ppp_description)/config/ppp_diff_drive.yaml" command="load" />
+    
+    <node name="base_controller_spawner"  pkg="controller_manager"  type="spawner"  output="screen"  args="mobile_base_controller" />
+     
+</launch> -->

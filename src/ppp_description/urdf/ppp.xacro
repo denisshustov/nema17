@@ -497,7 +497,7 @@
   <parent link="nema17_1"/>
   <child link="wheel_1"/>
   <axis xyz="1.0 0.0 -0.0"/>
-  <limit effort="10" velocity="100"/>
+  <!-- <limit effort="10" velocity="100"/> -->
 </joint>
 
 <joint name="Rev4" type="continuous">

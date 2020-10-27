@@ -127,7 +127,7 @@ class Driver:
         topic_name = rospy.get_param('~topic_name')
         wheel_radius = rospy.get_param('~wheel_radius_meters', 0.073)
         rate = rospy.get_param('~rate', 1000)
-        with_debug_info = rospy.get_param('~with_debug_info', False)
+        with_debug_info = rospy.get_param('~with_debug_info', True)
 
         if dir == None or step == None or en == None or name == None or topic_name == None:
             raise Exception('Wrong node params!!!')
