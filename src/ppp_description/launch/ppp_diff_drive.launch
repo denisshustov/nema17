@@ -2,19 +2,21 @@
 <launch>
     <param command="$(find xacro)/xacro --inorder $(find ppp_description)/urdf/ppp.xacro" name="robot_description"/>
 
-    <include file="$(find ppp_description)/launch/gazebo.launch"/>
+    <!-- <include file="$(find ppp_description)/launch/gazebo.launch"/>
 
-    <include file="$(find ppp_description)/launch/display.launch"/>
+    <include file="$(find ppp_description)/launch/display.launch"/> -->
     <rosparam file="$(find ppp_description)/config/ppp_diff_drive.yaml" command="load" />
     <rosparam file="$(find ppp_description)/launch/controller.yaml" command="load"/>
-    
+<!--     
     <node args="Rev1_position_controller Rev4_position_controller"
         name="controller_spawner" output="screen" 
-        pkg="controller_manager" respawn="false" type="spawner"/>
+        pkg="controller_manager" respawn="false" type="spawner"/> -->
 
     <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/> -->
-
+    <node name="controller_spawnerXXX" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" args="mobile_base_controller">
+    </node>
     <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
-        <param name="default_topic" value="/ppp/cmd_vel"/>
+        <param name="default_topic" value="/mobile_base_controller/cmd_vel"/>
     </node>
 </launch>

@@ -41,8 +41,8 @@ public:
         registerInterface(&jnt_vel_interface);
 
 
-        motor_left_pub = nh.advertise<std_msgs::Float64>("/ppp/right_motor_control",10);
-        motor_right_pub = nh.advertise<std_msgs::Float64>("/ppp/left_motor_control",10);
+        motor_left_pub = nh.advertise<std_msgs::Float64>("/ppp/right_motor_control",1);
+        motor_right_pub = nh.advertise<std_msgs::Float64>("/ppp/left_motor_control",1);
         //ppp_odom_sub = nh.subscribe<nav_msgs::Odometry>("/ppp/odom",10, &pppHW::pppOdomCallBack, this);
 
         prev_left=0;
@@ -109,8 +109,9 @@ int main(int argc, char * argv[])
     ros::NodeHandle nh;
     pppHW pppHw(nh);
     controller_manager::ControllerManager cm(&pppHw, nh);
-
-    ros::Rate rate(1.0/pppHw.getPeriod().toSec());
+//	min: 0.009s max: 0.011s std dev: 0.00007s window: 1096
+//0.0001
+    ros::Rate rate(100);//1.0/pppHw.getPeriod().toSec());
     ros::AsyncSpinner spinner(1);
     spinner.start();
 
