@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <launch>
-  <node name="hw_control" pkg="hw_control" type="hw_control" output="screen"/>
+  <node name="ppp_hw_control" pkg="hw_control" type="ppp_hw_control" output="screen"/>
 </launch>
