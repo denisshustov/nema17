@@ -2,9 +2,6 @@
 <launch>
     <param command="$(find xacro)/xacro --inorder $(find ppp_description)/urdf/ppp.xacro" name="robot_description"/>
 
-    <!-- <include file="$(find ppp_description)/launch/gazebo.launch"/>
-
-    <include file="$(find ppp_description)/launch/display.launch"/> -->
     <rosparam file="$(find ppp_description)/config/ppp_diff_drive.yaml" command="load" />
     <rosparam file="$(find ppp_description)/launch/controller.yaml" command="load"/>
 <!--     
