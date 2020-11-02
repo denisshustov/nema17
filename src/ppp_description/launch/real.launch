@@ -3,8 +3,10 @@
     <param command="$(find xacro)/xacro --inorder $(arg model)" name="robot_description"/>
 
     <include file="$(find hw_control)/launch/hw_control.launch"/> 
-    <include file="$(find ppp_description)/launch/controller.launch"/> 
+    <include file="$(find ppp_description)/launch/ppp_diff_drive.launch"/>     
 
-    <!-- <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>  -->
+    <!-- <include file="$(find ppp_description)/launch/controller.launch"/> 
+     -->
+    <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>
 
 </launch>
