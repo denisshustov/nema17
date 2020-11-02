@@ -9,6 +9,8 @@ import rospy
 from geometry_msgs.msg import Twist, Odometry, PoseWithCovarianceStamped
 from message_filters import ApproximateTimeSynchronizer, Subscriber
 
+#get poset from
+#rostopic echo /slam_out_pose
 
 def callback(self, pose, wheel_odom):
     odom = Odometry()
