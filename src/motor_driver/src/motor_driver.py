@@ -85,7 +85,7 @@ class Motor_Driver:
         rpm_left = abs(rpm_left)
         rpm_right = abs(rpm_right)
 
-        self.delay = self.__rpm_to_delay(rpm_left)
+        self.delay = 0.0013 / rpm_left #self.__rpm_to_delay(rpm_left)
 
         # for x in range(self.SPR):
         GPIO.output(self.STEP1, GPIO.HIGH)
@@ -109,14 +109,14 @@ class Driver:
             msg.linear.x, msg.linear.y, msg.linear.z))
         rospy.loginfo("Angular Components: [%f, %f, %f]" % (
             msg.angular.x, msg.angular.y, msg.angular.z))
-
+        
         linear = msg.linear.x
-        angular = math.degrees(msg.angular.z)  #radians -> degrees
+        angular = msg.angular.z #math.degrees(msg.angular.z)
+        velDiff = (0.29 * angular) / 2.0
 
-        # Calculate wheel speeds in m/s
-        self._left_speed = ((angular*0.29)/2)+linear
-        self._right_speed = ((linear*2) - self._left_speed)
-
+        self._left_speed = (linear-velDiff)/0.375
+        self._right_speed = (linear+velDiff)/0.375
+            
     def __init__(self):
         rospy.init_node('driver')
 

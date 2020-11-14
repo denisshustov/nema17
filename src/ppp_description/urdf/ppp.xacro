@@ -6,19 +6,19 @@
 <xacro:include filename="$(find ppp_description)/urdf/ppp.gazebo" />
 <link name="base_link">
   <inertial>
-    <origin rpy="0 0 0" xyz="1.5201671826907086e-05 -0.0012107786655712151 0.03300924453524418"/>
+    <origin rpy="0 0 1.5708" xyz="1.5201671826907086e-05 -0.0012107786655712151 0.03300924453524418"/>
     <mass value="4.737374361291242"/>
     <inertia ixx="0.040333" ixy="-5e-06" ixz="-1e-05" iyy="0.036454" iyz="0.001185" izz="0.066412"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 1.5708" xyz="0 0 0"/>
     <geometry>
       <mesh filename="package://ppp_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 1.5708" xyz="0 0 0"/>
     <geometry>
       <mesh filename="package://ppp_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
