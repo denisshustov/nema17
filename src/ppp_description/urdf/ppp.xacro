@@ -258,7 +258,7 @@
     </geometry>
   </collision>
 </link>
-
+<!--FORWARD_WHEEL-->
 <link name="FW_baise_1">
   <inertial>
     <origin rpy="0 0 0" xyz="0.014149999999964021 -0.011650110353972745 -0.0014374507094137914"/>
@@ -363,6 +363,7 @@
     </geometry>
   </collision>
 </link>
+<!--FORWARD_WHEEL-->
 
 <link name="IMU_1">
   <inertial>
@@ -563,6 +564,8 @@
   <child link="12GAN20__1__Mirror__1"/>
 </joint>
 
+<!--FORWARD_WHEEL-->
+
 <joint name="Rigid22" type="fixed">
   <origin rpy="0 0 0" xyz="-0.014 0.117931 0.022"/>
   <parent link="base_link"/>
@@ -596,6 +599,7 @@
   <child link="axis_main_1"/>
   <axis xyz="0.0 -0.0 -1.0"/>
 </joint>
+<!--FORWARD_WHEEL-->
 
 <joint name="IMU_TO_MAIN" type="fixed">
   <origin rpy="0 0 0" xyz="-0.001 0.14314 0.033"/>
