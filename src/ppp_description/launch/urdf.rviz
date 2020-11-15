@@ -1,17 +1,13 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 78
+    Help Height: 0
     Name: Displays
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Status1
-        - /RobotModel1
-        - /TF1/Frames1
-        - /LaserScan1
-        - /LaserScan1/Status1
+        - /TF1
       Splitter Ratio: 0.5
-    Tree Height: 410
+    Tree Height: 488
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -30,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -188,19 +184,100 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz/TF
-      Enabled: false
+      Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: true
-      Marker Scale: 0.5
+        12GAN20__1__1:
+          Value: false
+        12GAN20__1__Mirror__1:
+          Value: false
+        All Enabled: false
+        FW_baise_1:
+          Value: false
+        IMU_1:
+          Value: false
+        Lidar_1:
+          Value: true
+        axis_1:
+          Value: false
+        axis_main_1:
+          Value: false
+        back_top2_1:
+          Value: false
+        back_top_1:
+          Value: false
+        base_link:
+          Value: false
+        brush_1:
+          Value: false
+        brush_Mirror__1:
+          Value: false
+        forward_top_1_1:
+          Value: false
+        forward_top_1_Mirror__1:
+          Value: false
+        holder_1:
+          Value: false
+        nema17_1:
+          Value: false
+        nema17_Mirror__1:
+          Value: false
+        sonyc_1:
+          Value: false
+        sonyc_Mirror__1:
+          Value: false
+        sonyc__1__1:
+          Value: false
+        wheel_1:
+          Value: false
+        wheel_Mirror__1:
+          Value: false
+        wheel__1__1:
+          Value: false
+      Marker Scale: 3
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        base_link:
+          12GAN20__1__1:
+            brush_1:
+              {}
+          12GAN20__1__Mirror__1:
+            brush_Mirror__1:
+              {}
+          FW_baise_1:
+            axis_main_1:
+              holder_1:
+                axis_1:
+                  wheel__1__1:
+                    {}
+          IMU_1:
+            {}
+          back_top2_1:
+            {}
+          back_top_1:
+            {}
+          forward_top_1_1:
+            {}
+          forward_top_1_Mirror__1:
+            Lidar_1:
+              {}
+          nema17_1:
+            wheel_1:
+              {}
+          nema17_Mirror__1:
+            wheel_Mirror__1:
+              {}
+          sonyc_1:
+            {}
+          sonyc_Mirror__1:
+            {}
+          sonyc__1__1:
+            {}
       Update Interval: 0
-      Value: false
+      Value: true
     - Alpha: 0.5
       Buffer Length: 1
       Class: rviz/Range
@@ -248,7 +325,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 7
+      Min Intensity: 14
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -260,6 +337,54 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
+      Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /map
+      Unreliable: false
+      Use Timestamp: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /trajectory
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05000000074505806
+      Shape: Arrow
+      Topic: /slam_out_pose
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
@@ -289,25 +414,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.5527875423431396
+      Distance: 1.3524959087371826
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.010344009846448898
-        Y: 0.3517199754714966
-        Z: -0.1259153187274933
+        X: -0.10225997120141983
+        Y: -0.17272216081619263
+        Z: -0.17433445155620575
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 1.0497967004776
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.4935801029205322
+      Yaw: 4.933591842651367
     Saved: ~
 Window Geometry:
   Displays:
