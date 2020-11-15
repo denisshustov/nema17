@@ -2,7 +2,7 @@
     <arg default="$(find ppp90_description)/urdf/ppp90.xacro" name="model"/>
     <param command="$(find xacro)/xacro --inorder $(arg model)" name="robot_description"/>
     <rosparam file="$(find ppp90_description)/launch/controller.yaml" command="load"/>
-    <node args="joint_state_controller Rev1_position_controller Rev4_position_controller"
+    <node args="Rev1_position_controller Rev4_position_controller joint_state_controller"
         name="controller_spawner" output="screen" 
         pkg="controller_manager" respawn="false" type="spawner"/>
     
