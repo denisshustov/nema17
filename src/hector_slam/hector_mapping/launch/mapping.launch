@@ -55,7 +55,7 @@
   </node>
     
   <!--<node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster" args="0 0 0 0 0 0 map nav 100"/>-->
- <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0 0 0.15 2.82743 0 0 base_link Lidar_1 100"/>
+ <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0 0 0.15 0 0 0 base_link Lidar_1 100"/><!--2.82743-->
 </launch>
   
   
