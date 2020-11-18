@@ -53,10 +53,13 @@ class DiffTf:
     def run(self):
         r = rospy.Rate(self.rate)
         while not rospy.is_shutdown():
+            if self.cmdVel is None: continue
+
             self.current_time = rospy.Time.now()            
-            self.delta_theta = self.cmdVel.linear.z
 
             dt = (self.current_time - self.last_time).to_sec()
+            self.delta_theta = self.cmdVel.angular.z * dt
+
             delta_x = (self.cmdVel.linear.x * cos(self.theta) - self.cmdVel.linear.y * sin(self.theta)) * dt
             delta_y = (self.cmdVel.linear.x * sin(self.theta) + self.cmdVel.linear.y * cos(self.theta)) * dt
 
@@ -76,16 +79,22 @@ class DiffTf:
                 "odom"
             )
 
-            # next, we'll publish the odometry message over ROS
             odom = Odometry()
             odom.header.stamp = self.current_time
             odom.header.frame_id = "odom"
             odom.child_frame_id = "base_link"
 
-            odom.pose.pose = Pose(Point(self.x, self.y, 0.), Quaternion(odom_quat))
-            # set the velocity
-            
-            odom.twist.twist = Twist(Vector3(self.cmdVel.linear.x, self.cmdVel.linear.y, 0), Vector3(0, 0, self.vth))
+            odom.pose.pose.position.x = self.x
+            odom.pose.pose.position.y = self.y
+            odom.pose.pose.position.z = 0.0
+            odom.pose.pose.orientation = Quaternion(*odom_quat)
+
+            odom.twist.twist.linear.x = 0
+            odom.twist.twist.linear.y = 0
+            odom.twist.twist.angular.z = self.cmdVel.angular.z
+
+            #odom.pose.pose = Pose(Point(self.x, self.y, 0.), Quaternion(odom_quat))            
+            #odom.twist.twist = Twist(Vector3(self.cmdVel.linear.x, self.cmdVel.linear.y, 0), Vector3(0, 0, self.vth))
 
             # publish the message
             self.odomPub.publish(odom)
