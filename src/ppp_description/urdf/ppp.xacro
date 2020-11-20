@@ -365,7 +365,7 @@
 </link>
 <!--FORWARD_WHEEL-->
 
-<link name="IMU_1">
+<link name="base_imu_link">
   <inertial>
     <origin rpy="0 0 0" xyz="2.3440450969136606e-16 4.815371235089572e-07 0.008500000000000056"/>
     <mass value="0.014012250000000002"/>
@@ -604,7 +604,7 @@
 <joint name="IMU_TO_MAIN" type="fixed">
   <origin rpy="0 0 0" xyz="-0.001 0.14314 0.033"/>
   <parent link="base_link"/>
-  <child link="IMU_1"/>
+  <child link="base_imu_link"/>
 </joint>
 
 

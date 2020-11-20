@@ -85,7 +85,7 @@ class Motor_Driver:
         rpm_left = abs(rpm_left)
         rpm_right = abs(rpm_right)
 
-        self.delay = 0.0013 / rpm_left #self.__rpm_to_delay(rpm_left)
+        self.delay = 0.0012375 / rpm_left #self.__rpm_to_delay(rpm_left)
 
         # for x in range(self.SPR):
         GPIO.output(self.STEP1, GPIO.HIGH)

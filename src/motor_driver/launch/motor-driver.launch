@@ -1,4 +1,6 @@
 <launch>
         <node name="motor_driver" pkg="motor_driver" output="screen" type="motor_driver.py">
         </node>
+        <node name="odom2" pkg="motor_driver" output="screen" type="odom2.py">
+        </node>
 </launch>

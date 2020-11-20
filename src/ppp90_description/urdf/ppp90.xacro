@@ -382,7 +382,7 @@
   </collision>
 </link>
 
-<link name="IMU_1">
+<link name="base_imu_link">
   <inertial>
     <origin rpy="0 0 0" xyz="-4.3047029232856637e-07 -9.471075246465788e-08 0.007500000000000041"/>
     <mass value="0.011774999999999999"/>
@@ -512,7 +512,7 @@
 <joint name="Rigid26" type="fixed">
   <origin rpy="0 0 0" xyz="-0.159074 -0.014338 0.033"/>
   <parent link="base_link"/>
-  <child link="IMU_1"/>
+  <child link="base_imu_link"/>
 </joint>
 
 </robot>
