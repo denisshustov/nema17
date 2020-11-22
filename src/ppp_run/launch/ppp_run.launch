@@ -5,5 +5,5 @@
     <include file="$(find brushUltraSonycSensorsVoltage)/launch/brush-ultrasonyc-sensors-voltage.launch"/>
     <include file="$(find rplidar_ros)/launch/rplidar.launch"/>
     <include file="$(find razor_imu_9dof)/launch/razor-pub.launch"/>
-    
+    <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>    
 </launch>

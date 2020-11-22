@@ -5,7 +5,11 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /RobotModel1/Status1
         - /TF1/Frames1
+        - /Map1/Status1
+        - /Imu1
+        - /Odometry1/Status1
       Splitter Ratio: 0.5
     Tree Height: 410
   - Class: rviz/Selection
@@ -174,6 +178,8 @@ Visualization Manager:
         All Enabled: false
         Forward_wheel_1:
           Value: false
+        IMU_1:
+          Value: true
         Lidar_1:
           Value: false
         back_top2_1:
@@ -192,11 +198,15 @@ Visualization Manager:
           Value: false
         forward_top_1_Mirror__1:
           Value: false
+        map:
+          Value: true
         nema17_1:
           Value: false
         nema17_Mirror__1:
           Value: false
         odom:
+          Value: true
+        scanmatcher_frame:
           Value: true
         sonyc_1:
           Value: false
@@ -214,39 +224,43 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_link:
-            12GAN20__1__1:
-              brush_1:
+        map:
+          odom:
+            base_link:
+              12GAN20__1__1:
+                brush_1:
+                  {}
+              12GAN20__1__Mirror__1:
+                brush_Mirror__1:
+                  {}
+              Forward_wheel_1:
                 {}
-            12GAN20__1__Mirror__1:
-              brush_Mirror__1:
-                {}
-            Forward_wheel_1:
-              {}
-            back_top2_1:
-              {}
-            back_top_1:
-              {}
-            base_imu_link:
-              {}
-            forward_top_1_1:
-              {}
-            forward_top_1_Mirror__1:
               Lidar_1:
                 {}
-            nema17_1:
-              wheel_1:
+              back_top2_1:
                 {}
-            nema17_Mirror__1:
-              wheel_Mirror__1:
+              back_top_1:
                 {}
-            sonyc_1:
-              {}
-            sonyc_Mirror__1:
-              {}
-            sonyc__1__1:
-              {}
+              base_imu_link:
+                {}
+              forward_top_1_1:
+                {}
+              forward_top_1_Mirror__1:
+                {}
+              nema17_1:
+                wheel_1:
+                  {}
+              nema17_Mirror__1:
+                wheel_Mirror__1:
+                  {}
+              sonyc_1:
+                {}
+              sonyc_Mirror__1:
+                {}
+              sonyc__1__1:
+                {}
+          scanmatcher_frame:
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988079071
@@ -276,7 +290,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 8
+      Min Intensity: 9
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -308,12 +322,12 @@ Visualization Manager:
     - Alpha: 0.800000011920929
       Class: rviz_plugin_tutorials/Imu
       Color: 204; 51; 204
-      Enabled: false
+      Enabled: true
       History Length: 1
       Name: Imu
       Topic: /imu
-      Unreliable: false
-      Value: false
+      Unreliable: true
+      Value: true
     - Angle Tolerance: 0.10000000149011612
       Class: rviz/Odometry
       Covariance:
@@ -376,25 +390,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.4069995880126953
+      Distance: 2.1677510738372803
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -1.4271806478500366
-        Y: -0.009232599288225174
-        Z: 0.6523171663284302
+        X: 0.5721449255943298
+        Y: 0.9424924254417419
+        Z: 0.5499005317687988
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.439795732498169
+      Pitch: 1.2547959089279175
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 6.09676456451416
+      Yaw: 5.741764545440674
     Saved: ~
 Window Geometry:
   Displays:

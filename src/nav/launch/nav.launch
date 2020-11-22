@@ -3,23 +3,23 @@
 <launch>
   <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_odom" args="0 0 0 0 0 0 odom base_link 100"/>2.82743 -->
 
-  <arg name="geotiff_map_file_path" default="$(find hector_geotiff)/maps"/>
+  <!-- <arg name="geotiff_map_file_path" default="$(find hector_geotiff)/maps"/> -->
   <!--param name="/use_sim_time" value="true"/-->
-  <param name="/use_sim_time" value="false"/>
+  <!-- <param name="/use_sim_time" value="false"/> -->
 
-  <include file="$(find hector_mapping)/launch/mapping.launch"/>
-
+  <!-- <include file="$(find hector_mapping)/launch/mapping.launch"/> -->
+<!-- 
   <include file="$(find hector_geotiff)/launch/geotiff_mapper.launch">
     <arg name="trajectory_source_frame_name" value="scanmatcher_frame"/>
     <arg name="map_file_path" value="$(arg geotiff_map_file_path)"/>
-  </include> 
+  </include>  -->
 
-  <node pkg="hector_imu_attitude_to_tf" type="imu_attitude_to_tf_node" name="imu_attitude_to_tf_node" output="screen">
+  <!-- <node pkg="hector_imu_attitude_to_tf" type="imu_attitude_to_tf_node" name="imu_attitude_to_tf_node" output="screen"> -->
     <!-- <remap from="imu_topic" to="/imu" /> -->
-    <param name="base_stabilized_frame" type="string" value="base_link" />
+    <!-- <param name="base_stabilized_frame" type="string" value="base_link" />
     <param name="base_frame" type="string" value="IMU_1" />
   </node>
-    
+     -->
     <!-- <node name="map_server" pkg="map_server" type="map_server" args="/home/pi/catkin_ws/src/nav/map/mymap.yaml"/> -->
 <!-- 
  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true" output="screen">
