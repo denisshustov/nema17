@@ -1,4 +1,5 @@
 <launch>
+        <!-- <arg name="wait" value="true"/> -->
         <node name="convert_range_sensors_values" pkg="convert_range_sensors_values" output="screen" type="convert_range_sensors_values.py">
         </node>
 </launch>

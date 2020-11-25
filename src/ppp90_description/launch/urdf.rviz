@@ -5,11 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /RobotModel1/Status1
         - /TF1/Frames1
-        - /Map1/Status1
-        - /Imu1
-        - /Odometry1/Status1
       Splitter Ratio: 0.5
     Tree Height: 410
   - Class: rviz/Selection
@@ -178,8 +174,6 @@ Visualization Manager:
         All Enabled: false
         Forward_wheel_1:
           Value: false
-        IMU_1:
-          Value: true
         Lidar_1:
           Value: false
         back_top2_1:
@@ -206,8 +200,6 @@ Visualization Manager:
           Value: false
         odom:
           Value: true
-        scanmatcher_frame:
-          Value: true
         sonyc_1:
           Value: false
         sonyc_Mirror__1:
@@ -218,7 +210,7 @@ Visualization Manager:
           Value: false
         wheel_Mirror__1:
           Value: false
-      Marker Scale: 0.5
+      Marker Scale: 0.8999999761581421
       Name: TF
       Show Arrows: true
       Show Axes: true
@@ -235,8 +227,6 @@ Visualization Manager:
                   {}
               Forward_wheel_1:
                 {}
-              Lidar_1:
-                {}
               back_top2_1:
                 {}
               back_top_1:
@@ -246,7 +236,8 @@ Visualization Manager:
               forward_top_1_1:
                 {}
               forward_top_1_Mirror__1:
-                {}
+                Lidar_1:
+                  {}
               nema17_1:
                 wheel_1:
                   {}
@@ -259,8 +250,6 @@ Visualization Manager:
                 {}
               sonyc__1__1:
                 {}
-          scanmatcher_frame:
-            {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988079071
@@ -290,7 +279,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 9
+      Min Intensity: 7
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -345,7 +334,7 @@ Visualization Manager:
           Scale: 1
           Value: true
         Value: true
-      Enabled: true
+      Enabled: false
       Keep: 100
       Name: Odometry
       Position Tolerance: 0.10000000149011612
@@ -360,6 +349,21 @@ Visualization Manager:
         Shaft Radius: 0.05000000074505806
         Value: Arrow
       Topic: /odom
+      Unreliable: false
+      Value: false
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05000000074505806
+      Shape: Arrow
+      Topic: /move_base_simple/goal
       Unreliable: false
       Value: true
   Enabled: true
@@ -390,25 +394,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.1677510738372803
+      Distance: 15.673566818237305
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.5721449255943298
-        Y: 0.9424924254417419
-        Z: 0.5499005317687988
+        X: -0.1469816267490387
+        Y: 2.42563533782959
+        Z: -3.071765899658203
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.2547959089279175
+      Pitch: 1.4097964763641357
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.741764545440674
+      Yaw: 2.661769151687622
     Saved: ~
 Window Geometry:
   Displays:

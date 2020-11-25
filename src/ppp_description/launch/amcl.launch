@@ -3,7 +3,7 @@
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
   <!-- https://habr.com/ru/post/472984/ -->
 
-      <remap from="scan" to="scan"/>
+      <remap from="scan" to="/scan"/>
       <param name="odom_frame_id" value="odom"/>
       <param name="odom_model_type" value="diff"/>
       <param name="base_frame_id" value="base_link"/>
@@ -48,6 +48,12 @@
       <param name="recovery_alpha_fast" value="0.0"/>
       <param name="use_map_topic" value="true" />
       <param name="first_map_only" value="true" />
+
+      <param name="initial_cov_xx" value="2.0" />
+      <param name="initial_cov_yy" value="2.0" />
+      <param name="initial_cov_aa" value="2.0" />
+
+
   </node>
 
 </launch>

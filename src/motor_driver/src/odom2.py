@@ -54,13 +54,18 @@ class Cmd_to_odom:
         while not rospy.is_shutdown():
             if self.cmdVel is None: continue
 
-            self.current_time = rospy.Time.now()            
+            linear_velocity_x = -1 * self.cmdVel.linear.x
+            linear_velocity_y = -1 * self.cmdVel.linear.y
 
+            self.current_time = rospy.Time.now()
             dt = (self.current_time - self.last_time).to_sec()
-            self.delta_theta = self.cmdVel.angular.z * dt
+            self.last_time = self.current_time
 
-            delta_x = (self.cmdVel.linear.x * cos(self.theta) - self.cmdVel.linear.y * sin(self.theta)) * dt
-            delta_y = (self.cmdVel.linear.x * sin(self.theta) + self.cmdVel.linear.y * cos(self.theta)) * dt
+            self.delta_theta = self.cmdVel.angular.z * dt
+            
+            # 0.073 radius
+            delta_x = (linear_velocity_x * cos(self.theta) - linear_velocity_y * sin(self.theta)) * dt
+            delta_y = (linear_velocity_x * sin(self.theta) + linear_velocity_y * cos(self.theta)) * dt
 
             self.x += delta_x
             self.y += delta_y
@@ -86,13 +91,18 @@ class Cmd_to_odom:
             odom.pose.pose.position.z = 0.0
             odom.pose.pose.orientation = Quaternion(*odom_quat)
 
-            odom.twist.twist.linear.x = 0
-            odom.twist.twist.linear.y = 0
+            # odom.twist.twist.linear.x = 0
+            # odom.twist.twist.linear.y = 0
+            odom.twist.twist.linear.x = linear_velocity_x
+            odom.twist.twist.linear.y = linear_velocity_y
+            odom.twist.twist.linear.z = 0
+            
+            odom.twist.twist.angular.y = 0
+            odom.twist.twist.angular.x = 0
             odom.twist.twist.angular.z = self.cmdVel.angular.z
 
             self.odomPub.publish(odom)
-
-            self.last_time = self.current_time
+            
             r.sleep()
        
     def callback(self, cmdVel):
