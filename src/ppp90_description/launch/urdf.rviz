@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /TF1/Frames1
+        - /Odometry2
         - /Odometry2/Covariance1
         - /Odometry2/Covariance1/Position1
         - /Odometry2/Covariance1/Orientation1
@@ -314,12 +315,12 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz_plugin_tutorials/Imu
       Color: 204; 51; 204
-      Enabled: true
+      Enabled: false
       History Length: 1
       Name: Imu
       Topic: /imu
       Unreliable: false
-      Value: true
+      Value: false
     - Angle Tolerance: 0.10000000149011612
       Class: rviz/Odometry
       Covariance:
@@ -491,25 +492,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.78732442855835
+      Distance: 14.49666976928711
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.7273734211921692
-        Y: -0.44159194827079773
-        Z: -2.0318567752838135
+        X: -5.0805535316467285
+        Y: -2.1355137825012207
+        Z: -0.46320420503616333
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.1647969484329224
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 6.209910869598389
+      Yaw: 4.749911308288574
     Saved: ~
 Window Geometry:
   Displays:
