@@ -421,7 +421,7 @@
 </joint>
 
 <joint name="Rigid5" type="fixed">
-  <origin rpy="0 0 1.5" xyz="-0.027494 0.13623 0.08983"/>
+  <origin rpy="0 0 1.50" xyz="-0.027494 0.13623 0.08983"/>
   <parent link="base_link"/>
   <child link="sonyc_1"/>
 </joint>
