@@ -56,12 +56,13 @@ class Cmd_to_odom:
 
             linear_velocity_x = -1 * self.cmdVel.linear.x
             linear_velocity_y = -1 * self.cmdVel.linear.y
+            angular_velocity_z_ = self.cmdVel.angular.z
 
             self.current_time = rospy.Time.now()
             dt = (self.current_time - self.last_time).to_sec()
             self.last_time = self.current_time
 
-            self.delta_theta = self.cmdVel.angular.z * dt
+            self.delta_theta = angular_velocity_z_ * dt
             
             # 0.073 radius
             delta_x = (linear_velocity_x * cos(self.theta) - linear_velocity_y * sin(self.theta)) * dt
@@ -99,7 +100,7 @@ class Cmd_to_odom:
             
             odom.twist.twist.angular.y = 0
             odom.twist.twist.angular.x = 0
-            odom.twist.twist.angular.z = self.cmdVel.angular.z
+            odom.twist.twist.angular.z = angular_velocity_z_
 
             self.odomPub.publish(odom)
             

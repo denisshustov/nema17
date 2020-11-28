@@ -1,16 +1,53 @@
 <?xml version="1.0"?>
 
 <launch>
-   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <arg default="$(find ppp_description)/urdf/ppp.xacro" name="model"/>
+  <arg default="true" name="gui"/>
+  <arg default="$(find ppp_description)/launch/urdf.rviz" name="rvizconfig"/>
+  <param command="$(find xacro)/xacro --inorder $(arg model)" name="robot_description"/>
+  
+  
+  
+  <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/> -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+<!-- <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find nav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
     <rosparam file="$(find nav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find nav)/config/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find nav)/config/global_costmap_params.yaml" command="load" /> 
     <rosparam file="$(find nav)/config/base_local_planner_params.yaml" command="load" />
- </node>
+ </node> -->
 
-<!-- 
- <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true" output="screen">
+  <include file="$(find ppp_description)/launch/amcl.launch"/>
+  
+  <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>
+  <!-- <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+      <remap from="cloud_in" to="/sensor_pointcloud_node/pointcloud"/>
+      <remap from="scan" to="/scan2" />
+      <rosparam>
+        target_frame: sonyc_1
+        transform_tolerance: 0.01
+        min_height: 0.0
+        max_height: 1.0
+        
+        angle_min: -1.5708
+        angle_max: 1.5708
+        angle_increment: 0.0087
+        scan_time: 0.3333
+        range_min: 0.1
+        range_max: 0.5
+        use_inf: true
+        
+        #concurrency_level affects number of pc queued for processing and the number of threadsused
+        # 0: Detect number of cores
+        # 1: Single threaded
+        # 2: inf : Parallelism level
+        concurrency_level: 1
+      </rosparam>
+    </node> -->
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true" output="screen">
 
       <param name="frequency" value="50"/>
       <param name="sensor_timeout" value="0.1"/>
@@ -22,28 +59,32 @@
 
       <param name="transform_time_offset" value="0.0"/>
 
-      <param name="odom0" value="/vo"/>
-      <param name="imu0" value="$(arg imu_topic)"/> 
+      <param name="odom0" value="/odom"/>
+      <param name="imu0" value="/imu"/> 
 
-      <rosparam param="odom0_config">[true, true, true,
-                                      false, false, false,
-                                      true, true, true,
-                                      false, false, false,
+      <rosparam param="odom0_config">[true,  true,  false,
+                                      false, false, true,
+                                      true,  false, false,
+                                      false, false, true,
                                       false, false, false]</rosparam>
-
+      <rosparam param="imu0_config">[false, false, false,
+                                    false, false, true,
+                                    false, false, false,
+                                    false,  false,  true,
+                                    false,  false,  false]</rosparam>
       
       <param name="odom0_differential" value="false"/>
-      <param name="imu0_differential" value="false"/>
+      <param name="imu0_differential" value="true"/>
 
-      <param name="odom0_relative" value="true"/>
-      <param name="imu0_relative" value="true"/>
+      <param name="odom0_relative" value="false"/>
+      <param name="imu0_relative" value="false"/>
 
-      <param name="imu0_remove_gravitational_acceleration" value="$(arg imu_remove_gravitational_acceleration)"/>
+      <param name="imu0_remove_gravitational_acceleration" value="true"/>
 
       <param name="print_diagnostics" value="true"/>
 
       <param name="odom0_queue_size" value="5"/>
       <param name="imu0_queue_size" value="50"/> 
 
-    </node> -->
+    </node>
 </launch>

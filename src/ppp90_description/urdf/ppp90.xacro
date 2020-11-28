@@ -76,16 +76,17 @@
   <visual>
     <origin rpy="0 0 0" xyz="0.027494 -0.13623 -0.08983"/>
     <geometry>
-      <mesh filename="package://ppp90_description/meshes/sonyc_1.stl" scale="0.001 0.001 0.001"/>
+      <box size="0.001 0.0005 0.00035"/>
+      <!-- <mesh filename="package://ppp90_description/meshes/sonyc_1.stl" scale="0.001 0.001 0.001"/> -->
     </geometry>
     <material name="silver"/>
   </visual>
-  <collision>
+  <!-- <collision>
     <origin rpy="0 0 0" xyz="0.027494 -0.13623 -0.08983"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/sonyc_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-  </collision>
+  </collision> -->
 </link>
 
 <link name="sonyc_Mirror__1">
@@ -97,16 +98,17 @@
   <visual>
     <origin rpy="0 0 0" xyz="0.001494 0.164906 -0.08983"/>
     <geometry>
-      <mesh filename="package://ppp90_description/meshes/sonyc_Mirror__1.stl" scale="0.001 0.001 0.001"/>
+      <box size="0.001 0.0005 0.00035"/>
+      <!-- <mesh filename="package://ppp90_description/meshes/sonyc_Mirror__1.stl" scale="0.001 0.001 0.001"/> -->
     </geometry>
     <material name="silver"/>
   </visual>
-  <collision>
+  <!-- <collision>
     <origin rpy="0 0 0" xyz="0.001494 0.164906 -0.08983"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/sonyc_Mirror__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-  </collision>
+  </collision> -->
 </link>
 
 <link name="sonyc__1__1">
@@ -118,16 +120,17 @@
   <visual>
     <origin rpy="0 0 0" xyz="0.169414 0.001361 -0.06983"/>
     <geometry>
-      <mesh filename="package://ppp90_description/meshes/sonyc__1__1.stl" scale="0.001 0.001 0.001"/>
+      <box size="0.001 0.0005 0.00035"/>
+      <!-- <mesh filename="package://ppp90_description/meshes/sonyc__1__1.stl" scale="0.001 0.001 0.001"/> -->
     </geometry>
     <material name="silver"/>
   </visual>
-  <collision>
+  <!-- <collision>
     <origin rpy="0 0 0" xyz="0.169414 0.001361 -0.06983"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/sonyc__1__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-  </collision>
+  </collision> -->
 </link>
 
 <link name="nema17_1">
@@ -418,19 +421,19 @@
 </joint>
 
 <joint name="Rigid5" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.027494 0.13623 0.08983"/>
+  <origin rpy="0 0 1.5" xyz="-0.027494 0.13623 0.08983"/>
   <parent link="base_link"/>
   <child link="sonyc_1"/>
 </joint>
 
 <joint name="Rigid6" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.001494 -0.164906 0.08983"/>
+  <origin rpy="0 0 -1.65" xyz="-0.001494 -0.164906 0.08983"/>
   <parent link="base_link"/>
   <child link="sonyc_Mirror__1"/>
 </joint>
 
 <joint name="Rigid7" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.169414 -0.001361 0.06983"/>
+  <origin rpy="0 0 -3.14159" xyz="-0.169414 -0.001361 0.06983"/>
   <parent link="base_link"/>
   <child link="sonyc__1__1"/>
 </joint>
