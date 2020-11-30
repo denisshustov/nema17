@@ -1,18 +1,16 @@
 <?xml version="1.0"?>
 
 <launch>
+  <node name="map_server" pkg="map_server" type="map_server" args="/home/pi/catkin_ws/src/nav/map/mymap.yaml"/>
 
-<!-- <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find nav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
-    <rosparam file="$(find nav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find nav)/config/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find nav)/config/global_costmap_params.yaml" command="load" /> 
-    <rosparam file="$(find nav)/config/base_local_planner_params.yaml" command="load" />
- </node> -->
+  <include file="$(find nav)/launch/amcl.launch"/>
+   
+  <include file="$(find nav)/launch/localization.launch"/>
 
-  <include file="$(find ppp_description)/launch/amcl.launch"/>
-  
+  <include file="$(find nav)/launch/move.launch"/>
+
   <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>
+
   <!-- <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
       <remap from="cloud_in" to="/sensor_pointcloud_node/pointcloud"/>
       <remap from="scan" to="/scan2" />
@@ -38,85 +36,5 @@
       </rosparam>
     </node> -->
 
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true" output="screen">
 
-      <param name="frequency" value="50"/>
-      <param name="sensor_timeout" value="0.1"/>
-      <param name="two_d_mode" value="true"/>
-
-      <param name="odom_frame" value="odom"/>
-      <param name="base_link_frame" value="base_link"/>
-      <param name="world_frame" value="odom"/>
-
-      <param name="transform_time_offset" value="0.0"/>
-
-      <param name="odom0" value="/odom"/>
-      <param name="imu0" value="/imu"/> 
-
-      <param name="use_control" value="true"/> 
-      <rosparam param="control_config">[true,  false, false,
-                                  false, false, true]</rosparam>
-      
-      <rosparam param="acceleration_limits">[1, 0.0, 0.0,
-                                       0.0, 0.0, 3.2]</rosparam>
-
-      <rosparam param="process_noise_covariance"> 
-      [0.05, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-      0,    0.05, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-      0,    0,    0.06, 0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-      0,    0,    0,    0.03, 0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-      0,    0,    0,    0,    0.03, 0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-      0,    0,    0,    0,    0,    0.06, 0,     0,     0,    0,    0,    0,    0,    0,    0,
-      0,    0,    0,    0,    0,    0,    0.025, 0,     0,    0,    0,    0,    0,    0,    0,
-      0,    0,    0,    0,    0,    0,    0,     0.025, 0,    0,    0,    0,    0,    0,    0,
-      0,    0,    0,    0,    0,    0,    0,     0,     0.04, 0,    0,    0,    0,    0,    0,
-      0,    0,    0,    0,    0,    0,    0,     0,     0,    0.01, 0,    0,    0,    0,    0,
-      0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0.01, 0,    0,    0,    0,
-      0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0.02, 0,    0,    0,
-      0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0.01, 0,    0,
-      0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0.01, 0,
-      0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0.015]</rosparam>
-
-      <rosparam param="initial_estimate_covariance"> 
-      [1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                              0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                              0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                              0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                              0,    0,    0,    0,    1e-9, 0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                              0,    0,    0,    0,    0,    1e-9, 0,    0,    0,    0,     0,     0,     0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    1e-9, 0,    0,    0,     0,     0,     0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,    1e-9, 0,    0,     0,     0,     0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,    0,    1e-9, 0,     0,     0,     0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,    0,    0,    1e-9,  0,     0,     0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     1e-9,  0,     0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     1e-9,  0,    0,    0,
-                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     1e-9, 0,    0,
-                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1e-9, 0,
-                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]</rosparam>
-
-      <rosparam param="odom0_config">[true,  true,  false,
-                                      false, false, true,
-                                      true,  false, false,
-                                      false, false, true,
-                                      false, false, false]</rosparam>
-      <rosparam param="imu0_config">[false, false, false,
-                                    false, false, true,
-                                    false, false, false,
-                                    false, false,  true,
-                                    true,  false,  false]</rosparam>
-      
-      <param name="odom0_differential" value="false"/>
-      <param name="imu0_differential" value="true"/>
-
-      <param name="odom0_relative" value="false"/>
-      <param name="imu0_relative" value="false"/>
-
-      <param name="imu0_remove_gravitational_acceleration" value="true"/>
-
-      <param name="print_diagnostics" value="true"/>
-
-      <param name="odom0_queue_size" value="50"/>
-      <param name="imu0_queue_size" value="50"/> 
-
-    </node>
 </launch>

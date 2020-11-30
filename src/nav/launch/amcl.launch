@@ -1,6 +1,4 @@
 <launch>
-  <!-- <node name="map_server" pkg="map_server" type="map_server" args="/home/pi/catkin_ws/src/nav/map/mymap.yaml"/> -->
-
   <!-- https://habr.com/ru/post/472984/ -->
 
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
