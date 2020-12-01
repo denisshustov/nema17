@@ -1,5 +1,3 @@
-<?xml version="1.0"?>
-
 <launch>
   <node name="map_server" pkg="map_server" type="map_server" args="/home/pi/catkin_ws/src/nav/map/mymap.yaml"/>
 

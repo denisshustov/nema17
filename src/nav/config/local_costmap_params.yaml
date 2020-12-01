@@ -1,11 +1,19 @@
 local_costmap:
   map_type: costmap
-  global_frame: odom
+  global_frame: map #odom
   robot_base_frame: base_link
-  update_frequency: 10.0
-  publish_frequency: 5.0
+  update_frequency: 20.0
+  publish_frequency: 20.0
   static_map: false
-  rolling_window: true
-  width: 6.0
-  height: 6.0
-  resolution: 0.05
+  rolling_window: true #использовать ли скользящее окно для целей ЛП.
+  width: 2.5 # ширина скользящего окна
+  height: 2.5 # высота скользящего окна
+  resolution: 0.05 #increase to for higher res 0.025 #разрешение в скользящем окне
+  transform_tolerance: 0.3 #Map update loop missed its desired rate of Hz... the loop actually took  seconds  
+  cost_scaling_factor: 5
+  inflation_radius: 0.1 # радиус инфляции препятствий
+
+
+# plugins:
+#   - {name: obstacles_laser,           type: "costmap_2d::ObstacleLayer"}
+#   - {name: inflation,                 type: "costmap_2d::InflationLayer"}
