@@ -1,9 +1,12 @@
 local_costmap:
+  global_frame: odom #map
+  update_frequency: 2.0
+  publish_frequency: 2.0
+
+ ### Map management parameters ### 
+  map_topic: /map
   map_type: costmap
-  global_frame: map #odom
   robot_base_frame: base_link
-  update_frequency: 20.0
-  publish_frequency: 20.0
   static_map: false
   rolling_window: true #использовать ли скользящее окно для целей ЛП.
   width: 2.5 # ширина скользящего окна
