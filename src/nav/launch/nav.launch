@@ -1,11 +1,11 @@
 <launch>
-  <node name="map_server" pkg="map_server" type="map_server" args="/home/pi/catkin_ws/src/nav/map/mymap.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find nav)/map/mymap.yaml"/>
 
   <include file="$(find nav)/launch/amcl.launch"/>
    
   <include file="$(find nav)/launch/localization.launch"/>
 
-  <include file="$(find nav)/launch/move.launch"/>
+  <!-- <include file="$(find nav)/launch/move.launch"/> -->
 
   <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>
 
