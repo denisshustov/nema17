@@ -1,0 +1,50 @@
+%YAML 1.2
+---
+# Configuration
+sensor_pointcloud:
+    pointcloudFrame: map
+
+# List of sensors
+sensors:
+    - sensor0
+    - sensor1
+    - sensor2
+sensor0:
+    topic: ppp/range_sensor1
+    device:
+        type: SRF05
+        timeout: 60000
+    transform:
+        frame: sonyc_1
+        posX: 0.0
+        posY: 0.0
+        posZ: 0.0
+        roll: deg(0)
+        pitch: deg(0)
+        yaw: deg(0)
+sensor1:
+    topic: ppp/range_sensor2
+    device:
+        type: SRF05
+        timeout: 60000
+    transform:
+        frame: sonyc_Mirror__1
+        posX: 0.0
+        posY: 0.0
+        posZ: 0.0
+        roll: deg(0)
+        pitch: deg(0)
+        yaw: deg(0)
+sensor2:
+    topic: ppp/range_sensor3
+    device:
+        type: SRF05
+        timeout: 60000
+    transform:
+        frame: sonyc__1__1
+        posX: 0.0
+        posY: 0.0
+        posZ: 0.0
+        roll: deg(0)
+        pitch: deg(0)
+        yaw: deg(0)
