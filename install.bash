@@ -18,9 +18,8 @@ else
 	echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 	source ~/.bashrc
 	
-	sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+	sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential	
 	
-	sudo apt install python-rosdep
 	sudo rosdep init
 	rosdep update
 	
@@ -33,31 +32,7 @@ else
 fi
 
 echo 'Installing packages'
-sudo apt-get install python-catkin-tools
-
-sudo apt-get install ros-melodic-rqt
-sudo apt-get install ros-melodic-rqt-multiplot
-sudo apt-get install ros-melodic-imu-tools
-
-sudo apt-get install ros-melodic-map-server
-sudo apt install ros-melodic-amcl
-sudo apt-get install ros-melodic-robot-localization
-sudo apt-get install ros-melodic-geographic-msgs
-sudo apt-get install ros-melodic-move-base
-sudo apt-get install ros-melodic-map-server
-sudo apt-get install ros-melodic-pointcloud-to-laserscan
-sudo apt-get install ros-melodic-global-planner
-sudo apt-get install ros-melodic-navigation
-
-sudo apt install ros-melodic-joint-state-publisher-gui
-sudo apt-get install ros-melodic-ros-control ros-melodic-joint-state-controller ros-melodic-effort-controllers ros-melodic-position-controllers ros-melodic-velocity-controllers ros-melodic-ros-controllers ros-melodic-gazebo-ros ros-melodic-gazebo-ros-control
-
-sudo apt-get install ros-melodic-teleop-twist-keyboard
-
-
-sudo apt-get install ros-melodic-ros-control ros-melodic-ros-controllers
-sudo apt-get install ros-melodic-rosserial-arduino
-sudo apt-get install ros-melodic-rosserial
+sudo apt-get install python-catkin-tools ros-melodic-rqt ros-melodic-rqt-multiplot ros-melodic-imu-tools ros-melodic-map-server ros-melodic-amcl ros-melodic-robot-localization ros-melodic-geographic-msgs ros-melodic-move-base ros-melodic-map-server ros-melodic-pointcloud-to-laserscan ros-melodic-global-planner ros-melodic-navigation ros-melodic-joint-state-publisher-gui ros-melodic-ros-control ros-melodic-joint-state-controller ros-melodic-effort-controllers ros-melodic-position-controllers ros-melodic-velocity-controllers ros-melodic-ros-controllers ros-melodic-gazebo-ros ros-melodic-gazebo-ros-control libqt5webkit5 libqt5webkit5-dev qt5-default ros-melodic-teleop-twist-keyboard ros-melodic-ros-control ros-melodic-ros-controllers ros-melodic-rosserial-arduino ros-melodic-rosserial -y
 
 
 # cd <sketchbook>/libraries
