@@ -4,6 +4,15 @@
 <xacro:include filename="$(find ppp90_description)/urdf/materials.xacro" />
 <xacro:include filename="$(find ppp90_description)/urdf/ppp90.trans" />
 <xacro:include filename="$(find ppp90_description)/urdf/ppp90.gazebo" />
+
+<link name="base_footprint"/>
+
+<joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0.0 0.0 0.010" rpy="0 0 0"/>
+</joint>
+
 <link name="base_link">
   <inertial>
     <origin rpy="0 0 0" xyz="-0.006384053079489355 -0.014519040269770902 0.03416379967065736"/>

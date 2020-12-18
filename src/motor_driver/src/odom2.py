@@ -71,7 +71,8 @@ class Cmd_to_odom:
             self.x += delta_x
             self.y += delta_y
             self.theta += self.delta_theta
-
+            
+            #TODO test!!! (?, ?, self.theta)
             odom_quat = tf.transformations.quaternion_from_euler(0, 0, self.theta)
 
             self.odom_broadcaster.sendTransform(
