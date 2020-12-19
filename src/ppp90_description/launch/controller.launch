@@ -1,9 +1,7 @@
 <launch>
 
-<rosparam file="$(find ppp90_description)/launch/controller.yaml" command="load"/>
-<node args="Rev1_position_controller Rev4_position_controller Rev14_position_controller Rev15_position_controller joint_state_controller " name="controller_spawner" ns="ppp90" output="screen" pkg="controller_manager" respawn="false" type="spawner"/>
-<node name="robot_state_publisher" output="screen" pkg="robot_state_publisher" respawn="false" type="robot_state_publisher">
-  <remap from="/joint_states" to="/ppp90/joint_states"/>
-</node>
+  <rosparam file="$(find ppp90_description)/launch/controller.yaml" command="load"/>
+  <node args="Rev1_position_controller Rev4_position_controller Rev14_position_controller Rev15_position_controller joint_state_controller "
+    name="controller_spawner" output="screen" pkg="controller_manager" respawn="false" type="spawner"/>
 
 </launch>

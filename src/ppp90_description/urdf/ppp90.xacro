@@ -5,11 +5,6 @@
 <xacro:include filename="$(find ppp90_description)/urdf/ppp90.trans" />
 <xacro:include filename="$(find ppp90_description)/urdf/ppp90.gazebo" />
 <link name="base_link">
-  <inertial>
-    <origin rpy="0 0 0" xyz="-0.006384053079489355 -0.014519040269770902 0.03416379967065736"/>
-    <mass value="5.029311101542255"/>
-    <inertia ixx="0.037081" ixy="0.000111" ixz="-0.001835" iyy="0.04462" iyz="2e-05" izz="0.070617"/>
-  </inertial>
   <visual>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <geometry>
