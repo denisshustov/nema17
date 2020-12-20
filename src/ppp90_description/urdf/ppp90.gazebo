@@ -5,6 +5,8 @@
 
 <gazebo>
   <plugin filename="libgazebo_ros_control.so" name="control"/>
+  <robotNamespace>/</robotNamespace>
+  <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
 </gazebo>
 <gazebo reference="base_link">
   <material>${body_color}</material>
