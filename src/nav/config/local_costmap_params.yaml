@@ -1,22 +1,35 @@
 local_costmap:
-  global_frame: odom #map
-  update_frequency: 2.0
-  publish_frequency: 2.0
+  global_frame: odom
+  robot_base_frame: base_footprint
+  update_frequency: 10.0
+  publish_frequency: 10.0
+  transform_tolerance: 0.5  
 
- ### Map management parameters ### 
-  map_topic: /map
-  map_type: costmap
-  robot_base_frame: base_link
-  static_map: false
-  rolling_window: true #использовать ли скользящее окно для целей ЛП.
-  width: 2.5 # ширина скользящего окна
-  height: 2.5 # высота скользящего окна
-  resolution: 0.05 #increase to for higher res 0.025 #разрешение в скользящем окне
-  transform_tolerance: 0.3 #Map update loop missed its desired rate of Hz... the loop actually took  seconds  
-  cost_scaling_factor: 5
-  inflation_radius: 0.1 # радиус инфляции препятствий
+  static_map: false  
+  rolling_window: true
+  width: 3
+  height: 3
+  resolution: 0.05
+
+# local_costmap:
+#   global_frame: map
+#   update_frequency: 2.0
+#   publish_frequency: 2.0
+
+#  ### Map management parameters ### 
+#   map_topic: /map
+#   map_type: costmap
+#   robot_base_frame: base_link
+#   static_map: false
+#   rolling_window: true #использовать ли скользящее окно для целей ЛП.
+#   width: 2.5 # ширина скользящего окна
+#   height: 2.5 # высота скользящего окна
+#   resolution: 0.05 #increase to for higher res 0.025 #разрешение в скользящем окне
+#   transform_tolerance: 1 #?????????Map update loop missed its desired rate of Hz... the loop actually took  seconds  
+#   cost_scaling_factor: 5
+#   inflation_radius: 0.1 # радиус инфляции препятствий
 
 
-# plugins:
-#   - {name: obstacles_laser,           type: "costmap_2d::ObstacleLayer"}
-#   - {name: inflation,                 type: "costmap_2d::InflationLayer"}
+# # plugins:
+# #   - {name: obstacles_laser,           type: "costmap_2d::ObstacleLayer"}
+# #   - {name: inflation,                 type: "costmap_2d::InflationLayer"}

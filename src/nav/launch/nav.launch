@@ -5,12 +5,12 @@
    
   <include file="$(find nav)/launch/localization.launch"/>
 
-  <!-- <include file="$(find nav)/launch/move.launch"/> -->
+  <include file="$(find nav)/launch/move.launch"/>
 
-  <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>
-  <include file="$(find sensor_pointcloud)/launch/sensor_pointcloud.launch"/>
+  <!-- <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>
+  <include file="$(find sensor_pointcloud)/launch/sensor_pointcloud.launch"/> -->
 
-  <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+  <!-- <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
       <remap from="cloud_in" to="/sensor_pointcloud_node/pointcloud"/>
       <remap from="scan" to="/scan2" />
       <rosparam>
@@ -33,7 +33,7 @@
         # 2: inf : Parallelism level
         concurrency_level: 1
       </rosparam>
-    </node>
+    </node> -->
 
 
 </launch>

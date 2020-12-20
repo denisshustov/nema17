@@ -26,6 +26,7 @@ class Cmd_to_odom:
         self.rate = rospy.get_param('~rate',10.0) 
         self.base_frame_id = rospy.get_param('~base_frame_id','base_link') 
         self.odom_frame_id = rospy.get_param('~odom_frame_id', 'odom')
+        self.base_footprint_id = rospy.get_param('~base_footprint_id', 'base_footprint')
                
         self.current_time = rospy.Time.now()
         self.last_time = rospy.Time.now()
@@ -71,21 +72,23 @@ class Cmd_to_odom:
             self.x += delta_x
             self.y += delta_y
             self.theta += self.delta_theta
-
+            
+            #TODO test!!! (?, ?, self.theta)
             odom_quat = tf.transformations.quaternion_from_euler(0, 0, self.theta)
 
             self.odom_broadcaster.sendTransform(
                 (self.x, self.y, 0.),
                 odom_quat,
                 self.current_time,
-                self.base_frame_id,
+                #self.base_frame_id,
+                self.base_footprint_id,
                 self.odom_frame_id
             )
 
             odom = Odometry()
             odom.header.stamp = self.current_time
             odom.header.frame_id = self.odom_frame_id
-            odom.child_frame_id = self.base_frame_id
+            odom.child_frame_id = self.base_footprint_id #self.base_frame_id
 
             odom.pose.pose.position.x = self.x
             odom.pose.pose.position.y = self.y
