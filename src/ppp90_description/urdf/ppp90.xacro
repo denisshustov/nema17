@@ -262,14 +262,14 @@
     <inertia ixx="0.0" ixy="-0.0" ixz="0.0" iyy="0.0" iyz="-0.0" izz="1e-06"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="-0.0052579363728012885 -0.10377441452254206 -0.01"/>
+    <origin rpy="0 0 0" xyz="0.0052579363728012885 0.10377441452254206 0.014658078584554117"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/Forward_wheel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="red"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 0" xyz="0.0052579363728012885 0.10377441452254206 0.014658078584554117"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/Forward_wheel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -362,7 +362,7 @@
 </link>
 
 <joint name="Rigid19" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.120925 -0.014338 0.022"/>
+  <origin rpy="0 0 1.5708" xyz="-0.120925 -0.014338 0.022"/>
   <parent link="base_link"/>
   <child link="Forward_wheel"/>
 </joint>
