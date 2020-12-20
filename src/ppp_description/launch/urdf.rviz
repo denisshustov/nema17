@@ -5,6 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /RobotModel1
+        - /RobotModel1/Status1
+        - /TF1
         - /Odometry1/Shape1
       Splitter Ratio: 0.5
     Tree Height: 488
@@ -26,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -218,14 +221,10 @@ Visualization Manager:
           Value: false
         holder_1:
           Value: false
-        map:
-          Value: true
         nema17_1:
           Value: false
         nema17_Mirror__1:
           Value: false
-        odom:
-          Value: true
         sonyc_1:
           Value: false
         sonyc_Mirror__1:
@@ -244,44 +243,42 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        map:
-          odom:
-            base_link:
-              12GAN20__1__1:
-                brush_1:
-                  {}
-              12GAN20__1__Mirror__1:
-                brush_Mirror__1:
-                  {}
-              FW_baise_1:
-                axis_main_1:
-                  holder_1:
-                    axis_1:
-                      wheel__1__1:
-                        {}
-              back_top2_1:
-                {}
-              back_top_1:
-                {}
-              base_imu_link:
-                {}
-              forward_top_1_1:
-                {}
-              forward_top_1_Mirror__1:
-                Lidar_1:
-                  {}
-              nema17_1:
-                wheel_1:
-                  {}
-              nema17_Mirror__1:
-                wheel_Mirror__1:
-                  {}
-              sonyc_1:
-                {}
-              sonyc_Mirror__1:
-                {}
-              sonyc__1__1:
-                {}
+        base_link:
+          12GAN20__1__1:
+            brush_1:
+              {}
+          12GAN20__1__Mirror__1:
+            brush_Mirror__1:
+              {}
+          FW_baise_1:
+            axis_main_1:
+              holder_1:
+                axis_1:
+                  wheel__1__1:
+                    {}
+          back_top2_1:
+            {}
+          back_top_1:
+            {}
+          base_imu_link:
+            {}
+          forward_top_1_1:
+            {}
+          forward_top_1_Mirror__1:
+            Lidar_1:
+              {}
+          nema17_1:
+            wheel_1:
+              {}
+          nema17_Mirror__1:
+            wheel_Mirror__1:
+              {}
+          sonyc_1:
+            {}
+          sonyc_Mirror__1:
+            {}
+          sonyc__1__1:
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 0.5
@@ -455,7 +452,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -479,7 +476,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.216163635253906
+      Distance: 1.987660527229309
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -494,10 +491,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 0.16479764878749847
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 6.2735676765441895
+      Yaw: 1.6153810024261475
     Saved: ~
 Window Geometry:
   Displays:

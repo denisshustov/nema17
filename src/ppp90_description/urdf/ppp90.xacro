@@ -14,6 +14,11 @@
 </joint>
 
 <link name="base_link">
+  <inertial>
+    <origin rpy="0 0 0" xyz="0.006228517780792832 -0.014312684450430895 0.03416379967065732"/>
+    <mass value="5.029311101542255"/>
+    <inertia ixx="0.037081" ixy="0.000111" ixz="0.001835" iyy="0.04462" iyz="-2e-05" izz="0.070617"/>
+  </inertial>
   <visual>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <geometry>
@@ -31,19 +36,19 @@
 
 <link name="wheel_1">
   <inertial>
-    <origin rpy="0 0 0" xyz="-6.348907630078851e-05 -0.01199981164843078 -0.00029175072703385013"/>
+    <origin rpy="0 0 0" xyz="6.395377760427118e-05 0.012000086928228931 -0.0002917507270338848"/>
     <mass value="0.7647072407364309"/>
-    <inertia ixx="0.000285" ixy="-0.0" ixz="0.0" iyy="0.000502" iyz="0.0" izz="0.000285"/>
+    <inertia ixx="0.000285" ixy="-0.0" ixz="-0.0" iyy="0.000502" iyz="-0.0" izz="0.000285"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.014494 -0.129921 -0.024125"/>
+    <origin rpy="0 0 0" xyz="-0.014338 0.158753 -0.024125"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/wheel_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0.014494 -0.129921 -0.024125"/>
+    <origin rpy="0 0 0" xyz="-0.014338 0.158753 -0.024125"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/wheel_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -52,19 +57,19 @@
 
 <link name="wheel_Mirror__1">
   <inertial>
-    <origin rpy="0 0 0" xyz="0.0001513902914462642 -0.011999864080914024 0.00026807201904406955"/>
+    <origin rpy="0 0 0" xyz="-0.00015092559014278847 0.01200013936071219 0.0002680720190440314"/>
     <mass value="0.7647072407364308"/>
-    <inertia ixx="0.000285" ixy="-0.0" ixz="0.0" iyy="0.000502" iyz="0.0" izz="0.000285"/>
+    <inertia ixx="0.000285" ixy="-0.0" ixz="-0.0" iyy="0.000502" iyz="-0.0" izz="0.000285"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.014491 0.136188 -0.024125"/>
+    <origin rpy="0 0 0" xyz="-0.014335 -0.107356 -0.024125"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/wheel_Mirror__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0.014491 0.136188 -0.024125"/>
+    <origin rpy="0 0 0" xyz="-0.014335 -0.107356 -0.024125"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/wheel_Mirror__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -73,85 +78,64 @@
 
 <link name="sonyc_1">
   <inertial>
-    <origin rpy="0 0 0" xyz="0.013000365548618742 -0.010235515019977243 5.0631813087009814e-05"/>
+    <origin rpy="0 0 0" xyz="-0.012999900847315296 0.010235790299775449 5.063181308696818e-05"/>
     <mass value="0.0252883585593009"/>
-    <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="5e-06" iyz="-0.0" izz="5e-06"/>
+    <inertia ixx="1e-06" ixy="0.0" ixz="-0.0" iyy="5e-06" iyz="0.0" izz="5e-06"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.027494 -0.13623 -0.08983"/>
+    <origin rpy="0 0 0" xyz="-0.027338 0.165062 -0.08983"/>
     <geometry>
       <box size="0.001 0.0005 0.00035"/>
-      <!-- <mesh filename="package://ppp90_description/meshes/sonyc_1.stl" scale="0.001 0.001 0.001"/> -->
     </geometry>
     <material name="silver"/>
   </visual>
-  <!-- <collision>
-    <origin rpy="0 0 0" xyz="0.027494 -0.13623 -0.08983"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/sonyc_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision> -->
 </link>
 
 <link name="sonyc_Mirror__1">
   <inertial>
-    <origin rpy="0 0 0" xyz="-0.012999634451381028 0.010235325598471623 5.063181308698206e-05"/>
+    <origin rpy="0 0 0" xyz="0.013000099152684503 -0.010236050318673445 5.063181308696818e-05"/>
     <mass value="0.025288358559300887"/>
-    <inertia ixx="1e-06" ixy="-0.0" ixz="0.0" iyy="5e-06" iyz="0.0" izz="5e-06"/>
+    <inertia ixx="1e-06" ixy="-0.0" ixz="-0.0" iyy="5e-06" iyz="-0.0" izz="5e-06"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.001494 0.164906 -0.08983"/>
+    <origin rpy="0 0 0" xyz="-0.001338 -0.136075 -0.08983"/>
     <geometry>
       <box size="0.001 0.0005 0.00035"/>
-      <!-- <mesh filename="package://ppp90_description/meshes/sonyc_Mirror__1.stl" scale="0.001 0.001 0.001"/> -->
     </geometry>
     <material name="silver"/>
   </visual>
-  <!-- <collision>
-    <origin rpy="0 0 0" xyz="0.001494 0.164906 -0.08983"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/sonyc_Mirror__1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision> -->
 </link>
 
 <link name="sonyc__1__1">
   <inertial>
-    <origin rpy="0 0 0" xyz="0.010235448068739439 -0.013000419106913505 5.063181308698206e-05"/>
+    <origin rpy="0 0 0" xyz="-0.010235983367435975 0.012999694386711707 5.06318130869543e-05"/>
     <mass value="0.0252883585593009"/>
-    <inertia ixx="5e-06" ixy="-0.0" ixz="0.0" iyy="1e-06" iyz="0.0" izz="5e-06"/>
+    <inertia ixx="5e-06" ixy="-0.0" ixz="-0.0" iyy="1e-06" iyz="-0.0" izz="5e-06"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.169414 0.001361 -0.06983"/>
+    <origin rpy="0 0 0" xyz="-0.169259 0.02747 -0.06983"/>
     <geometry>
       <box size="0.001 0.0005 0.00035"/>
-      <!-- <mesh filename="package://ppp90_description/meshes/sonyc__1__1.stl" scale="0.001 0.001 0.001"/> -->
     </geometry>
     <material name="silver"/>
   </visual>
-  <!-- <collision>
-    <origin rpy="0 0 0" xyz="0.169414 0.001361 -0.06983"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/sonyc__1__1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision> -->
 </link>
 
 <link name="nema17_1">
   <inertial>
-    <origin rpy="0 0 0" xyz="-6.709208478471174e-07 -0.00334258185473002 0.02118013525930306"/>
+    <origin rpy="0 0 0" xyz="1.1356221513089682e-06 0.0033428571345282126 0.021180135259303026"/>
     <mass value="0.1838412954712099"/>
-    <inertia ixx="5.2e-05" ixy="-0.0" ixz="-0.0" iyy="5.3e-05" iyz="0.0" izz="5.2e-05"/>
+    <inertia ixx="5.2e-05" ixy="-0.0" ixz="0.0" iyy="5.3e-05" iyz="-0.0" izz="5.2e-05"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.014494 -0.084071 -0.003"/>
+    <origin rpy="0 0 0" xyz="-0.014338 0.112903 -0.003"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/nema17_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0.014494 -0.084071 -0.003"/>
+    <origin rpy="0 0 0" xyz="-0.014338 0.112903 -0.003"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/nema17_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -160,19 +144,19 @@
 
 <link name="nema17_Mirror__1">
   <inertial>
-    <origin rpy="0 0 0" xyz="-5.975012162888829e-06 0.00334264208445903 0.02118013525930306"/>
+    <origin rpy="0 0 0" xyz="6.439713466371497e-06 -0.003342366804660879 0.021180135259303026"/>
     <mass value="0.1838412954712099"/>
-    <inertia ixx="5.2e-05" ixy="-0.0" ixz="-0.0" iyy="5.3e-05" iyz="-0.0" izz="5.2e-05"/>
+    <inertia ixx="5.2e-05" ixy="-0.0" ixz="0.0" iyy="5.3e-05" iyz="0.0" izz="5.2e-05"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.014528 0.113338 -0.003"/>
+    <origin rpy="0 0 0" xyz="-0.014372 -0.084506 -0.003"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/nema17_Mirror__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0.014528 0.113338 -0.003"/>
+    <origin rpy="0 0 0" xyz="-0.014372 -0.084506 -0.003"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/nema17_Mirror__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -181,19 +165,19 @@
 
 <link name="12GAN20__1__1">
   <inertial>
-    <origin rpy="0 0 0" xyz="3.268980405812805e-08 -3.387342204674848e-06 0.011857871337072723"/>
+    <origin rpy="0 0 0" xyz="-5.679885005938079e-07 2.662622002880255e-06 0.011857871337072685"/>
     <mass value="0.023492103087793172"/>
-    <inertia ixx="1e-06" ixy="-0.0" ixz="-0.0" iyy="2e-06" iyz="-0.0" izz="0.0"/>
+    <inertia ixx="1e-06" ixy="-0.0" ixz="0.0" iyy="2e-06" iyz="0.0" izz="0.0"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.096453 0.12774 -0.001"/>
+    <origin rpy="0 0 0" xyz="-0.096298 -0.098909 -0.001"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/12GAN20__1__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0.096453 0.12774 -0.001"/>
+    <origin rpy="0 0 0" xyz="-0.096298 -0.098909 -0.001"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/12GAN20__1__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -202,19 +186,19 @@
 
 <link name="brush_1">
   <inertial>
-    <origin rpy="0 0 0" xyz="-6.629561645765669e-07 -8.680417363238213e-07 -0.0022204199308318013"/>
+    <origin rpy="0 0 0" xyz="1.2765746805476486e-07 1.4332153454310603e-07 -0.0022204199308318365"/>
     <mass value="0.014937067448072668"/>
-    <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="1e-06" iyz="0.0" izz="2e-06"/>
+    <inertia ixx="1e-06" ixy="0.0" ixz="-0.0" iyy="1e-06" iyz="-0.0" izz="2e-06"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.096455 0.12775 0.001"/>
+    <origin rpy="0 0 0" xyz="-0.0963 -0.098919 0.001"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/brush_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0.096455 0.12775 0.001"/>
+    <origin rpy="0 0 0" xyz="-0.0963 -0.098919 0.001"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/brush_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -223,19 +207,19 @@
 
 <link name="brush_Mirror__1">
   <inertial>
-    <origin rpy="0 0 0" xyz="5.998655124295205e-07 3.438472244571278e-07 -0.0022204199308317827"/>
+    <origin rpy="0 0 0" xyz="-1.1351642089096892e-06 -6.856742623684298e-08 -0.0022204199308317827"/>
     <mass value="0.014937067448072664"/>
-    <inertia ixx="1e-06" ixy="0.0" ixz="-0.0" iyy="1e-06" iyz="0.0" izz="2e-06"/>
+    <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="1e-06" iyz="-0.0" izz="2e-06"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.096451 -0.099054 0.001"/>
+    <origin rpy="0 0 0" xyz="-0.096296 0.127886 0.001"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/brush_Mirror__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0.096451 -0.099054 0.001"/>
+    <origin rpy="0 0 0" xyz="-0.096296 0.127886 0.001"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/brush_Mirror__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -244,51 +228,177 @@
 
 <link name="12GAN20__1__Mirror__1">
   <inertial>
-    <origin rpy="0 0 0" xyz="2.061205277625877e-06 -6.450130101642859e-06 0.011857871337072723"/>
+    <origin rpy="0 0 0" xyz="-2.596503974161557e-06 6.725409899849266e-06 0.011857871337072688"/>
     <mass value="0.02349210308779317"/>
-    <inertia ixx="1e-06" ixy="0.0" ixz="-0.0" iyy="2e-06" iyz="0.0" izz="0.0"/>
+    <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="2e-06" iyz="-0.0" izz="0.0"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0.096451 -0.099054 -0.001"/>
+    <origin rpy="0 0 0" xyz="-0.096296 0.127886 -0.001"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/12GAN20__1__Mirror__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0.096451 -0.099054 -0.001"/>
+    <origin rpy="0 0 0" xyz="-0.096296 0.127886 -0.001"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/12GAN20__1__Mirror__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<!-- -->
-<link name="Forward_wheel">
-   <inertial>
-    <origin rpy="0 0 0" xyz="-0.0052579363728012885 -0.10377441452254206 -0.015"/>
-    <mass value="0.0061871055650105375"/>
-    <inertia ixx="0.0" ixy="-0.0" ixz="0.0" iyy="0.0" iyz="-0.0" izz="1e-06"/>
+<link name="forward_top_1_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-0.09472371095209488 -0.06502162145818441 0.0004895173930853369"/>
+    <mass value="0.48710215659029577"/>
+    <inertia ixx="0.000784" ixy="-0.000235" ixz="-1e-06" iyy="0.00099" iyz="-1e-06" izz="0.001773"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="-0.0052579363728012885 -0.10377441452254206 -0.015"/>
+    <origin rpy="0 0 0" xyz="-0.163338 0.014494 -0.11"/>
     <geometry>
-      <mesh filename="package://ppp90_description/meshes/Forward_wheel.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://ppp90_description/meshes/forward_top_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="red"/>
+    <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="-0.0052579363728012885 -0.10377441452254206 -0.015"/>
+    <origin rpy="0 0 0" xyz="-0.163338 0.014494 -0.11"/>
     <geometry>
-      <mesh filename="package://ppp90_description/meshes/Forward_wheel.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://ppp90_description/meshes/forward_top_1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
+<link name="forward_top_1_Mirror__1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="0.0735909092846742 -0.07845842785085694 0.0004895171912021601"/>
+    <mass value="0.48710223650351714"/>
+    <inertia ixx="0.000784" ixy="0.000234" ixz="-1e-06" iyy="0.00099" iyz="1e-06" izz="0.001773"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0.005021 -0.129037 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/forward_top_1_Mirror__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0.005021 -0.129037 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/forward_top_1_Mirror__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="back_top_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-0.06983924477939416 -0.07365384534784823 -0.0010887199497685157"/>
+    <mass value="0.23560428740017997"/>
+    <inertia ixx="0.000537" ixy="-0.000345" ixz="-1.3e-05" iyy="0.00038" iyz="-1.8e-05" izz="0.000907"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0.005021 -0.129037 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/back_top_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0.005021 -0.129037 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/back_top_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="back_top2_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-0.05870936689603044 0.05499707718659973 0.0004968868769272966"/>
+    <mass value="0.18961170684744505"/>
+    <inertia ixx="0.000183" ixy="0.000153" ixz="1e-06" iyy="0.000249" iyz="-1e-06" izz="0.000432"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0.005021 0.158024 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/back_top2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0.005021 0.158024 -0.11"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/back_top2_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Lidar_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="3.0855486037040247e-07 2.620424081334338e-07 0.03500000000000002"/>
+    <mass value="2.114723824855799"/>
+    <inertia ixx="0.001511" ixy="-0.0" ixz="-0.0" iyy="0.001511" iyz="0.0" izz="0.001295"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="-0.110658 0.014415 -0.112"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/Lidar_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="-0.110658 0.014415 -0.112"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/Lidar_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="IMU_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-1.0482840423486905e-07 3.699905506693302e-07 0.007500000000000007"/>
+    <mass value="0.011774999999999999"/>
+    <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="0.0" iyz="-0.0" izz="0.0"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="-0.158919 0.014494 -0.033"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/IMU_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="-0.158919 0.014494 -0.033"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/IMU_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<!-- -->
+
+<link name="Forward_wheel_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="-0.120769 0.014494 -0.022"/>
+    <mass value="0.0061871055650105375"/>
+    <inertia ixx="0.0" ixy="0.0" ixz="-0.0" iyy="0.0" iyz="-0.0" izz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="-0.120769 0.014494 -0.022"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/Forward_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="-0.120769 0.014494 -0.022"/>
+    <geometry>
+      <mesh filename="package://ppp90_description/meshes/Forward_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
 
 <link name="fw_wheel_1">
   <inertial>
-    <origin rpy="0 0 0" xyz="0.037938230253998714 0.09960326638090941 -0.04141690237825763"/>
+    <origin rpy="0 0 0" xyz="0.024889 -0.006 -0.03591"/>
     <mass value="0.0030764824061019756"/>
     <inertia ixx="0.0" ixy="-0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
   </inertial>
@@ -309,7 +419,7 @@
 
 <link name="holder1_1">
   <inertial>
-    <origin rpy="0 0 0" xyz="0.05994756275850843 0.0810927236228087 0.003681014204852218"/>
+    <origin rpy="0 0 0" xyz="0.053573 -0.022977 -0.0025"/>
     <mass value="0.006489971019909515"/>
     <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="1e-06"/>
   </inertial>
@@ -330,7 +440,7 @@
 
 <link name="holder2_1">
   <inertial>
-    <origin rpy="0 0 0" xyz="-0.012242063627652948 0.08877441452254206 0.011845529293967897"/>
+    <origin rpy="0 0 0" xyz="-0.0175 -0.015 0.0"/>
     <mass value="0.002767366136694294"/>
     <inertia ixx="0.0" ixy="0.0" ixz="-0.0" iyy="0.0" iyz="-0.0" izz="0.0"/>
   </inertial>
@@ -370,14 +480,14 @@
   </collision>
 </link>
 
-<joint name="Rigid19" type="fixed">
-  <origin rpy="0 0 1.5708" xyz="-0.120925 -0.014338 0.022"/>
+<joint name="Rigid119" type="fixed">
+  <origin rpy="0 0 0" xyz="0.120769 -0.014494 0.022"/>
   <parent link="base_link"/>
-  <child link="Forward_wheel"/>
+  <child link="Forward_wheel_1"/>
 </joint>
 
 <joint name="Rev11" type="continuous">
-  <origin rpy="0 0 0" xyz="0.0 0.015 0.0"/>
+  <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
   <parent link="fww_a_1"/>
   <child link="fw_wheel_1"/>
   <axis xyz="-0.258819 0.965926 0.0"/>
@@ -391,262 +501,127 @@
 </joint>
 
 <joint name="Rev31" type="continuous">
-  <origin rpy="0 0 0" xyz="0.0175 -0.09 -0.015"/>
-  <parent link="Forward_wheel"/>
+  <origin rpy="0 0 0" xyz="0 0 0"/>
+  <parent link="Forward_wheel_1"/>
   <child link="holder2_1"/>
   <axis xyz="0.0 -0.0 1.0"/>
 </joint>
 
 <joint name="Rev41" type="continuous">
-  <origin rpy="0 0 0" xyz="0.028684 -0.031977 0.03341"/>
+  <origin rpy="0 0 0" xyz="0 0 0"/>
   <parent link="holder1_1"/>
   <child link="fww_a_1"/>
   <axis xyz="0.258819 -0.965926 -0.0"/>
 </joint>
 
-
-
-
-
-
-
-
-
 <!-- -->
 
 
-
-<link name="forward_top_1_1">
-  <inertial>
-    <origin rpy="0 0 0" xyz="0.09472417565339834 0.0650218967379826 0.0004895173930853647"/>
-    <mass value="0.48710215659029577"/>
-    <inertia ixx="0.000784" ixy="-0.000235" ixz="1e-06" iyy="0.00099" iyz="1e-06" izz="0.001773"/>
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="0.163494 0.014338 -0.11"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/forward_top_1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="0.163494 0.014338 -0.11"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/forward_top_1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="forward_top_1_Mirror__1">
-  <inertial>
-    <origin rpy="0 0 0" xyz="-0.07359144458337072 0.07845770313065512 0.0004895171912022017"/>
-    <mass value="0.48710223650351714"/>
-    <inertia ixx="0.000784" ixy="0.000234" ixz="1e-06" iyy="0.00099" iyz="-1e-06" izz="0.001773"/>
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="-0.004866 0.157868 -0.11"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/forward_top_1_Mirror__1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="-0.004866 0.157868 -0.11"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/forward_top_1_Mirror__1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="back_top_1">
-  <inertial>
-    <origin rpy="0 0 0" xyz="0.06983870948069765 0.07365312062764642 -0.001088719949768488"/>
-    <mass value="0.23560428740017997"/>
-    <inertia ixx="0.000537" ixy="-0.000345" ixz="1.3e-05" iyy="0.00038" iyz="1.8e-05" izz="0.000907"/>
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="-0.004866 0.157868 -0.11"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/back_top_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="-0.004866 0.157868 -0.11"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/back_top_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="back_top2_1">
-  <inertial>
-    <origin rpy="0 0 0" xyz="0.05870883159733394 -0.05499680190680151 0.0004968868769273244"/>
-    <mass value="0.18961170684744505"/>
-    <inertia ixx="0.000183" ixy="0.000153" ixz="-1e-06" iyy="0.000249" iyz="1e-06" izz="0.000432"/>
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="-0.004866 -0.129192 -0.11"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/back_top2_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="-0.004866 -0.129192 -0.11"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/back_top2_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="Lidar_1">
-  <inertial>
-    <origin rpy="0 0 0" xyz="1.561464430532844e-07 1.323739005389124e-08 0.03500000000000007"/>
-    <mass value="2.114723824855799"/>
-    <inertia ixx="0.001511" ixy="-0.0" ixz="0.0" iyy="0.001511" iyz="-0.0" izz="0.001295"/>
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="0.110814 0.014417 -0.112"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/Lidar_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="0.110814 0.014417 -0.112"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/Lidar_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="base_imu_link">
-  <inertial>
-    <origin rpy="0 0 0" xyz="-4.3047029232856637e-07 -9.471075246465788e-08 0.007500000000000041"/>
-    <mass value="0.011774999999999999"/>
-    <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="0.0" iyz="-0.0" izz="0.0"/>
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="0.159074 0.014338 -0.033"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/IMU_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="0.159074 0.014338 -0.033"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/IMU_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
 <joint name="Rev1" type="continuous">
-  <origin rpy="0 0 0" xyz="0.0 0.04585 0.021125"/>
+  <origin rpy="0 0 0" xyz="0.0 -0.04585 0.021125"/>
   <parent link="nema17_1"/>
   <child link="wheel_1"/>
-  <axis xyz="-0.0 1.0 -0.0"/>
+  <axis xyz="0.0 -1.0 -0.0"/>
 </joint>
 
 <joint name="Rev4" type="continuous">
-  <origin rpy="0 0 0" xyz="3.7e-05 -0.02285 0.021125"/>
+  <origin rpy="0 0 0" xyz="-3.7e-05 0.02285 0.021125"/>
   <parent link="nema17_Mirror__1"/>
   <child link="wheel_Mirror__1"/>
-  <axis xyz="0.001615 -0.999999 0.0"/>
+  <axis xyz="-0.001615 0.999999 0.0"/>
 </joint>
 
 <joint name="Rigid5" type="fixed">
-  <origin rpy="0 0 1.50" xyz="-0.027494 0.13623 0.08983"/>
+  <origin rpy="0 0 0" xyz="0.027338 -0.165062 0.08983"/>
   <parent link="base_link"/>
   <child link="sonyc_1"/>
 </joint>
 
 <joint name="Rigid6" type="fixed">
-  <origin rpy="0 0 -1.65" xyz="-0.001494 -0.164906 0.08983"/>
+  <origin rpy="0 0 0" xyz="0.001338 0.136075 0.08983"/>
   <parent link="base_link"/>
   <child link="sonyc_Mirror__1"/>
 </joint>
 
 <joint name="Rigid7" type="fixed">
-  <origin rpy="0 0 -3.14159" xyz="-0.169414 -0.001361 0.06983"/>
+  <origin rpy="0 0 0" xyz="0.169259 -0.02747 0.06983"/>
   <parent link="base_link"/>
   <child link="sonyc__1__1"/>
 </joint>
 
 <joint name="Rigid8" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.014494 0.084071 0.003"/>
+  <origin rpy="0 0 0" xyz="0.014338 -0.112903 0.003"/>
   <parent link="base_link"/>
   <child link="nema17_1"/>
 </joint>
 
 <joint name="Rigid9" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.014528 -0.113338 0.003"/>
+  <origin rpy="0 0 0" xyz="0.014372 0.084506 0.003"/>
   <parent link="base_link"/>
   <child link="nema17_Mirror__1"/>
 </joint>
 
 <joint name="Rigid13" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.096453 -0.12774 0.001"/>
+  <origin rpy="0 0 0" xyz="0.096298 0.098909 0.001"/>
   <parent link="base_link"/>
   <child link="12GAN20__1__1"/>
 </joint>
 
 <joint name="Rev14" type="continuous">
-  <origin rpy="0 0 0" xyz="-2e-06 -1e-05 -0.002"/>
+  <origin rpy="0 0 0" xyz="2e-06 1e-05 -0.002"/>
   <parent link="12GAN20__1__1"/>
   <child link="brush_1"/>
-  <axis xyz="-0.0 0.0 -1.0"/>
+  <axis xyz="0.0 -0.0 -1.0"/>
 </joint>
 
 <joint name="Rev15" type="continuous">
   <origin rpy="0 0 0" xyz="0.0 0.0 -0.002"/>
   <parent link="12GAN20__1__Mirror__1"/>
   <child link="brush_Mirror__1"/>
-  <axis xyz="0.0 -0.0 -1.0"/>
+  <axis xyz="-0.0 0.0 -1.0"/>
 </joint>
 
 <joint name="Rigid16" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.096451 0.099054 0.001"/>
+  <origin rpy="0 0 0" xyz="0.096296 -0.127886 0.001"/>
   <parent link="base_link"/>
   <child link="12GAN20__1__Mirror__1"/>
 </joint>
 
-
 <joint name="Rigid21" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.163494 -0.014338 0.11"/>
+  <origin rpy="0 0 0" xyz="0.163338 -0.014494 0.11"/>
   <parent link="base_link"/>
   <child link="forward_top_1_1"/>
 </joint>
 
 <joint name="Rigid22" type="fixed">
-  <origin rpy="0 0 0" xyz="0.004866 -0.157868 0.11"/>
+  <origin rpy="0 0 0" xyz="-0.005021 0.129037 0.11"/>
   <parent link="base_link"/>
   <child link="forward_top_1_Mirror__1"/>
 </joint>
 
 <joint name="Rigid23" type="fixed">
-  <origin rpy="0 0 0" xyz="0.004866 -0.157868 0.11"/>
+  <origin rpy="0 0 0" xyz="-0.005021 0.129037 0.11"/>
   <parent link="base_link"/>
   <child link="back_top_1"/>
 </joint>
 
 <joint name="Rigid24" type="fixed">
-  <origin rpy="0 0 0" xyz="0.004866 0.129192 0.11"/>
+  <origin rpy="0 0 0" xyz="-0.005021 -0.158024 0.11"/>
   <parent link="base_link"/>
   <child link="back_top2_1"/>
 </joint>
 
 <joint name="Rigid25" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.11568 0.143451 0.002"/>
+  <origin rpy="0 0 0" xyz="0.115679 -0.143452 0.002"/>
   <parent link="forward_top_1_Mirror__1"/>
   <child link="Lidar_1"/>
 </joint>
 
 <joint name="Rigid26" type="fixed">
-  <origin rpy="0 0 0" xyz="-0.159074 -0.014338 0.033"/>
+  <origin rpy="0 0 0" xyz="0.158919 -0.014494 0.033"/>
   <parent link="base_link"/>
-  <child link="base_imu_link"/>
+  <child link="IMU_1"/>
 </joint>
+
 
 </robot>
