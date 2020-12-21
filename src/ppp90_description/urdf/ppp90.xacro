@@ -354,7 +354,7 @@
 
 <link name="IMU_1">
   <inertial>
-    <origin rpy="0 0 0" xyz="-1.0482840423486905e-07 3.699905506693302e-07 0.007500000000000007"/>
+    <origin rpy="0 0 0" xyz="-0.158919 0.014494 -0.033"/>
     <mass value="0.011774999999999999"/>
     <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="0.0" iyz="-0.0" izz="0.0"/>
   </inertial>
@@ -374,146 +374,31 @@
 </link>
 
 <!-- -->
+    <link name='link_1'>
+      <inertial>
+        <mass value="0.3" />
+        <origin xyz="0 0 0" /> 
+        <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1.0" />
+      </inertial>
+      <visual>
+        <origin xyz="0.12116 -0.014724 0.1499" rpy="0 0 0" />
+        <geometry>
+          <sphere radius="0.0215773"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <sphere radius="0.0215773"/>
+        </geometry>
+      </collision>
+    </link>
 
-<link name="Forward_wheel_1">
-  <inertial>
-    <origin rpy="0 0 0" xyz="-0.120769 0.014494 -0.022"/>
-    <mass value="0.0061871055650105375"/>
-    <inertia ixx="0.0" ixy="0.0" ixz="-0.0" iyy="0.0" iyz="-0.0" izz="1e-06"/>
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="-0.120769 0.014494 -0.022"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/Forward_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="-0.120769 0.014494 -0.022"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/Forward_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="fw_wheel_1">
-  <inertial>
-    <origin rpy="0 0 0" xyz="0.024889 -0.006 -0.03591"/>
-    <mass value="0.0030764824061019756"/>
-    <inertia ixx="0.0" ixy="-0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="0.024889 -0.006 -0.03591"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/fw_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="yellow"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="0.024889 -0.006 -0.03591"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/fw_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="holder1_1">
-  <inertial>
-    <origin rpy="0 0 0" xyz="0.053573 -0.022977 -0.0025"/>
-    <mass value="0.006489971019909515"/>
-    <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="1e-06"/>
-  </inertial>
-  <visual><!---0.0175 -0.015 0-->
-    <origin rpy="0 0 0" xyz="0.053573 -0.022977 -0.0025"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/holder1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="green"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="0.053573 -0.022977 -0.0025"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/holder1_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="holder2_1">
-  <inertial>
-    <origin rpy="0 0 0" xyz="-0.0175 -0.015 0.0"/>
-    <mass value="0.002767366136694294"/>
-    <inertia ixx="0.0" ixy="0.0" ixz="-0.0" iyy="0.0" iyz="-0.0" izz="0.0"/>
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="-0.0054 -0.104 -0.015"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/holder2_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="d_blue"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="-0.0175 -0.015 0.0"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/holder2_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="fww_a_1">
-  <inertial>
-    <origin rpy="0 0 0" xyz="0.0379390477443535 0.11460348542678987 -0.04141447070571836"/>
-    <mass value="0.0043107049436968805"/>
-    <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="0.024889 0.009 -0.03591"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/fww_a_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin rpy="0 0 0" xyz="0.024889 0.009 -0.03591"/>
-    <geometry>
-      <mesh filename="package://ppp90_description/meshes/fww_a_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-
-<joint name="Rigid119" type="fixed">
-  <origin rpy="0 0 0" xyz="0.120769 -0.014494 0.022"/>
-  <parent link="base_link"/>
-  <child link="Forward_wheel_1"/>
-</joint>
-
-<joint name="Rev11" type="continuous">
-  <origin rpy="0 0 0" xyz="0.0 0.015 0.0"/>
-  <parent link="fww_a_1"/>
-  <child link="fw_wheel_1"/>
-  <axis xyz="-0.258819 0.965926 0.0"/>
-</joint>
-
-<joint name="Rev21" type="continuous">
-  <origin rpy="0 0 0" xyz="0 0 0"/>
-  <parent link="holder2_1"/>
-  <child link="holder1_1"/>
-  <axis xyz="-0.0 0.0 -1.0"/>
-</joint>
-
-<joint name="Rev31" type="continuous">
-  <origin rpy="0 0 0" xyz="0 0 0"/>
-  <parent link="Forward_wheel_1"/>
-  <child link="holder2_1"/>
-  <axis xyz="0.0 -0.0 1.0"/>
-</joint>
-
-<joint name="Rev41" type="continuous">
-  <origin rpy="0 0 0" xyz="0.028684 -0.031977 0.03341"/>
-  <parent link="holder1_1"/>
-  <child link="fww_a_1"/>
-  <axis xyz="0.258819 -0.965926 -0.0"/>
-</joint>
+      
+    <joint name='base_footprint_JOINT_2' type='continuous'>
+       <parent link="base_link"/>
+       <child link="link_1"/>
+    </joint>
 
 <!-- -->
 

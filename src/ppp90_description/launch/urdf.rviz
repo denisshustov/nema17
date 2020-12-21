@@ -76,11 +76,6 @@ Visualization Manager:
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
-        Forward_wheel_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         IMU_1:
           Alpha: 1
           Show Axes: false
@@ -131,22 +126,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        fw_wheel_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        fww_a_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        holder1_1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        holder2_1:
+        link_1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -201,8 +181,6 @@ Visualization Manager:
         12GAN20__1__Mirror__1:
           Value: false
         All Enabled: false
-        Forward_wheel_1:
-          Value: false
         IMU_1:
           Value: false
         Lidar_1:
@@ -223,14 +201,8 @@ Visualization Manager:
           Value: false
         forward_top_1_Mirror__1:
           Value: false
-        fw_wheel_1:
-          Value: false
-        fww_a_1:
-          Value: false
-        holder1_1:
-          Value: false
-        holder2_1:
-          Value: false
+        link_1:
+          Value: true
         nema17_1:
           Value: false
         nema17_Mirror__1:
@@ -245,7 +217,7 @@ Visualization Manager:
           Value: false
         wheel_Mirror__1:
           Value: false
-      Marker Scale: 0.5
+      Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
@@ -259,12 +231,6 @@ Visualization Manager:
             12GAN20__1__Mirror__1:
               brush_Mirror__1:
                 {}
-            Forward_wheel_1:
-              holder2_1:
-                holder1_1:
-                  fww_a_1:
-                    fw_wheel_1:
-                      {}
             IMU_1:
               {}
             back_top2_1:
@@ -276,6 +242,8 @@ Visualization Manager:
             forward_top_1_Mirror__1:
               Lidar_1:
                 {}
+            link_1:
+              {}
             nema17_1:
               wheel_1:
                 {}
@@ -589,25 +557,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.029239488765597343
+      Distance: 0.30603641271591187
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.11640740185976028
-        Y: -0.020221063867211342
-        Z: 0.016986340284347534
+        X: 0.10487652570009232
+        Y: 0.012190233916044235
+        Z: 0.01752678118646145
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: -0.0247979536652565
+      Pitch: -0.09979867935180664
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.467962741851807
+      Yaw: 0.1066279262304306
     Saved: ~
 Window Geometry:
   Displays:
