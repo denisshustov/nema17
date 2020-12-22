@@ -15,19 +15,19 @@
 
 <link name="base_link">
   <inertial>
-    <origin rpy="0 0 0" xyz="0.006228517780792832 -0.014312684450430895 0.03416379967065732"/>
+    <origin rpy="0 0 1.5708" xyz="0 0 0"/>
     <mass value="5.029311101542255"/>
     <inertia ixx="0.037081" ixy="0.000111" ixz="0.001835" iyy="0.04462" iyz="-2e-05" izz="0.070617"/>
   </inertial>
   <visual>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 1.5708" xyz="0 0 0"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 1.5708" xyz="0 0 0"/>
     <geometry>
       <mesh filename="package://ppp90_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>

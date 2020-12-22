@@ -55,8 +55,8 @@ class Cmd_to_odom:
         while not rospy.is_shutdown():
             if self.cmdVel is None: continue
 
-            linear_velocity_x = -1 * self.cmdVel.linear.x
-            linear_velocity_y = -1 * self.cmdVel.linear.y
+            linear_velocity_x = self.cmdVel.linear.x
+            linear_velocity_y = self.cmdVel.linear.y
             angular_velocity_z_ = self.cmdVel.angular.z
 
             self.current_time = rospy.Time.now()
