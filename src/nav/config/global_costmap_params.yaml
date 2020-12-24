@@ -7,6 +7,7 @@ global_costmap:
   transform_tolerance: 0.5
 
   static_map: true
+  footprint: [[0.15, 0.12], [0.15, -0.15], [-0.12, -0.15], [-0.12, 0.12]]
   # static_map: false
   
   # rolling_window: false
