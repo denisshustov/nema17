@@ -204,14 +204,12 @@ Visualization Manager:
           Value: false
         link_1:
           Value: false
-        map:
-          Value: true
         nema17_1:
           Value: false
         nema17_Mirror__1:
           Value: false
         odom:
-          Value: true
+          Value: false
         sonyc_1:
           Value: false
         sonyc_Mirror__1:
@@ -228,10 +226,8 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        map:
-          odom:
-            base_footprint:
-              {}
+        odom:
+          base_footprint:
             base_link:
               12GAN20__1__1:
                 brush_1:
@@ -241,6 +237,8 @@ Visualization Manager:
                   {}
               IMU_1:
                 {}
+              Lidar_1:
+                {}
               back_top2_1:
                 {}
               back_top_1:
@@ -248,8 +246,7 @@ Visualization Manager:
               forward_top_1_1:
                 {}
               forward_top_1_Mirror__1:
-                Lidar_1:
-                  {}
+                {}
               link_1:
                 {}
               nema17_1:
@@ -293,7 +290,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 12
+      Min Intensity: 13
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -565,7 +562,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.237539529800415
+      Distance: 1.535254716873169
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -580,10 +577,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.3497967720031738
+      Pitch: 0.9402015209197998
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 6.203124523162842
+      Yaw: 0.1630859375
     Saved: ~
 Window Geometry:
   Displays:
