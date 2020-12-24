@@ -8,8 +8,8 @@
         <param name="two_d_mode" value="true"/>
 
         <param name="odom_frame" value="odom"/>
-        
-        <param name="base_link_frame" value="base_link"/>
+        <!--TODO base_link TEST THIS -->
+        <param name="base_link_frame" value="base_footprint"/>
         
         <param name="world_frame" value="odom"/>
 
