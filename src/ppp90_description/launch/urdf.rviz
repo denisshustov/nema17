@@ -6,9 +6,9 @@ Panels:
       Expanded:
         - /Global Options1
         - /ROBOT1
-        - /ROBOT1/TF1
         - /ROBOT1/TF1/Frames1
         - /ROBOT1/RobotModel1
+        - /ROBOT1/RobotModel1/Status1
         - /PATHES1
         - /Odometry2/Covariance1
         - /Odometry2/Covariance1/Position1
@@ -66,42 +66,44 @@ Visualization Manager:
           Frame Timeout: 15
           Frames:
             12GAN20__1__1:
-              Value: true
+              Value: false
             12GAN20__1__Mirror__1:
-              Value: true
+              Value: false
             All Enabled: false
             Lidar_1:
-              Value: true
+              Value: false
             back_top2_1:
-              Value: true
+              Value: false
             back_top_1:
-              Value: true
+              Value: false
             base_footprint:
               Value: true
             base_imu_link:
-              Value: true
+              Value: false
             base_link:
-              Value: true
+              Value: false
             brush_1:
-              Value: true
+              Value: false
             brush_Mirror__1:
-              Value: true
+              Value: false
             forward_top_1_1:
-              Value: true
+              Value: false
             forward_top_1_Mirror__1:
-              Value: true
+              Value: false
             link_1:
-              Value: true
+              Value: false
             nema17_1:
-              Value: true
+              Value: false
             nema17_Mirror__1:
+              Value: false
+            odom:
               Value: true
             sonyc_1:
-              Value: true
+              Value: false
             sonyc_Mirror__1:
-              Value: true
+              Value: false
             sonyc__1__1:
-              Value: true
+              Value: false
             wheel_1:
               Value: true
             wheel_Mirror__1:
@@ -112,39 +114,40 @@ Visualization Manager:
           Show Axes: true
           Show Names: false
           Tree:
-            base_footprint:
-              base_link:
-                12GAN20__1__1:
-                  brush_1:
+            odom:
+              base_footprint:
+                base_link:
+                  12GAN20__1__1:
+                    brush_1:
+                      {}
+                  12GAN20__1__Mirror__1:
+                    brush_Mirror__1:
+                      {}
+                  back_top2_1:
                     {}
-                12GAN20__1__Mirror__1:
-                  brush_Mirror__1:
+                  back_top_1:
                     {}
-                back_top2_1:
-                  {}
-                back_top_1:
-                  {}
-                base_imu_link:
-                  {}
-                forward_top_1_1:
-                  {}
-                forward_top_1_Mirror__1:
-                  Lidar_1:
+                  base_imu_link:
                     {}
-                link_1:
-                  {}
-                nema17_1:
-                  wheel_1:
+                  forward_top_1_1:
                     {}
-                nema17_Mirror__1:
-                  wheel_Mirror__1:
+                  forward_top_1_Mirror__1:
+                    Lidar_1:
+                      {}
+                  link_1:
                     {}
-                sonyc_1:
-                  {}
-                sonyc_Mirror__1:
-                  {}
-                sonyc__1__1:
-                  {}
+                  nema17_1:
+                    wheel_1:
+                      {}
+                  nema17_Mirror__1:
+                    wheel_Mirror__1:
+                      {}
+                  sonyc_1:
+                    {}
+                  sonyc_Mirror__1:
+                    {}
+                  sonyc__1__1:
+                    {}
           Update Interval: 0
           Value: true
         - Alpha: 1
@@ -643,25 +646,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.0142412185668945
+      Distance: 0.39228689670562744
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.3654497265815735
-        Y: -0.1549590826034546
-        Z: -0.06588531285524368
+        X: 0.023474253714084625
+        Y: 0.06046086177229881
+        Z: 0.05644602328538895
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.42979785799980164
+      Pitch: 0.034799568355083466
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.5162353515625
+      Yaw: 0.951164960861206
     Saved: ~
 Window Geometry:
   Displays:
