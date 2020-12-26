@@ -1,4 +1,6 @@
 <launch>
+  <include file="$(find ppp90_description)/launch/controller.launch"/>
+
   <param command="$(find xacro)/xacro $(find ppp90_description)/urdf/ppp90.xacro" name="robot_description"/>
   <node args="-param robot_description -urdf -model ppp90" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"/>
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -8,4 +10,5 @@
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
   </include>
+
 </launch>

@@ -374,31 +374,32 @@
 </link>
 
 <!-- -->
-    <link name='link_1'>
-      <inertial>
-        <mass value="0.3" />
-        <origin xyz="0 0 0" /> 
-        <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1.0" />
-      </inertial>
-      <visual>
-        <origin xyz="0.12116 -0.014724 0.1499" rpy="0 0 0" />
-        <geometry>
-          <sphere radius="0.0215773"/>
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <sphere radius="0.0215773"/>
-        </geometry>
-      </collision>
-    </link>
+  <link name='link_1'>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.3" />      
+      <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="0.0" iyz="-0.0" izz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.0215773"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.0215773"/>
+      </geometry>
+    </collision>
+  </link>
 
-      
-    <joint name='base_footprint_JOINT_2' type='continuous'>
-       <parent link="base_link"/>
-       <child link="link_1"/>
-    </joint>
+    
+  <joint name='base_footprint_JOINT_2' type='continuous'>
+      <origin xyz="0.12116 -0.014724 0.01" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="link_1"/>
+  </joint>
 
 <!-- -->
 
