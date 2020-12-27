@@ -21,19 +21,20 @@ if __name__ == '__main__':
     odom.header.frame_id = 'odom'
     odom.child_frame_id = 'base_footprint'
 
-    odom.pose.pose.position.x = self.x
-    odom.pose.pose.position.y = self.y
+    odom_quat = tf.transformations.quaternion_from_euler(0, 0, 0)
+    odom.pose.pose.position.x = 0
+    odom.pose.pose.position.y = 0
     odom.pose.pose.position.z = 0.0
     odom.pose.pose.orientation = Quaternion(*odom_quat)
 
     # odom.twist.twist.linear.x = 0
     # odom.twist.twist.linear.y = 0
-    odom.twist.twist.linear.x = linear_velocity_x
-    odom.twist.twist.linear.y = linear_velocity_y
+    odom.twist.twist.linear.x = 0
+    odom.twist.twist.linear.y = 0
     odom.twist.twist.linear.z = 0
 
     odom.twist.twist.angular.y = 0
     odom.twist.twist.angular.x = 0
-    odom.twist.twist.angular.z = angular_velocity_z_
+    odom.twist.twist.angular.z = 0
 
     self.odomPub.publish(odom)

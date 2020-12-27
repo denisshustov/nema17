@@ -18,7 +18,9 @@
         <param name="odom0" value="/odom"/>
         <param name="imu0" value="/imu"/> 
 
+        <remap from="/ppp/cmd_vel" to="/cmd_vel" />
         <param name="use_control" value="true"/> 
+
         <rosparam param="control_config">[true,  false, false,
                                     false, false, true]</rosparam>
         
