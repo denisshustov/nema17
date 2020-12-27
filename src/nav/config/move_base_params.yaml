@@ -1,8 +1,5 @@
 #https://github.com/dawonn/ros-pioneer3at/blob/master/config/move_base/move_base.yaml
 
-# base_global_planner: navfn/NavfnROS #global_planner/GlobalPlanner
-# base_local_planner: base_local_planner/TrajectoryPlannerROS #dwa_local_planner/DWAPlannerROS
-
 shutdown_costmaps: false
 controller_frequency: 10.0
 controller_patience: 3.0
