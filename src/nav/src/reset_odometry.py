@@ -8,33 +8,19 @@ from nav_msgs.msg import Odometry
 import tf
 from tf.broadcaster import TransformBroadcaster
 from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
+from motor_driver.srv import reset_odom_srv, reset_odom_srvResponse
 
-if __name__ == '__main__':
+def reset_odom_client():
+    rospy.wait_for_service('reset_odom_service')
+    try:
+        reset_odom = rospy.ServiceProxy('reset_odom_service', reset_odom_srv)
+        resp = reset_odom(True)
+        return resp.response
+    except rospy.ServiceException as e:
+        print("Service call failed: %s"%e)
 
-    rospy.init_node("reset_odometry")
-    self.nodename = rospy.get_name()
-    rospy.loginfo("Cmd_to_odom Starting...")
+def usage():
+    return "%s [x y]"%sys.argv[0]
 
-    self.odomPub = rospy.Publisher("odom", Odometry, queue_size=50)
-    odom = Odometry()
-    odom.header.stamp = self.current_time
-    odom.header.frame_id = 'odom'
-    odom.child_frame_id = 'base_footprint'
-
-    odom_quat = tf.transformations.quaternion_from_euler(0, 0, 0)
-    odom.pose.pose.position.x = 0
-    odom.pose.pose.position.y = 0
-    odom.pose.pose.position.z = 0.0
-    odom.pose.pose.orientation = Quaternion(*odom_quat)
-
-    # odom.twist.twist.linear.x = 0
-    # odom.twist.twist.linear.y = 0
-    odom.twist.twist.linear.x = 0
-    odom.twist.twist.linear.y = 0
-    odom.twist.twist.linear.z = 0
-
-    odom.twist.twist.angular.y = 0
-    odom.twist.twist.angular.x = 0
-    odom.twist.twist.angular.z = 0
-
-    self.odomPub.publish(odom)
+if __name__ == "__main__":
+     print("Reset odom response %s"%(reset_odom_client()))

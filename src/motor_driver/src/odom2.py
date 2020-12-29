@@ -9,9 +9,7 @@ import tf
 from tf.broadcaster import TransformBroadcaster
 from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
 
-import rclpy
-from rclpy.node import Node
-from std_msgs.msg import Bool
+from motor_driver.srv import reset_odom_srv, reset_odom_srvResponse
 
 
 #from std_msgs.msg import Int16, Int32, Int64, UInt32
@@ -24,11 +22,10 @@ from std_msgs.msg import Bool
 class Cmd_to_odom:
 
     def __init__(self):
-        super().__init__('reset_odom_service')
-        self.srv = self.create_service(Bool, 'reset_odom_service', self.reset_odom)
-
         rospy.init_node("Cmd_to_odom")
         self.nodename = rospy.get_name()
+        self.srv = rospy.Service('reset_odom_service', reset_odom_srv, self.reset_odom)
+
         rospy.loginfo("Cmd_to_odom Starting...")
         
         self.rate = rospy.get_param('~rate',10.0)
@@ -56,9 +53,14 @@ class Cmd_to_odom:
         self.last_time = rospy.Time.now()
 
 
-    def self.reset_odom(self, request):
-        rospy.loginfo("reset all odom variables")
-        self.init_variables()
+    def reset_odom(self, request):
+        if request.reset:
+            rospy.loginfo("reset all odom variables")
+            self.init_variables()
+            return reset_odom_srvResponse("Ok")
+        else:
+            rospy.loginfo("NOT reset odom")
+            return reset_odom_srvResponse("Nothing")
 
     def run(self):
         r = rospy.Rate(self.rate)
