@@ -40,17 +40,18 @@ class Cmd_to_odom:
         rospy.loginfo("Cmd_to_odom success")
 
     def init_variables(self):
-        self.current_time = rospy.Time.now()
-        self.last_time = rospy.Time.now()
-
         self.x = 0.0
         self.y = 0.0
         self.theta  = 0.0
         self.delta_theta = 0
 
         self.cmdVel = None
+        self.delta_x = 0
+        self.delta_y = 0
+        
         self.current_time = rospy.Time.now()
         self.last_time = rospy.Time.now()
+        self.run()
 
 
     def reset_odom(self, request):
@@ -78,11 +79,11 @@ class Cmd_to_odom:
             self.delta_theta = angular_velocity_z_ * dt
             
             # 0.073 radius
-            delta_x = (linear_velocity_x * cos(self.theta) - linear_velocity_y * sin(self.theta)) * dt
-            delta_y = (linear_velocity_x * sin(self.theta) + linear_velocity_y * cos(self.theta)) * dt
+            self.delta_x = (linear_velocity_x * cos(self.theta) - linear_velocity_y * sin(self.theta)) * dt
+            self.delta_y = (linear_velocity_x * sin(self.theta) + linear_velocity_y * cos(self.theta)) * dt
 
-            self.x += delta_x
-            self.y += delta_y
+            self.x += self.delta_x
+            self.y += self.delta_y
             self.theta += self.delta_theta
             
             odom_quat = tf.transformations.quaternion_from_euler(0, 0, self.theta)

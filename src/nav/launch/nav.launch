@@ -1,9 +1,13 @@
 <launch>
+
+  <node name="reset_odometry" pkg="nav" output="screen" type="reset_odometry.py">
+  </node>
+
   <node name="map_server" pkg="map_server" type="map_server" args="$(find nav)/map/mymap.yaml"/>
 
-  <include file="$(find nav)/launch/amcl.launch"/>
+  <!-- <include file="$(find nav)/launch/amcl.launch"/> -->
    
-  <include file="$(find nav)/launch/localization.launch"/>
+  <!-- <include file="$(find nav)/launch/localization.launch"/> -->
 
   <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link"
     args="0 0 0 0 0 0 /base_footprint /base_link 40" />
