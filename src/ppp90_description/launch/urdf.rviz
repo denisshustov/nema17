@@ -94,12 +94,14 @@ Visualization Manager:
               Value: false
             nema17_Mirror__1:
               Value: false
+            odom:
+              Value: true
             sonyc_1:
-              Value: true
+              Value: false
             sonyc_Mirror__1:
-              Value: true
+              Value: false
             sonyc__1__1:
-              Value: true
+              Value: false
             wheel_1:
               Value: false
             wheel_Mirror__1:
@@ -110,39 +112,40 @@ Visualization Manager:
           Show Axes: true
           Show Names: false
           Tree:
-            base_footprint:
-              base_link:
-                12GAN20__1__1:
-                  brush_1:
+            odom:
+              base_footprint:
+                base_link:
+                  12GAN20__1__1:
+                    brush_1:
+                      {}
+                  12GAN20__1__Mirror__1:
+                    brush_Mirror__1:
+                      {}
+                  back_top2_1:
                     {}
-                12GAN20__1__Mirror__1:
-                  brush_Mirror__1:
+                  back_top_1:
                     {}
-                back_top2_1:
-                  {}
-                back_top_1:
-                  {}
-                base_imu_link:
-                  {}
-                forward_top_1_1:
-                  {}
-                forward_top_1_Mirror__1:
-                  Lidar_1:
+                  base_imu_link:
                     {}
-                link_1:
-                  {}
-                nema17_1:
-                  wheel_1:
+                  forward_top_1_1:
                     {}
-                nema17_Mirror__1:
-                  wheel_Mirror__1:
+                  forward_top_1_Mirror__1:
+                    Lidar_1:
+                      {}
+                  link_1:
                     {}
-                sonyc_1:
-                  {}
-                sonyc_Mirror__1:
-                  {}
-                sonyc__1__1:
-                  {}
+                  nema17_1:
+                    wheel_1:
+                      {}
+                  nema17_Mirror__1:
+                    wheel_Mirror__1:
+                      {}
+                  sonyc_1:
+                    {}
+                  sonyc_Mirror__1:
+                    {}
+                  sonyc__1__1:
+                    {}
           Update Interval: 0
           Value: true
         - Alpha: 1
@@ -402,7 +405,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 11
+      Min Intensity: 8
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -641,25 +644,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.1015419960021973
+      Distance: 2.282829761505127
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.05220804736018181
-        Y: -0.08303071558475494
-        Z: 0.17510591447353363
+        X: 0.13992939889431
+        Y: -0.05972198396921158
+        Z: 0.19675613939762115
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.4547964334487915
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.814348220825195
+      Yaw: 5.904329299926758
     Saved: ~
 Window Geometry:
   Displays:

@@ -10,22 +10,24 @@
         <param name="odom_frame" value="odom"/>
         <!--TODO base_link TEST THIS -->
         <param name="base_link_frame" value="base_footprint"/>
-        
-        <param name="world_frame" value="odom"/>
 
+        <param name="world_frame" value="odom"/>
+        <param name="map_frame" value="map"/>
+        
         <param name="transform_time_offset" value="0.0"/>
 
         <param name="odom0" value="/odom"/>
-        <param name="imu0" value="/imu"/> 
+        <param name="imu0" value="/imu"/>
+        <param name="range_sensor1" value="/ppp/range_sensor1"/>
 
         <remap from="/ppp/cmd_vel" to="/cmd_vel" />
         <param name="use_control" value="true"/> 
 
         <rosparam param="control_config">[true,  false, false,
-                                    false, false, true]</rosparam>
+                                          false, false, true]</rosparam>
         
         <rosparam param="acceleration_limits">[1, 0.0, 0.0,
-                                        0.0, 0.0, 3.2]</rosparam>
+                                              0.0, 0.0, 3.2]</rosparam>
 
         <rosparam param="process_noise_covariance"> 
         [0.05, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
@@ -46,20 +48,20 @@
 
         <rosparam param="initial_estimate_covariance"> 
         [1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                                0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                                0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                                0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                                0,    0,    0,    0,    1e-9, 0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
-                                0,    0,    0,    0,    0,    1e-9, 0,    0,    0,    0,     0,     0,     0,    0,    0,
-                                0,    0,    0,    0,    0,    0,    1e-9, 0,    0,    0,     0,     0,     0,    0,    0,
-                                0,    0,    0,    0,    0,    0,    0,    1e-9, 0,    0,     0,     0,     0,    0,    0,
-                                0,    0,    0,    0,    0,    0,    0,    0,    1e-9, 0,     0,     0,     0,    0,    0,
-                                0,    0,    0,    0,    0,    0,    0,    0,    0,    1e-9,  0,     0,     0,    0,    0,
-                                0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     1e-9,  0,     0,    0,    0,
-                                0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     1e-9,  0,    0,    0,
-                                0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     1e-9, 0,    0,
-                                0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1e-9, 0,
-                                0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]</rosparam>
+        0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+        0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+        0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+        0,    0,    0,    0,    1e-9, 0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+        0,    0,    0,    0,    0,    1e-9, 0,    0,    0,    0,     0,     0,     0,    0,    0,
+        0,    0,    0,    0,    0,    0,    1e-9, 0,    0,    0,     0,     0,     0,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    1e-9, 0,    0,     0,     0,     0,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    1e-9, 0,     0,     0,     0,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    0,    1e-9,  0,     0,     0,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     1e-9,  0,     0,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     1e-9,  0,    0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     1e-9, 0,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1e-9, 0,
+        0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]</rosparam>
 
         <rosparam param="odom0_config">[true,  true,  false,
                                         false, false, true,
@@ -72,11 +74,19 @@
                                       false, false,  true,
                                       true,  false,  false]</rosparam>
         
+        <rosparam param="range_sensor1">[true, true, false,
+                                        false, false,  false, 
+                                        false, false, false, 
+                                        false, false,  false,
+                                        false, false, false]</rosparam>
+
         <param name="odom0_differential" value="false"/>
         <param name="imu0_differential" value="true"/>
+        <param name="range_sensor1_differential" value="true"/>
 
         <param name="odom0_relative" value="false"/>
         <param name="imu0_relative" value="false"/>
+        <param name="range_sensor1_relative" value="false"/>
 
         <param name="imu0_remove_gravitational_acceleration" value="true"/>
 
