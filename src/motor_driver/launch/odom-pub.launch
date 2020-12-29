@@ -1,4 +1,0 @@
-<launch>
-        <node name="odometry_pub_node" pkg="motor_driver" output="screen" type="odometry_pub_node.py">
-        </node>
-</launch>
