@@ -419,13 +419,13 @@
 </joint>
 
 <joint name="Rigid5" type="fixed">
-  <origin rpy="0 0 0" xyz="0.027338 -0.165062 0.08983"/>
+  <origin rpy="0 0 -1.5708" xyz="0.027338 -0.165062 0.08983"/>
   <parent link="base_link"/>
   <child link="sonyc_1"/>
 </joint>
 
 <joint name="Rigid6" type="fixed">
-  <origin rpy="0 0 0" xyz="0.001338 0.136075 0.08983"/>
+  <origin rpy="0 0 1.5708" xyz="0.001338 0.136075 0.08983"/>
   <parent link="base_link"/>
   <child link="sonyc_Mirror__1"/>
 </joint>

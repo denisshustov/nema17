@@ -95,11 +95,11 @@ Visualization Manager:
             nema17_Mirror__1:
               Value: false
             sonyc_1:
-              Value: false
+              Value: true
             sonyc_Mirror__1:
-              Value: false
+              Value: true
             sonyc__1__1:
-              Value: false
+              Value: true
             wheel_1:
               Value: false
             wheel_Mirror__1:
@@ -402,7 +402,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 9
+      Min Intensity: 11
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -557,32 +557,32 @@ Visualization Manager:
       Buffer Length: 1
       Class: rviz/Range
       Color: 196; 160; 0
-      Enabled: false
+      Enabled: true
       Name: Range
       Queue Size: 100
       Topic: /ppp/range_sensor1
       Unreliable: false
-      Value: false
+      Value: true
     - Alpha: 0.5
       Buffer Length: 1
       Class: rviz/Range
       Color: 196; 160; 0
-      Enabled: false
+      Enabled: true
       Name: Range
       Queue Size: 100
       Topic: /ppp/range_sensor2
       Unreliable: false
-      Value: false
+      Value: true
     - Alpha: 0.5
       Buffer Length: 1
       Class: rviz/Range
       Color: 196; 160; 0
-      Enabled: false
+      Enabled: true
       Name: Range
       Queue Size: 100
       Topic: /ppp/range_sensor3
       Unreliable: false
-      Value: false
+      Value: true
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.10000000149011612
@@ -641,25 +641,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.2197659015655518
+      Distance: 2.1015419960021973
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.15788353979587555
-        Y: 0.32829537987709045
-        Z: 0.21721403300762177
+        X: 0.05220804736018181
+        Y: -0.08303071558475494
+        Z: 0.17510591447353363
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 1.4547964334487915
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.05115919187664986
+      Yaw: 5.814348220825195
     Saved: ~
 Window Geometry:
   Displays:
