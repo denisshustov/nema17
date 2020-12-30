@@ -26,7 +26,9 @@ class Motor_Driver:
         self.EN2 = en2
         self.prev_rpm_left = 0
         self.prev_rpm_right = 0
-
+        self.wheelSep = 0.24
+        self.wheel_radius = 0.074
+        
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.DIR1, GPIO.OUT)
         GPIO.setup(self.STEP1, GPIO.OUT)
@@ -77,6 +79,7 @@ class Motor_Driver:
         self.prev_rpm_left = rpm_left
         self.prev_rpm_right = rpm_right
 
+
         start = time.time()
 
         GPIO.output(self.DIR1, rpm_left > 0 if self.CW else self.CCW)
@@ -111,11 +114,11 @@ class Driver:
             msg.angular.x, msg.angular.y, msg.angular.z))
         
         linear = msg.linear.x
-        angular = msg.angular.z #math.degrees(msg.angular.z)
-        velDiff = (0.29 * angular) / 2.0
+        angular = msg.angular.z
+        velDiff = (self.wheelSep * angular) / 2.0
 
-        self._left_speed = (linear-velDiff)/0.375
-        self._right_speed = (linear+velDiff)/0.375
+        self._left_speed = (linear + velDiff) / self.wheel_radius
+        self._right_speed = (linear - velDiff) / self.wheel_radius
             
     def __init__(self):
         rospy.init_node('driver')
