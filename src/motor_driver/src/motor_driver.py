@@ -26,8 +26,6 @@ class Motor_Driver:
         self.EN2 = en2
         self.prev_rpm_left = 0
         self.prev_rpm_right = 0
-        self.wheelSep = 0.24
-        self.wheel_radius = 0.074
         
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.DIR1, GPIO.OUT)
@@ -119,7 +117,7 @@ class Driver:
 
         self._left_speed = (linear + velDiff) / self.wheel_radius
         self._right_speed = (linear - velDiff) / self.wheel_radius
-            
+
     def __init__(self):
         rospy.init_node('driver')
 
@@ -128,6 +126,9 @@ class Driver:
 
         self._left_speed = 0
         self._right_speed = 0
+        self.wheelSep = 0.24
+        self.wheel_radius = 0.074
+
 
         self._last_received = rospy.get_time()
         self._timeout = rospy.get_param('~timeout', 2)
