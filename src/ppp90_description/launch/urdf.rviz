@@ -31,7 +31,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -406,7 +406,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 10
+      Min Intensity: 7
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -645,25 +645,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.206092357635498
+      Distance: 5.345715522766113
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.011457011103630066
-        Y: 0.016601694747805595
-        Z: 0.2547229826450348
+        X: -1.1811234951019287
+        Y: -0.5371317267417908
+        Z: 0.26037076115608215
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.4747964143753052
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 6.0393195152282715
+      Yaw: 6.204312324523926
     Saved: ~
 Window Geometry:
   Displays:

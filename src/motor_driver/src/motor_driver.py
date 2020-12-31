@@ -14,8 +14,7 @@ class Motor_Driver:
     CW = 1     # Clockwise Rotation
     CCW = 0    # Counterclockwise Rotation
 
-    SPR = 200   # Steps per Revolution (360 / 1.8)
-    delay_const = .000243
+    SPR = 200   # Steps per Revolution (360 / 1.8)    
 
     def __init__(self, dir1, step1, en1, dir2, step2, en2):
         self.DIR1 = dir1
@@ -26,8 +25,6 @@ class Motor_Driver:
         self.EN2 = en2
         self.prev_rpm_left = 0
         self.prev_rpm_right = 0
-        #self.wheelSep = 0.24
-        #self.wheel_radius = 0.074
         
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.DIR1, GPIO.OUT)
@@ -139,7 +136,7 @@ class Driver:
         self.wheel_radius = 0.074 / 2 #0.037
 
         self._timeout = rospy.get_param('~timeout', 2)
-        self._rate = rospy.get_param('~rate', 100)
+        self._rate = rospy.get_param('~rate', 1000)
 
         self.ros_sub_twist = rospy.Subscriber("/ppp/cmd_vel", Twist, self.callback)
         rospy.loginfo("Initialization complete")
