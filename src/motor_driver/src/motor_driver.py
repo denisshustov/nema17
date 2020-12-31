@@ -96,8 +96,8 @@ class Motor_Driver:
         self.pi.set_PWM_dutycycle(self.STEP2, 128)  # PWM 1/2 On 1/2 Off
         self.pi.set_PWM_frequency(self.STEP2, abs(fz))  # 500 pulses per second
         
-        self.pi.write(self.DIR1, rpm_left > 0 if self.CW else self.CCW)  # Set direction
-        self.pi.write(self.DIR2, rpm_right > 0 if self.CW else self.CCW)  # Set direction
+        self.pi.write(self.DIR1, rpm_left < 0 if self.CW else self.CCW)  # Set direction
+        self.pi.write(self.DIR2, rpm_right < 0 if self.CW else self.CCW)  # Set direction
 
         end = time.time()
         # print(end-start)
