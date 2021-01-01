@@ -1,10 +1,9 @@
 <launch>
-  <include file="$(find ppp90_description)/launch/controller.launch"/>
-  <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link"
-    args="0 0 0 0 0 0 /base_footprint /base_link 40" />
-    
-  <param command="$(find xacro)/xacro $(find ppp90_description)/urdf/ppp90.xacro" name="robot_description"/>
-  <node args="-param robot_description -urdf -model ppp90" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"/>
+
+  <!-- <include file="$(find ppp90_description)/launch/controller.launch"/> -->
+  <!-- <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link"
+    args="0 0 0 0 0 0 /base_footprint /base_link 40" /> -->
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="paused" value="true"/>
     <arg name="use_sim_time" value="true"/>
@@ -12,5 +11,10 @@
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
   </include>
+
+  <param command="$(find xacro)/xacro '$(find ppp90_description)/urdf/ppp90.xacro'" name="robot_description"/>
+  
+  <node args="-urdf -param robot_description -model ppp90" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen"/>
+  
 
 </launch>

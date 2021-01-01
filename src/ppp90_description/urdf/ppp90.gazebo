@@ -1,331 +1,343 @@
 <?xml version="1.0" ?>
 <robot name="ppp90" xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-<xacro:property name="body_color" value="Gazebo/Silver" />
+  <xacro:property name="body_color" value="Gazebo/Silver" />
 
-<gazebo>
-  <plugin filename="libgazebo_ros_control.so" name="control"/>
-  <robotNamespace>/</robotNamespace>
-  <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
-  <legacyModeNS>true</legacyModeNS>
-</gazebo>
-<gazebo reference="base_link">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-  <gravity>true</gravity>
-</gazebo>
+  <!-- <gazebo>
+    <plugin filename="libgazebo_ros_control.so" name="control"/>
+    <robotNamespace>/</robotNamespace>
+    <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    <legacyModeNS>true</legacyModeNS>
+  </gazebo> -->
+  <gazebo reference="base_link">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+    <gravity>true</gravity>
+  </gazebo>
 
-<gazebo reference="wheel_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="wheel_1">
+    <material>Gazebo/Blue</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="wheel_Mirror__1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="wheel_Mirror__1">
+    <material>Gazebo/Blue</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="sonyc_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="sonyc_1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="sonyc_Mirror__1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="sonyc_Mirror__1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="sonyc__1__1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="sonyc__1__1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="nema17_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="nema17_1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="nema17_Mirror__1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="nema17_Mirror__1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="12GAN20__1__1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="12GAN20__1__1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="brush_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="brush_1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="brush_Mirror__1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="brush_Mirror__1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="12GAN20__1__Mirror__1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="12GAN20__1__Mirror__1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="Forward_wheel_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="Forward_wheel_1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="forward_top_1_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="forward_top_1_1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="forward_top_1_Mirror__1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="forward_top_1_Mirror__1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="back_top_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="back_top_1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="back_top2_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="back_top2_1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="Lidar_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="Lidar_1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
-<gazebo reference="base_imu_link">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-</gazebo>
+  <gazebo reference="base_imu_link">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
 
 
-<!-- <gazebo reference="sonyc_1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
+  <!-- <gazebo reference="sonyc_1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+        <sensor type="ray" name="TeraRanger1">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>50</update_rate>
+        <ray>
+          <scan>
+              <horizontal>
+                <samples>10</samples>
+                <resolution>1</resolution> 
+                <min_angle>-0.14835</min_angle>
+                <max_angle>0.14835</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>10</samples>
+                <resolution>1</resolution> 
+                <min_angle>-0.14835</min_angle>
+                <max_angle>0.14835</max_angle> 
+              </vertical>
+          </scan>
+          <range>
+              <min>0.01</min>
+              <max>2</max>
+              <resolution>0.02</resolution>
+          </range>
+        </ray>
+        <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+          <gaussianNoise>0.005</gaussianNoise>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>50</updateRate>
+          <topicName>sensor/ir_front</topicName>
+          <frameName>sonyc_1</frameName>
+          <radiation>INFRARED</radiation>
+          <fov>0.2967</fov>
+        </plugin>
+    </sensor>  
+  </gazebo>
+
+  <gazebo reference="sonyc_Mirror__1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+    <selfCollide>true</selfCollide>
       <sensor type="ray" name="TeraRanger1">
-      <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>50</update_rate>
+        <ray>
+          <scan>
+              <horizontal>
+                <samples>10</samples>
+                <resolution>1</resolution> 
+                <min_angle>-0.14835</min_angle>
+                <max_angle>0.14835</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>10</samples>
+                <resolution>1</resolution> 
+                <min_angle>-0.14835</min_angle>
+                <max_angle>0.14835</max_angle> 
+              </vertical>
+          </scan>
+          <range>
+              <min>0.01</min>
+              <max>2</max>
+              <resolution>0.02</resolution>
+          </range>
+        </ray>
+        <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+          <gaussianNoise>0.005</gaussianNoise>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>50</updateRate>
+          <topicName>sensor/ir_front</topicName>
+          <frameName>sonyc_Mirror__1</frameName>
+          <radiation>INFRARED</radiation>
+          <fov>0.2967</fov>
+        </plugin>
+    </sensor>  
+  </gazebo>
+
+  <gazebo reference="sonyc__1__1">
+    <material>${body_color}</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+    <selfCollide>true</selfCollide>
+      <sensor type="ray" name="TeraRanger1">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>50</update_rate>
+        <ray>
+          <scan>
+              <horizontal>
+                <samples>10</samples>
+                <resolution>1</resolution> 
+                <min_angle>-0.14835</min_angle>
+                <max_angle>0.14835</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>10</samples>
+                <resolution>1</resolution> 
+                <min_angle>-0.14835</min_angle>
+                <max_angle>0.14835</max_angle> 
+              </vertical>
+          </scan>
+          <range>
+              <min>0.01</min>
+              <max>2</max>
+              <resolution>0.02</resolution>
+          </range>
+        </ray>
+        <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+          <gaussianNoise>0.005</gaussianNoise>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>50</updateRate>
+          <topicName>sensor/ir_front</topicName>
+          <frameName>sonyc__1__1</frameName>
+          <radiation>INFRARED</radiation>
+          <fov>0.2967</fov>
+        </plugin>
+    </sensor>  
+  </gazebo>
+
+  <gazebo reference="Lidar_1">
+    <sensor type="gpu_ray" name="head_rplidar_sensor">
+      <pose>0.2 0 0.2 0 0 0</pose>
       <visualize>true</visualize>
-      <update_rate>50</update_rate>
+      <update_rate>40</update_rate>
       <ray>
-         <scan>
-            <horizontal>
-               <samples>10</samples>
-               <resolution>1</resolution> 
-               <min_angle>-0.14835</min_angle>
-               <max_angle>0.14835</max_angle>
-            </horizontal>
-            <vertical>
-               <samples>10</samples>
-               <resolution>1</resolution> 
-               <min_angle>-0.14835</min_angle>
-               <max_angle>0.14835</max_angle> 
-            </vertical>
-         </scan>
-         <range>
-            <min>0.01</min>
-            <max>2</max>
-            <resolution>0.02</resolution>
-         </range>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.2</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
       </ray>
-      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
-         <gaussianNoise>0.005</gaussianNoise>
-         <alwaysOn>true</alwaysOn>
-         <updateRate>50</updateRate>
-         <topicName>sensor/ir_front</topicName>
-         <frameName>sonyc_1</frameName>
-         <radiation>INFRARED</radiation>
-         <fov>0.2967</fov>
+      <plugin name="gazebo_ros_head_rplidar_controller" filename="libgazebo_ros_gpu_laser.so">
+        <topicName>/scan</topicName>
+        <frameName>Lidar_1</frameName>
       </plugin>
-   </sensor>  
-</gazebo>
+    </sensor>
+  </gazebo> -->
 
-<gazebo reference="sonyc_Mirror__1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-  <selfCollide>true</selfCollide>
-    <sensor type="ray" name="TeraRanger1">
-      <pose>0 0 0 0 0 0</pose>
-      <visualize>true</visualize>
-      <update_rate>50</update_rate>
-      <ray>
-         <scan>
-            <horizontal>
-               <samples>10</samples>
-               <resolution>1</resolution> 
-               <min_angle>-0.14835</min_angle>
-               <max_angle>0.14835</max_angle>
-            </horizontal>
-            <vertical>
-               <samples>10</samples>
-               <resolution>1</resolution> 
-               <min_angle>-0.14835</min_angle>
-               <max_angle>0.14835</max_angle> 
-            </vertical>
-         </scan>
-         <range>
-            <min>0.01</min>
-            <max>2</max>
-            <resolution>0.02</resolution>
-         </range>
-      </ray>
-      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
-         <gaussianNoise>0.005</gaussianNoise>
-         <alwaysOn>true</alwaysOn>
-         <updateRate>50</updateRate>
-         <topicName>sensor/ir_front</topicName>
-         <frameName>sonyc_Mirror__1</frameName>
-         <radiation>INFRARED</radiation>
-         <fov>0.2967</fov>
-      </plugin>
-   </sensor>  
-</gazebo>
+  <gazebo>
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <legacyMode>false</legacyMode>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>10</updateRate>
+      <leftJoint>Rev4</leftJoint>
+      <rightJoint>Rev1</rightJoint>
+      <wheelSeparation>0.24</wheelSeparation>
+      <wheelDiameter>0.074</wheelDiameter>
+      <torque>10</torque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>base_link</robotBaseFrame>
+    </plugin>
+  </gazebo>
 
-<gazebo reference="sonyc__1__1">
-  <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
-  <selfCollide>true</selfCollide>
-  <selfCollide>true</selfCollide>
-    <sensor type="ray" name="TeraRanger1">
-      <pose>0 0 0 0 0 0</pose>
-      <visualize>true</visualize>
-      <update_rate>50</update_rate>
-      <ray>
-         <scan>
-            <horizontal>
-               <samples>10</samples>
-               <resolution>1</resolution> 
-               <min_angle>-0.14835</min_angle>
-               <max_angle>0.14835</max_angle>
-            </horizontal>
-            <vertical>
-               <samples>10</samples>
-               <resolution>1</resolution> 
-               <min_angle>-0.14835</min_angle>
-               <max_angle>0.14835</max_angle> 
-            </vertical>
-         </scan>
-         <range>
-            <min>0.01</min>
-            <max>2</max>
-            <resolution>0.02</resolution>
-         </range>
-      </ray>
-      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
-         <gaussianNoise>0.005</gaussianNoise>
-         <alwaysOn>true</alwaysOn>
-         <updateRate>50</updateRate>
-         <topicName>sensor/ir_front</topicName>
-         <frameName>sonyc__1__1</frameName>
-         <radiation>INFRARED</radiation>
-         <fov>0.2967</fov>
-      </plugin>
-   </sensor>  
-</gazebo>
-
-<gazebo reference="Lidar_1">
-	<sensor type="gpu_ray" name="head_rplidar_sensor">
-		<pose>0.2 0 0.2 0 0 0</pose>
-		<visualize>true</visualize>
-		<update_rate>40</update_rate>
-		<ray>
-			<scan>
-				<horizontal>
-					<samples>720</samples>
-					<resolution>1</resolution>
-					<min_angle>-3.14159</min_angle>
-					<max_angle>3.14159</max_angle>
-				</horizontal>
-			</scan>
-			<range>
-				<min>0.2</min>
-				<max>30.0</max>
-				<resolution>0.01</resolution>
-			</range>
-			<noise>
-				<type>gaussian</type>
-				<mean>0.0</mean>
-				<stddev>0.01</stddev>
-			</noise>
-		</ray>
-		<plugin name="gazebo_ros_head_rplidar_controller" filename="libgazebo_ros_gpu_laser.so">
-			<topicName>/scan</topicName>
-			<frameName>Lidar_1</frameName>
-		</plugin>
-	</sensor>
-</gazebo> -->
-
-
-<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-  <robotNamespace>diff_drive_controller</robotNamespace>   
-  <alwaysOn>true</alwaysOn>
-  <updateRate>10</updateRate>
-  <legacyMode>true</legacyMode>
-  <leftJoint>Rev1</leftJoint>
-  <rightJoint>Rev4</rightJoint>
-  <wheelSeparation>0.3</wheelSeparation>
-  <wheelDiameter>0.07</wheelDiameter>
-  <torque>20</torque>
-  <commandTopic>cmd_vel</commandTopic>
-  <odometryTopic>odom</odometryTopic>
-  <odometryFrame>odom</odometryFrame>
-  <robotBaseFrame>base_footprint</robotBaseFrame>
-  <!-- <publishWheelTF>true</publishWheelTF> -->
-  <!-- <publishWheelJointState>true</publishWheelJointState> -->
-  <rosDebugLevel>na</rosDebugLevel>
-  <!-- <wheelAcceleration>0</wheelAcceleration> -->
-  <wheelTorque>5</wheelTorque>
-  <odometrySource>world</odometrySource>
-  <publishTf>1</publishTf>
-</plugin>
+  <!-- <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+    <robotNamespace>diff_drive_controller</robotNamespace>   
+    <alwaysOn>true</alwaysOn>
+    <updateRate>10</updateRate>
+    <legacyMode>false</legacyMode>
+    <leftJoint>Rev1</leftJoint>
+    <rightJoint>Rev4</rightJoint>
+    <wheelSeparation>0.3</wheelSeparation>
+    <wheelDiameter>0.07</wheelDiameter>
+    <torque>20</torque>
+    <commandTopic>cmd_vel</commandTopic>
+    <odometryTopic>odom</odometryTopic>
+    <odometryFrame>odom</odometryFrame>
+    <robotBaseFrame>base_footprint</robotBaseFrame>
+    <rosDebugLevel>na</rosDebugLevel>
+    <wheelTorque>5</wheelTorque>
+    <publishTf>1</publishTf>
+  </plugin> -->
 
 </robot>

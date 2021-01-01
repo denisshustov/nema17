@@ -32,6 +32,33 @@
       <mesh filename="package://ppp90_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
+
+
+
+  <visual name="caster_front_visual">
+    <origin xyz="0.12116 -0.014724 0.01" rpy="0 0 0" />
+    <geometry>
+      <sphere radius="0.0215773"/>
+    </geometry>
+    <surface>
+      <friction>
+        <ode>
+          <mu>0</mu>
+          <mu2>0</mu2>
+          <slip1>1.0</slip1>
+          <slip2>1.0</slip2>
+        </ode>
+      </friction>
+    </surface>
+  </visual>
+
+  <collision name="caster_front_collision">
+    <origin xyz="0.12116 -0.014724 0.01" rpy="0 0 0" />
+    <geometry>
+      <sphere radius="0.0215773"/>
+    </geometry>
+  </collision>
+
 </link>
 
 <link name="wheel_1">
@@ -374,7 +401,7 @@
 </link>
 
 <!-- -->
-  <link name='link_1'>
+  <!-- <link name='link_1'>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <mass value="0.3" />      
@@ -399,7 +426,7 @@
       <origin xyz="0.12116 -0.014724 0.01" rpy="0 0 0" />
       <parent link="base_link"/>
       <child link="link_1"/>
-  </joint>
+  </joint> -->
 
 <!-- -->
 
