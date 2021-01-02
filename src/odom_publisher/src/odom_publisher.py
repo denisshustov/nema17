@@ -26,7 +26,7 @@ class Cmd_to_odom:
         self.odom_broadcaster = tf.TransformBroadcaster()
         self.init_variables()
 
-        rospy.Subscriber("/ppp/cmd_vel", Twist, self.callback)
+        rospy.Subscriber("/ppp/real_cmd_vel", Twist, self.callback)
         self.odomPub = rospy.Publisher("odom", Odometry, queue_size = 500)        
         rospy.loginfo("Cmd_to_odom success")
 
