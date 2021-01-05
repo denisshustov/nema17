@@ -16,6 +16,8 @@ class Motor_Driver:
 
     SPR = 200   # Steps per Revolution (360 / 1.8)    
     PI = 3.14159265359
+    wheel_radius = 0.074 / 2 #0.037
+    wheelSep = 0.24
 
     def __init__(self, dir1, step1, en1, dir2, step2, en2):
         self.DIR1 = dir1
@@ -45,12 +47,16 @@ class Motor_Driver:
         self.real_cmd_vel_pub = rospy.Publisher("/ppp/real_cmd_vel", Twist, queue_size = 500)        
 
 
-    def run(self, rpm_left, rpm_right, z):
+    def run(self, rpm_left, rpm_right):
         move_cmd = Twist()
 
         if rpm_left == 0 and rpm_right == 0:
             if(self.prev_rpm_left != rpm_left and self.prev_rpm_right != rpm_right):
                 rospy.loginfo("Disabled drivers, speed 0!")
+                GPIO.output(self.EN1, GPIO.LOW)
+                GPIO.output(self.EN2, GPIO.LOW)
+                rospy.sleep(1)
+
                 GPIO.output(self.EN1, GPIO.HIGH)
                 GPIO.output(self.EN2, GPIO.HIGH)
                 self.prev_rpm_left = rpm_left
@@ -72,29 +78,6 @@ class Motor_Driver:
         left_w = rpm_left < 0
         right_w = rpm_right < 0
 
-#5:  8000  4000  2000 1600 1000  800  500  400  320
-#   250   200   160  100   80   50   40   20   10        
-# sudo systemctl stop pigpiod.service
-# sudo pigpiod
-
-# RPM = (step angle)/360 * fz * 60 =>0,005 * fz * 60=>fz * 0.3
-# fz = RPM / 0,005 * 60 => RPM / 0,3
-
-# V = ((2*PI)/60) * Radius * RPM; Raduis=0.037;((2*PI)/60)=0.104719755
-# V = 0.104719755 * 0.037 * RPM=> 0.003874631 * RPM
-
-#0.3 * 10 = 3 * 0.003874631 =>0.011623893 m/s
-#0.3 * 20 = 6 * 0.003874631=>0.023247786 m/s
-#0.3 * 40 = 12 * 0.003874631=>0.046495572 m/s
-#0.3 * 50 = 15 * 0.003874631=>0.058119465 m/s
-#0.3 * 80 = 24 * 0.003874631=>0.092991144 m/s
-#0.3 * 100 = 30* 0.003874631 =>0.11623893 m/s
-#0.3 * 160 = 48 * 0.003874631 =>0.185982288 m/s
-#0.3 * 200 = 60 * 0.003874631 => 0.23247786 m/s
-#0.3 * 250 = 75 * 0.003874631 => 0.290597325 m/s
-#0.3 * 320 = 96 * 0.003874631 => 0.371964576 m/s
-#0.3 * 400 = 120 * 0.003874631 => 0.46495572 m/s
-
         fz = rpm_left / 0.3
 
         self.pi.set_PWM_dutycycle(self.STEP1, 128)  # PWM 1/2 On 1/2 Off
@@ -106,40 +89,18 @@ class Motor_Driver:
         self.pi.write(self.DIR1, left_w if self.CW else self.CCW)  # Set direction
         self.pi.write(self.DIR2, right_w if self.CW else self.CCW)  # Set direction
         
-
-        wheel_radius = 0.074 / 2 #0.037
-        wheelSep = 0.24
-        rospy.loginfo("SET FZ = {}".format(fz))
         real_fz = self.pi.get_PWM_frequency(self.STEP1)
         real_rpm = real_fz * 0.005
-        real_x = (2 * 3.14159265359) * wheel_radius * real_rpm
+        real_x = (2 * self.PI) * self.wheel_radius * real_rpm
 
-        print("GET FZ = {}".format(real_fz))
-        print("X REAL SPEED = {}".format(real_x))
-
-#velDiff = ( 0.24 * msg.angular.z) / 2.0
-#self._left_rpm = (msg.linear.x - velDiff) / (0.037 * ((2 * self.PI) / 60))
-#self._right_rpm = (msg.linear.x + velDiff) / (0.037 * ((2 * self.PI) / 60))
-#((2*PI)/60)=0.104719755 
-#0.104719755 * 0.037 = 0.003874631
-
-#!msg.linear.x = 0
-#self._left_rpm = ( -1 * ( 0.24 * msg.angular.z) / 2.0) / 0.003874631
-#self._right_rpm = (( 0.24 * msg.angular.z) / 2.0 ) / 0.003874631
-            
-        
-#0.037 * (2pi/60)=0.003874631
-        prc = (real_fz * 100)/ fz
-        
-
-        RP = ((2 * 3.14159265359)/60) * wheel_radius
+        # print("GET FZ = {}".format(real_fz))
+        # print("X REAL SPEED = {}".format(real_x))
+      
         if left_w != right_w:
-            #(real_rpm * RP * 2) / wheelSep#(0.037 *((2 * 3.14159265359) / 60)*2) / real_rpm * 0.24  #(( 0.24 * real_x) / 2.0 ) / 0.003874631
-            move_cmd.angular.z = z #* (prc/100)
-            print("prc = {}".format(prc))
+            move_cmd.angular.z = (real_x * (self.wheelSep / 2) / self.wheel_radius) * 2
             if not right_w:
                 move_cmd.angular.z = move_cmd.angular.z * -1
-            print("Z REAL SPEED = {}".format(move_cmd.angular.z))
+            # print("Z REAL SPEED = {}".format(move_cmd.angular.z))
         else:
             move_cmd.angular.z = 0
             if left_w and right_w:
@@ -147,13 +108,7 @@ class Motor_Driver:
             else:
                 move_cmd.linear.x = real_x
         
-        # rospy.loginfo("q = {}".format(move_cmd.angular.z))
-        # rospy.loginfo("left rpm = {}".format(self._left_rpm))
-
         self.real_cmd_vel_pub.publish(move_cmd)
-
-        #end = time.time()
-
 
 class Driver:
     PI = 3.14159265359
@@ -175,25 +130,15 @@ class Driver:
         #self._left_rpm = (msg.linear.x + velDiff) / self.wheel_radius
         #self._right_rpm = (msg.linear.x - velDiff) / self.wheel_radius
 
-        self.z = msg.angular.z
-        #self._left_rpm = (msg.linear.x - velDiff) / (self.wheel_radius * (60 / (2 * self.PI) ))
-        #self._right_rpm = (msg.linear.x + velDiff) / (self.wheel_radius * (60 / (2 * self.PI)))
-        print("WHANT SPEED = {}".format(msg.linear.x))
-        #self._left_rpm = (msg.linear.x) / (self.wheel_radius * ((2 * self.PI) / 60))
-        #self._right_rpm = (msg.linear.x) / (self.wheel_radius * ((2 * self.PI) / 60))
-        ???????????????????????????????????????/
-        ???????????????????????????????????????/
-        ???????????????????????????????????????/
-        self._left_rpm = (msg.linear.x - msg.angular.z) *20
-        self._right_rpm = (msg.linear.x + msg.angular.z)*20
+        self._left_rpm = ((msg.linear.x - velDiff) / self.wheel_radius) * (60 / (2 * self.PI))
+        self._right_rpm = ((msg.linear.x + velDiff) / self.wheel_radius) * (60 / (2 * self.PI))
+        #print("WHANT SPEED = {}".format(msg.linear.x))
 
     def __init__(self):
         rospy.init_node('driver')
 
-        self.motor_driver = Motor_Driver(
-            26, 19, 6,    16, 20, 21)
-
-        self.z = 0
+        self.motor_driver = Motor_Driver(26, 19, 6,    16, 20, 21)
+        
         self._left_rpm = 0
         self._right_rpm = 0
         self.wheelSep = 0.24
@@ -210,7 +155,7 @@ class Driver:
         rate = rospy.Rate(self._rate)
 
         while not rospy.is_shutdown():
-            self.motor_driver.run(self._left_rpm, self._right_rpm, self.z)
+            self.motor_driver.run(self._left_rpm, self._right_rpm)
             rate.sleep()
 
 
@@ -242,3 +187,26 @@ if __name__ == '__main__':
 # 192.168.99.253
 # export ROS_MASTER_URI=http://192.168.99.253:11311
 # export ROS_IP=192.168.99.253
+
+#5:  8000  4000  2000 1600 1000  800  500  400  320
+#   250   200   160  100   80   50   40   20   10        
+# sudo systemctl stop pigpiod.service
+# sudo pigpiod
+
+# RPM = (step angle)/360 * fz * 60 =>0,005 * fz * 60=>fz * 0.3
+# fz = RPM / 0,005 * 60 => RPM / 0,3
+
+# V = ((2*PI)/60) * Radius * RPM; Raduis=0.037;((2*PI)/60)=0.104719755
+# V = 0.104719755 * 0.037 * RPM=> 0.003874631 * RPM
+
+#0.3 * 10 = 3 * 0.003874631 =>0.011623893 m/s
+#0.3 * 20 = 6 * 0.003874631=>0.023247786 m/s
+#0.3 * 40 = 12 * 0.003874631=>0.046495572 m/s
+#0.3 * 50 = 15 * 0.003874631=>0.058119465 m/s
+#0.3 * 80 = 24 * 0.003874631=>0.092991144 m/s
+#0.3 * 100 = 30* 0.003874631 =>0.11623893 m/s
+#0.3 * 160 = 48 * 0.003874631 =>0.185982288 m/s
+#0.3 * 200 = 60 * 0.003874631 => 0.23247786 m/s
+#0.3 * 250 = 75 * 0.003874631 => 0.290597325 m/s
+#0.3 * 320 = 96 * 0.003874631 => 0.371964576 m/s
+#0.3 * 400 = 120 * 0.003874631 => 0.46495572 m/s
