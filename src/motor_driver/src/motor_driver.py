@@ -53,10 +53,6 @@ class Motor_Driver:
         if rpm_left == 0 and rpm_right == 0:
             if(self.prev_rpm_left != rpm_left and self.prev_rpm_right != rpm_right):
                 rospy.loginfo("Disabled drivers, speed 0!")
-                GPIO.output(self.EN1, GPIO.LOW)
-                GPIO.output(self.EN2, GPIO.LOW)
-                rospy.sleep(1)
-
                 GPIO.output(self.EN1, GPIO.HIGH)
                 GPIO.output(self.EN2, GPIO.HIGH)
                 self.prev_rpm_left = rpm_left
