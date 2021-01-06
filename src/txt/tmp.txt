@@ -84,6 +84,7 @@ data:
 #0.3 * 400 = 120 * 0.003874631 => 0.46495572 m/s
 
 ------------------------------------------------------------------------------
+#https://www.vcalc.com/wiki/EmilyB/RPM+to+Linear+Velocity TEST RPM
 
 #velDiff = ((self.wheelSep)/ 2.0) * msg.angular.z
 # vel_l = ((msg.linear.x - (msg.angular.z * self.wheel_bias / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
