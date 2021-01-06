@@ -1,0 +1,115 @@
+ping 192.168.77.245
+ssh pi@192.168.77.245
+rosrun motor_driver motor_driver.py
+
+export ROS_MASTER_URI=http://192.168.77.243:11311
+
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=ppp/cmd_vel
+
+rosservice call /global_localization
+
+rosrun tf view_frames
+
+
+rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
+  dim:
+  - label: ''
+    size: 0
+    stride: 0
+  data_offset: 0
+data:
+- 0
+- 0
+- 0" 
+
+------------------------------------------------------------------------------
+  <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" 
+    name="laser_scan_matcher_node" output="screen">
+ 
+    <param name="use_imu" value="false"/>
+    <param name="use_odom" value="false"/>
+    <param name="use_vel" value="true"/> 
+
+    <!-- <remap from="odom" to="odom"/> -->
+    <!-- <remap from="imu/data" to="imu"/> -->
+    <remap from="scan" to="scan"/>
+    <remap from="vel" to="/ppp/cmd_vel" />
+
+    <param name="publish_tf" value="false"/>
+    <param name="publish_pose" value="true"/>
+    <param name="publish_pose_stamped" value="true"/> 
+
+    <param name="fixed_frame" value="odom"/>
+    <param name="base_frame" value="base_link"/>
+    
+    
+    <param name="max_iterations" value="10"/>
+
+    <param name="kf_dist_linear" value="0.1"/>
+    <param name="kf_dist_angular" value="0.175"/>
+
+  </node>
+
+------------------------------------------------------------------------------
+
+# . ~/catkin_ws/devel/setup.bash
+# source devel/setup.sh
+# rospack depends motor_driver
+# rosrun motor_driver motor_driver_node.py
+# 192.168.99.253
+# export ROS_MASTER_URI=http://192.168.99.253:11311
+# export ROS_IP=192.168.99.253
+
+#5:  8000  4000  2000 1600 1000  800  500  400  320
+#   250   200   160  100   80   50   40   20   10        
+# sudo systemctl stop pigpiod.service
+# sudo pigpiod
+
+# RPM = (step angle)/360 * fz * 60 =>0,005 * fz * 60=>fz * 0.3
+# fz = RPM / 0,005 * 60 => RPM / 0,3
+
+# V = ((2*PI)/60) * Radius * RPM; Raduis=0.037;((2*PI)/60)=0.104719755
+# V = 0.104719755 * 0.037 * RPM=> 0.003874631 * RPM
+
+#0.3 * 10 = 3 * 0.003874631 =>0.011623893 m/s
+#0.3 * 20 = 6 * 0.003874631=>0.023247786 m/s
+#0.3 * 40 = 12 * 0.003874631=>0.046495572 m/s
+#0.3 * 50 = 15 * 0.003874631=>0.058119465 m/s
+#0.3 * 80 = 24 * 0.003874631=>0.092991144 m/s
+#0.3 * 100 = 30* 0.003874631 =>0.11623893 m/s
+#0.3 * 160 = 48 * 0.003874631 =>0.185982288 m/s
+#0.3 * 200 = 60 * 0.003874631 => 0.23247786 m/s
+#0.3 * 250 = 75 * 0.003874631 => 0.290597325 m/s
+#0.3 * 320 = 96 * 0.003874631 => 0.371964576 m/s
+#0.3 * 400 = 120 * 0.003874631 => 0.46495572 m/s
+
+------------------------------------------------------------------------------
+
+#velDiff = ((self.wheelSep)/ 2.0) * msg.angular.z
+# vel_l = ((msg.linear.x - (msg.angular.z * self.wheel_bias / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
+# vel_r = ((msg.linear.x + (msg.angular.z * self.wheel_bias / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
+
+# self._left_speed = ((msg.linear.x - (msg.angular.z * self.wheelSep / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
+# self._right_speed =  ((msg.linear.x + (msg.angular.z * self.wheelSep / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
+
+#self._left_rpm = (msg.linear.x + velDiff) / self.wheel_radius
+#self._right_rpm = (msg.linear.x - velDiff) / self.wheel_radius
+
+#left_velocity = left_rpm * (RPM_TO_RAD_PER_S * DIST_PER_RAD);
+#right_velocity = right_rpm * (RPM_TO_RAD_PER_S * DIST_PER_RAD);
+#angular_rate = (right_velocity - left_velocity)/WHEEL_BASE;
+#RPM_TO_RAD_PER_S = 0.104719755        
+#DIST_PER_RAD= 2*pi*WHEEL_RADIUS        
+# left_rpm  = (linear_velocity - 0.5f*angular_rate*WHEEL_BASE)/(RPM_TO_RAD_PER_S * DIST_PER_RAD);
+# right_rpm = (linear_velocity + 0.5f*angular_rate*WHEEL_BASE)/(RPM_TO_RAD_PER_S * DIST_PER_RAD);
+
+# self._left_rpm = ((msg.linear.x - velDiff) / self.wheel_radius)# * (60 / (2 * self.PI))
+# self._right_rpm = ((msg.linear.x + velDiff) / self.wheel_radius)# * (60 / (2 * self.PI))
+
+# // calculate the left and right wheel speeds in rads/s
+# wheel_speed_left = (vr - va * wheel_separation_ / 2.0) / wheel_radius;
+# wheel_speed_right = (vr + va * wheel_separation_ / 2.0) / wheel_radius;
+
+
+#left_rpm  = left_velocity/(RPM_TO_RAD_PER_S * DIST_PER_RAD);
+------------------------------------------------------------------------------        

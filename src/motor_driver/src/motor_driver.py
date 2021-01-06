@@ -18,6 +18,8 @@ class Motor_Driver:
     PI = 3.14159265359
     wheel_radius = 0.074 / 2 #0.037
     wheelSep = 0.24
+    RPM_TO_RAD_PER_S = (2 * PI)/60             # RPM per second
+    DIST_PER_RAD = 2 * PI * wheel_radius
 
     def __init__(self, dir1, step1, en1, dir2, step2, en2):
         self.DIR1 = dir1
@@ -59,6 +61,7 @@ class Motor_Driver:
                 self.prev_rpm_right = rpm_right
                 move_cmd.angular.z = 0
                 move_cmd.linear.x = 0
+
                 self.real_cmd_vel_pub.publish(move_cmd)
             return
         else:
@@ -73,41 +76,52 @@ class Motor_Driver:
         start = time.time()
         left_w = rpm_left < 0
         right_w = rpm_right < 0
+        
+        #https://www.se.com/no/en/faqs/FA337686/
+        # fz = RPM / ((a/360)*60)
+        fz =  rpm_left / 0.3 #rpm_left / 0.3
 
-        fz = rpm_left / 0.3
-
-        self.pi.set_PWM_dutycycle(self.STEP1, 128)  # PWM 1/2 On 1/2 Off
+        self.pi.set_PWM_dutycycle(self.STEP1, 255)  # PWM 1/2 On 1/2 Off
         self.pi.set_PWM_frequency(self.STEP1, abs(fz))  # 500 pulses per second
         
-        self.pi.set_PWM_dutycycle(self.STEP2, 128)  # PWM 1/2 On 1/2 Off
+        self.pi.set_PWM_dutycycle(self.STEP2, 255)  # PWM 1/2 On 1/2 Off
         self.pi.set_PWM_frequency(self.STEP2, abs(fz))  # 500 pulses per second
         
         self.pi.write(self.DIR1, left_w if self.CW else self.CCW)  # Set direction
         self.pi.write(self.DIR2, right_w if self.CW else self.CCW)  # Set direction
         
         real_fz = self.pi.get_PWM_frequency(self.STEP1)
-        real_rpm = real_fz * 0.005
-        real_x = (2 * self.PI) * self.wheel_radius * real_rpm
+        real_rpm = real_fz * 0.3        
 
-        # print("GET FZ = {}".format(real_fz))
-        # print("X REAL SPEED = {}".format(real_x))
-      
+        real_x = ((self.DIST_PER_RAD * self.RPM_TO_RAD_PER_S ) * real_rpm)* self.wheel_radius
+
+        print("-------------------------------")
+        print("real_x = {}".format(real_x))
+        print("SET FZ = {}".format(fz))
+        print("GET FZ = {}".format(real_fz))
+        print("REAL RPM = {}".format(real_rpm))
+       
         if left_w != right_w:
-            move_cmd.angular.z = (real_x * (self.wheelSep / 2) / self.wheel_radius) * 2
-            if not right_w:
+            move_cmd.angular.z = real_x/(self.wheelSep / 2.0) 
+            if fz > 0:
                 move_cmd.angular.z = move_cmd.angular.z * -1
-            # print("Z REAL SPEED = {}".format(move_cmd.angular.z))
+            print("Z REAL SPEED = {}".format(move_cmd.angular.z))
         else:
             move_cmd.angular.z = 0
             if left_w and right_w:
                 move_cmd.linear.x = real_x  * -1
             else:
                 move_cmd.linear.x = real_x
+        print("-------------------------------")
         
         self.real_cmd_vel_pub.publish(move_cmd)
 
 class Driver:
     PI = 3.14159265359
+    wheelSep = 0.24
+    wheel_radius = 0.074 / 2 #0.037
+    RPM_TO_RAD_PER_S = (2 * PI)/60             # RPM per second
+    DIST_PER_RAD = 2 * PI * wheel_radius
 
     def callback(self, msg):
         rospy.loginfo("Received a /ppp/cmd_vel message!")
@@ -116,19 +130,17 @@ class Driver:
         rospy.loginfo("Angular Components: [%f, %f, %f]" % (
             msg.angular.x, msg.angular.y, msg.angular.z))
         
-        velDiff = ((self.wheelSep)/ 2.0) * msg.angular.z
-# vel_l = ((msg.linear.x - (msg.angular.z * self.wheel_bias / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
-# vel_r = ((msg.linear.x + (msg.angular.z * self.wheel_bias / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
+        l_vel = msg.linear.x - ((self.wheelSep / 2.0) * msg.angular.z)# m/s
+        r_vel = msg.linear.x + ((self.wheelSep / 2.0) * msg.angular.z)# m/s
 
-        # self._left_speed = ((msg.linear.x - (msg.angular.z * self.wheelSep / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
-        # self._right_speed =  ((msg.linear.x + (msg.angular.z * self.wheelSep / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
+        self._left_rpm = l_vel / (self.DIST_PER_RAD * self.RPM_TO_RAD_PER_S ) / self.wheel_radius
+        self._right_rpm = r_vel / (self.DIST_PER_RAD * self.RPM_TO_RAD_PER_S ) / self.wheel_radius
 
-        #self._left_rpm = (msg.linear.x + velDiff) / self.wheel_radius
-        #self._right_rpm = (msg.linear.x - velDiff) / self.wheel_radius
 
-        self._left_rpm = ((msg.linear.x - velDiff) / self.wheel_radius) * (60 / (2 * self.PI))
-        self._right_rpm = ((msg.linear.x + velDiff) / self.wheel_radius) * (60 / (2 * self.PI))
-        #print("WHANT SPEED = {}".format(msg.linear.x))
+        print("!!! L SPEED = {}".format(l_vel))
+        print("!!! R SPEED = {}".format(r_vel))
+        print("self._left_rpm  = {}".format(self._left_rpm ))
+
 
     def __init__(self):
         rospy.init_node('driver')
@@ -137,8 +149,7 @@ class Driver:
         
         self._left_rpm = 0
         self._right_rpm = 0
-        self.wheelSep = 0.24
-        self.wheel_radius = 0.074 / 2 #0.037
+
 
         self._timeout = rospy.get_param('~timeout', 2)
         self._rate = rospy.get_param('~rate', 1000)
@@ -175,34 +186,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# . ~/catkin_ws/devel/setup.bash
-# source devel/setup.sh
-# rospack depends motor_driver
-# rosrun motor_driver motor_driver_node.py
-# 192.168.99.253
-# export ROS_MASTER_URI=http://192.168.99.253:11311
-# export ROS_IP=192.168.99.253
-
-#5:  8000  4000  2000 1600 1000  800  500  400  320
-#   250   200   160  100   80   50   40   20   10        
-# sudo systemctl stop pigpiod.service
-# sudo pigpiod
-
-# RPM = (step angle)/360 * fz * 60 =>0,005 * fz * 60=>fz * 0.3
-# fz = RPM / 0,005 * 60 => RPM / 0,3
-
-# V = ((2*PI)/60) * Radius * RPM; Raduis=0.037;((2*PI)/60)=0.104719755
-# V = 0.104719755 * 0.037 * RPM=> 0.003874631 * RPM
-
-#0.3 * 10 = 3 * 0.003874631 =>0.011623893 m/s
-#0.3 * 20 = 6 * 0.003874631=>0.023247786 m/s
-#0.3 * 40 = 12 * 0.003874631=>0.046495572 m/s
-#0.3 * 50 = 15 * 0.003874631=>0.058119465 m/s
-#0.3 * 80 = 24 * 0.003874631=>0.092991144 m/s
-#0.3 * 100 = 30* 0.003874631 =>0.11623893 m/s
-#0.3 * 160 = 48 * 0.003874631 =>0.185982288 m/s
-#0.3 * 200 = 60 * 0.003874631 => 0.23247786 m/s
-#0.3 * 250 = 75 * 0.003874631 => 0.290597325 m/s
-#0.3 * 320 = 96 * 0.003874631 => 0.371964576 m/s
-#0.3 * 400 = 120 * 0.003874631 => 0.46495572 m/s

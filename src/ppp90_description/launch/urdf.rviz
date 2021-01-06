@@ -5,10 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /ROBOT1
         - /ROBOT1/TF1
         - /ROBOT1/TF1/Frames1
-        - /LaserScan1/Status1
+        - /ODOM1
       Splitter Ratio: 0.4253731369972229
     Tree Height: 416
   - Class: rviz/Selection
@@ -29,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -86,8 +85,6 @@ Visualization Manager:
               Value: false
             forward_top_1_Mirror__1:
               Value: false
-            map:
-              Value: true
             nema17_1:
               Value: false
             nema17_Mirror__1:
@@ -110,39 +107,39 @@ Visualization Manager:
           Show Axes: true
           Show Names: true
           Tree:
-            map:
-              odom:
-                base_footprint:
-                  base_link:
-                    12GAN20__1__1:
-                      brush_1:
-                        {}
-                    12GAN20__1__Mirror__1:
-                      brush_Mirror__1:
-                        {}
-                    back_top2_1:
-                      {}
-                    back_top_1:
-                      {}
-                    base_imu_link:
-                      {}
-                    forward_top_1_1:
-                      {}
-                    forward_top_1_Mirror__1:
-                      Lidar_1:
-                        {}
-                    nema17_1:
-                      wheel_1:
-                        {}
-                    nema17_Mirror__1:
-                      wheel_Mirror__1:
-                        {}
-                    sonyc_1:
-                      {}
-                    sonyc_Mirror__1:
-                      {}
-                    sonyc__1__1:
-                      {}
+            base_footprint:
+              base_link:
+                12GAN20__1__1:
+                  brush_1:
+                    {}
+                12GAN20__1__Mirror__1:
+                  brush_Mirror__1:
+                    {}
+                back_top2_1:
+                  {}
+                back_top_1:
+                  {}
+                base_imu_link:
+                  {}
+                forward_top_1_1:
+                  {}
+                forward_top_1_Mirror__1:
+                  Lidar_1:
+                    {}
+                nema17_1:
+                  wheel_1:
+                    {}
+                nema17_Mirror__1:
+                  wheel_Mirror__1:
+                    {}
+                sonyc_1:
+                  {}
+                sonyc_Mirror__1:
+                  {}
+                sonyc__1__1:
+                  {}
+            odom:
+              {}
           Update Interval: 0
           Value: true
         - Alpha: 1
@@ -433,7 +430,7 @@ Visualization Manager:
               Scale: 1
               Value: true
             Value: true
-          Enabled: false
+          Enabled: true
           Keep: 1
           Name: Odometry
           Position Tolerance: 0.10000000149011612
@@ -449,7 +446,7 @@ Visualization Manager:
             Value: Arrow
           Topic: /odometry/filtered
           Unreliable: false
-          Value: false
+          Value: true
       Enabled: false
       Name: ODOM
     - Alpha: 1
@@ -469,7 +466,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 11
+      Min Intensity: 7
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -616,7 +613,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -640,25 +637,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 8.29332447052002
+      Distance: 4.2869462966918945
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.1815221905708313
-        Y: 0.0009750919416546822
-        Z: 0.17202678322792053
+        X: -0.032112084329128265
+        Y: 0.44899749755859375
+        Z: 0.17228291928768158
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: -1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.1356755942106247
+      Yaw: 6.0688347816467285
     Saved: ~
 Window Geometry:
   Displays:
