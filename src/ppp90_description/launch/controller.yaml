@@ -23,15 +23,15 @@ diff_drive_controller:
   type: "diff_drive_controller/DiffDriveController"
   left_wheel: 'Rev1'
   right_wheel: 'Rev4'
-  wheel_separation : 0.3
-  wheel_radius : 0.07
+  wheel_separation : 0.24
+  wheel_radius : 0.037
   cmd_vel_timeout: 0.25
   publish_rate: 20.0
-
-  # Base frame_id
-  base_frame_id: base_footprint #default: base_link
-  pose_covariance_diagonal : [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
-  twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+  base_frame_id: base_footprint
+  # # Base frame_id
+  # base_frame_id: base_footprint #default: base_link
+  # pose_covariance_diagonal : [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+  # twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
 
   # Velocity and acceleration limits
   # Whenever a min_* is unspecified, default to -max_*
