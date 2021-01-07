@@ -56,9 +56,6 @@ class Cmd_to_odom:
 
     def run(self):
         r = rospy.Rate(self.rate)
-        prev_linear_velocity_x = 0
-        prev_linear_velocity_y = 0
-        prev_angular_velocity_z = 0
         zero_processed = False
 
         while not rospy.is_shutdown():
@@ -124,7 +121,7 @@ class Cmd_to_odom:
         self.odomPub.publish(odom)
 
 
-    def callback(self, cmdVel):        
+    def callback(self, cmdVel):
         self.cmdVel = cmdVel
         
 

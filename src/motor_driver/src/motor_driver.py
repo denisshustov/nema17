@@ -17,10 +17,8 @@ class Motor_Driver:
     SPR = 200   # Steps per Revolution (360 / 1.8)    
     PI = 3.14159265359
     wheel_radius = 0.074 / 2 #0.037
-    wheelSep = 0.24
-    RPM_TO_RAD_PER_S = (2 * PI)/60             # RPM per second
-    DIST_PER_RAD = 2 * PI * wheel_radius
-    R1 = ((2 * PI)/60) * wheel_radius           #0.003874631
+    wheelSep = 0.29
+    DIST_PER_RAD = 2 * PI * wheel_radius        #0.232477856
 
     def __init__(self, dir1, step1, en1, dir2, step2, en2):
         self.DIR1 = dir1
@@ -80,8 +78,8 @@ class Motor_Driver:
         
         #https://www.se.com/no/en/faqs/FA337686/
         # fz = RPM / ((a/360)*60)
-        #*60!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! sek->min
-        fz = (rpm_left*60) / 0.3 #rpm_left / 0.3
+
+        fz = (rpm_left * 60) / 0.3
 
         self.pi.set_PWM_dutycycle(self.STEP1, 255)  # PWM 1/2 On 1/2 Off
         self.pi.set_PWM_frequency(self.STEP1, abs(fz))  # 500 pulses per second
@@ -93,38 +91,36 @@ class Motor_Driver:
         self.pi.write(self.DIR2, right_w if self.CW else self.CCW)  # Set direction
         
         real_fz = self.pi.get_PWM_frequency(self.STEP1)
-        real_rpm =(real_fz/60) * 0.3        
+        real_rpm = (real_fz * 0.3) / 60
 
-        real_x = real_rpm * self.DIST_PER_RAD # ((self.DIST_PER_RAD * self.RPM_TO_RAD_PER_S ) * real_rpm)#* self.wheel_radius
+        real_x = real_rpm * self.DIST_PER_RAD
 
-        print("-------------------------------")
-        print("real_x = {}".format(real_x))
-        print("SET FZ = {}".format(fz))
-        print("GET FZ = {}".format(real_fz))
-        print("REAL RPM = {}".format(real_rpm))
+        # print("-------------------------------")
+        # print("real_x = {}".format(real_x))
+        # print("SET FZ = {}".format(fz))
+        # print("GET FZ = {}".format(real_fz))
+        # print("REAL RPM = {}".format(real_rpm))
        
         if left_w != right_w:
-            move_cmd.angular.z = 60 * (real_x/self.DIST_PER_RAD) #real_x/((self.wheelSep / 2.0)) 
+            move_cmd.angular.z = real_x / (self.wheelSep / 2.0)
             if fz > 0:
                 move_cmd.angular.z = move_cmd.angular.z * -1
-            print("Z0 REAL SPEED = {}".format(move_cmd.angular.z))
+            # print("Z0 REAL SPEED = {}".format(move_cmd.angular.z))
         else:
             move_cmd.angular.z = 0
             if left_w and right_w:
                 move_cmd.linear.x = real_x  * -1
             else:
                 move_cmd.linear.x = real_x
-        print("-------------------------------")
+        # print("-------------------------------")
         
         self.real_cmd_vel_pub.publish(move_cmd)
 
 class Driver:
     PI = 3.14159265359
-    wheelSep = 0.24
+    wheelSep = 0.29
     wheel_radius = 0.074 / 2 #0.037
-    RPM_TO_RAD_PER_S = (2 * PI)/60             # RPM per second 0.104719755
     DIST_PER_RAD = 2 * PI * wheel_radius       #0.232477856
-    R1 = ((2 * PI)/60) * wheel_radius
 
     def callback(self, msg):
         rospy.loginfo("Received a /ppp/cmd_vel message!")
@@ -133,24 +129,15 @@ class Driver:
         rospy.loginfo("Angular Components: [%f, %f, %f]" % (
             msg.angular.x, msg.angular.y, msg.angular.z))
         
-        #msg.angular.z radian/sek
-
         l_vel = msg.linear.x - ((self.wheelSep / 2.0) * msg.angular.z)# m/s
         r_vel = msg.linear.x + ((self.wheelSep / 2.0) * msg.angular.z)# m/s
 
+        self._left_rpm = l_vel / self.DIST_PER_RAD
+        self._right_rpm = r_vel / self.DIST_PER_RAD
 
-        self._left_rpm = l_vel / self.DIST_PER_RAD#l_vel / (self.DIST_PER_RAD * self.RPM_TO_RAD_PER_S )# / self.wheel_radius
-        self._right_rpm = r_vel / self.DIST_PER_RAD #r_vel / (self.DIST_PER_RAD * self.RPM_TO_RAD_PER_S )# / self.wheel_radius
-        #((2xpi))x0.037
-
-        # self._left_rpm = l_vel / self.R1
-        # self._right_rpm = r_vel / self.R1
-
-
-        print("!!! L SPEED = {}".format(l_vel))
-        print("!!! R SPEED = {}".format(r_vel))
-        print("self._left_rpm  = {}".format(self._left_rpm ))
-
+        # print("!!! L SPEED = {}".format(l_vel))
+        # print("!!! R SPEED = {}".format(r_vel))
+        # print("self._left_rpm  = {}".format(self._left_rpm ))
 
     def __init__(self):
         rospy.init_node('driver')
@@ -159,7 +146,6 @@ class Driver:
         
         self._left_rpm = 0
         self._right_rpm = 0
-
 
         self._timeout = rospy.get_param('~timeout', 2)
         self._rate = rospy.get_param('~rate', 1000)

@@ -114,3 +114,20 @@ data:
 
 #left_rpm  = left_velocity/(RPM_TO_RAD_PER_S * DIST_PER_RAD);
 ------------------------------------------------------------------------------        
+
+self._left_rpm = ((self.wheelSep / 2.0) * msg.angular.z)) / self.DIST_PER_RAD
+z=(_left_rpm*DIST_PER_RAD)/(self.wheelSep / 2.0) 
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
