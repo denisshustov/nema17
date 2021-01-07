@@ -32,13 +32,48 @@
       <mesh filename="package://ppp90_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
+</link>
 
 
-
-  <visual name="caster_front_visual">
-    <origin xyz="0.12116 -0.014724 0.01" rpy="0 0 0" />
+<link name="roll_celinder">
+    <inertial>
+      <origin  xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.000285" ixy="-0.0" ixz="-0.0" iyy="0.000502" iyz="-0.0" izz="0.000285"/>
+    </inertial>
+    <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+            <cylinder length="0.005" radius="0.01"/>
+        </geometry>
+        <material name="red"/>
+    </visual>
+      <collision>
+    <origin xyz="0 0 0" rpy="0 0 0" />
     <geometry>
-      <sphere radius="0.0215773"/>
+       <cylinder length="0.005" radius="0.01"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="celinder_celinder" type="continuous">
+  <origin  xyz="0.12116 -0.014724 -0.001" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="roll_celinder"/>
+  <axis xyz="-0 -0.0 -1.0"/>
+</joint>
+
+
+<link name="ball">
+  <inertial>
+    <origin  xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="4"/>
+    <inertia ixx="0.000285" ixy="-0.0" ixz="-0.0" iyy="0.000502" iyz="-0.0" izz="0.000285"/>
+  </inertial>
+  <visual >
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <sphere radius="0.01"/>
     </geometry>
     <surface>
       <friction>
@@ -52,14 +87,21 @@
     </surface>
   </visual>
 
-  <collision name="caster_front_collision">
-    <origin xyz="0.12116 -0.014724 0.01" rpy="0 0 0" />
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0" />
     <geometry>
-      <sphere radius="0.0215773"/>
+      <sphere radius="0.01"/>
     </geometry>
   </collision>
-
 </link>
+
+
+<joint name="b_ball" type="continuous">
+  <origin  xyz="0.0 -0.0 -0.001" rpy="0 0 0"/>
+  <parent link="roll_celinder"/>
+  <child link="ball"/>
+  <axis xyz="0.0 -1.0 -0.0"/>
+</joint>
 
 <link name="wheel_1">
   <inertial>
@@ -432,7 +474,7 @@
 
 
 <joint name="Rev1" type="continuous">
-  <origin rpy="0 0 0" xyz="0.0 -0.04585 0.021125"/>
+  <origin rpy="3.14159 0 0" xyz="0.0 -0.025 0.021125"/>
   <parent link="nema17_1"/>
   <child link="wheel_1"/>
   <axis xyz="0.0 -1.0 -0.0"/>
