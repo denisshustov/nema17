@@ -41,6 +41,9 @@ class Cmd_to_odom:
         self.cmdVel = None
         self.current_time = rospy.Time.now()
         self.last_time = rospy.Time.now()
+        self.linear_velocity_x = 0
+        self.linear_velocity_y = 0
+        self.angular_velocity_z = 0
 
     def reset_odom(self, request):
         if request.reset:
@@ -56,36 +59,26 @@ class Cmd_to_odom:
 
     def run(self):
         r = rospy.Rate(self.rate)
-        zero_processed = False
-
+        
         while not rospy.is_shutdown():
             self.current_time = rospy.Time.now()
             self.dt = (self.current_time - self.last_time).to_sec()
             self.last_time = self.current_time
 
-            if self.cmdVel is None:
-                continue
-            
-            linear_velocity_x = self.cmdVel.linear.x
-            linear_velocity_y = self.cmdVel.linear.y
-            angular_velocity_z = self.cmdVel.angular.z
-
-            is_all_zero = self.cmdVel.linear.x == 0 and \
-                self.cmdVel.linear.y == 0 and \
-                self.cmdVel.angular.z == 0
-
-            if zero_processed and is_all_zero:
-                continue
-
-            zero_processed = is_all_zero
+            if self.cmdVel != None and \
+                self.cmdVel.linear != None and \
+                self.cmdVel.angular != None:
+                    self.linear_velocity_x = self.cmdVel.linear.x
+                    self.linear_velocity_y = self.cmdVel.linear.y
+                    self.angular_velocity_z = self.cmdVel.angular.z
 
             # rospy.loginfo("x={},y={},z={}".format( \
-            #     linear_velocity_x,linear_velocity_y,angular_velocity_z))
+            #     self.linear_velocity_x,self.linear_velocity_y,self.angular_velocity_z))
             
-            self.x += (linear_velocity_x * cos(self.theta) - linear_velocity_y * sin(self.theta)) * self.dt
-            self.y += (linear_velocity_x * sin(self.theta) + linear_velocity_y * cos(self.theta)) * self.dt
-            self.theta += angular_velocity_z * self.dt
-            self.send(linear_velocity_x, linear_velocity_y, angular_velocity_z, self.theta)
+            self.x += (self.linear_velocity_x * cos(self.theta) - self.linear_velocity_y * sin(self.theta)) * self.dt
+            self.y += (self.linear_velocity_x * sin(self.theta) + self.linear_velocity_y * cos(self.theta)) * self.dt
+            self.theta += self.angular_velocity_z * self.dt
+            self.send(self.linear_velocity_x, self.linear_velocity_y, self.angular_velocity_z, self.theta)
 
             r.sleep()
        
