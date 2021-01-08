@@ -1,0 +1,81 @@
+<launch>
+<!--
+ 
+ 
+ 
+/ / After the parameter description of the wiki official website
+ () in the description and understanding of the rough reading algorithm parameters
+ ××× problems
+ There are two types of commonly used maps:
+ 1. Based on the feature, only the shape of the environment at the specified location (the location of the object contained in the map) is indicated. The feature representation makes it easy to adjust the position of the object as an additional detection result. Such maps are very popular in the field of map construction.
+ 2. Based on location, such maps are volumey and they provide labels for many locations in the environment. It not only includes information about environmental objects, but also information that objects have no objects (such as free space). The more classical occupied raster maps are location-based.
+ According to the official website information, amcl uses a combination of adaptive (enhanced Monte Carlo Augmented_MCL) and Courbbeck-Leiple divergence sampling KLD_Sampling_MCL (a variant of Monte Carlo positioning).
+ 1. KLD_Sampling_MCL changes the number of particles over time, improving the waste of resources in the large collection of Monte Carlo samples after the initial period. The two kld_ configuration parameters are the parameters of the KLD. For each particle filter iteration, KLD sampling determines the number of samples with a probability of 1-δ (1-δ is the kld_z configuration parameter), so that the error between the true posterior and the sample-based approximation is less than ε (ε is the kld_err configuration parameter) .kld_z=0.99, kld_err=0.05, and the histogram size is 15cm*15cm*15°, and good results can be obtained.
+ 2.Augmented_MCL solves the problem of recovering from robot abduction or global positioning failure. Two recovery_alpha_ configuration parameters are used for failover. Random sampling increases with a probability of max{0.0, 1.0-w(fast)/w(slow)}. If the short-term likelihood is inferior to the long-term likelihood, random sampling is added. In this method, a sudden decay of the measurement likelihood will cause an increase in the number of random samples. w=w+α(Wavg-w)--Wavg currently measures the weight of the model, w is short-term (w (fast)) or long-term (w (slow)) smooth estimation, and α is the recovery_alpha_ parameter corresponding to w.
+ 
+-->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <!-- Publish scans from best pose at a max of 10 Hz -->
+ 
+ //All filter parameters
+ <param name="min_particles" value="500"/> //The minimum number of allowed particles, default 100
+ <param name="max_particles" value="5000"/> //The maximum number of examples allowed, default 5000
+ <param name="kld_err" value="0.05"/> //The maximum error between the true distribution and the estimated distribution, default 0.01
+ <param name="kld_z" value="0.99"/> //Upper standard quantile (1-p), where p is the probability that the error on the estimated distribution is less than kld_err, the default is 0.99
+ <param name="update_min_d" value="0.2"/> //The distance of the translational motion before performing the filter update, the default is 0.2m (for the odometer model, the model is based on the motion and the map to find the final pose) Discard all relevant information in the path, only the final pose is known. In order to avoid the non-zero likelihood after the unreasonable passage through the obstacle, this value is recommended not to be greater than the radius of the robot. Otherwise, the update frequency may be completely different. Different results)
+ <param name="update_min_a" value="0.5"/> //Perform the angle of rotation before the filter update, default pi/6 rad
+ <param name="resample_interval" value="1"/> //The number of filter updates required before resampling, default 2
+ <param name="transform_tolerance" value="0.1"/> //tf transform release postponed time, in order to show that tf transform is available in future time
+ <param name="recovery_alpha_slow" value="0.0"/> //The exponential decay frequency of the slow average weight filter is used to determine when to recover by increasing the random pose, the default 0 (disable), possibly 0.001 is a Good value
+ <param name="recovery_alpha_fast" value="0.0"/> //The exponential decay frequency of the fast average weight filter is used to determine when to recover by increasing the random pose, the default 0 (disable), maybe 0.1 is a good Value
+ <param name="gui_publish_rate" value="10.0"/> //The maximum frequency of scanning and path publishing to the visualization software. Setting the parameter to -1.0 means disabling this function, default -1.0
+ <param name="save_pose_rate" value="0.5"/> //Stores the last estimated pose and covariance to the parameter server's maximum rate. The saved pose will be used to initialize the filter for continuous motion. -1.0 disabled.
+<param name="use_map_topic" value="false"/> //When set to true, AMCL will subscribe to the map topic instead of calling the service to return the map. That is to say, when set to true, another node publishes the map topic in real time, that is, the robot performs map construction in real time and supplies it to the amcl topic; when set to false, the map server, that is, the call already Build a completed map. New parameters added in navigation 1.4.2.
+ <param name="first_map_only" value="false"/> //When set to true, AMCL will only use the first map subscribed to, instead of updating to a new map each time a new one is received, The new parameters added in navigation 1.4.2.
+ 
+ //Laser model parameters
+ <param name="laser_min_range" value="-1.0"/> //The minimum scan range to be considered; when the parameter is set to -1.0, the minimum scan range reported by the laser will be used.
+ <param name="laser_max_range" value="-1.0"/> //The maximum scan range to be considered; when the parameter is set to -1.0, the maximum scan range reported by the laser will be used.
+ <param name="laser_max_beams" value="30"/> //When updating the filter, how many equally spaced beams are used in each scan (reducing the amount of computation, adjacent beams in ranging scans are often not independent) Can reduce the impact of noise, too small will also cause less information to be inaccurate)
+<!--
+ These four laser_z parameters are used for the anomaly removal technique in the dynamic environment (there is also a state augmentation technique - the hidden state is included in the state estimation, the disadvantage is that the calculation is complicated, and the acml positioning does not use this positioning)
+ This positioning idea is that dynamic objects in the environment always get shorter readings than static map obstacles (people can't scan behind obstacles - if you don't consider the volume, such as a single laser beam without considering the volume), use Such asymmetry removes outliers
+ The disadvantage is that such asymmetry may not exist in other types of scenarios that can change the environment (such as removing obstacles), but the same probability analysis is usually applicable. Because every outlier is discarded, the disadvantage of lack of symmetry may be that it is impossible to recover from global positioning failure. In this case, it is meaningful for XXX to impose additional constraints (such as limiting the measured portion that may have been corrupted) (××× how to constrain). (The discarding here is different from the abandonment of the likelihood_field model. The positioning here is to calculate the probability that the measured value corresponds to the unintended object (unexpected object probability/mixing probability) is greater than the threshold set by the user (there seems to be no such thing in the amcl configuration parameter? ) Discard, and the likelihood domain probability is a value that is discarded beyond the maximum measurement range, and the probability is not calculated.)
+ (The rude and easy-to-use treatment for this shortcoming that doesn't want to change the code may be to remove the movable obstacle when composing the image, and the more direct way is PS)
+ Finally, the probability is multiplied by their corresponding probability and then added. The four weights in the algorithm add up to 1 (the default value is not equal to 1, and the estimate is normalized).
+ These six laser_ parameters can be calculated by the learn_intrinsic_parameters algorithm, which is an expectation maximization algorithm and an iterative process for estimating the maximum likelihood parameters. (××× Ok, amcl doesn’t seem to do this job)
+-->
+ <param name="laser_z_hit" value="0.5"/> //The blending weight of the z_hit part of the model, the default is 0.95 (mixed weight 1. The correct range with local measurement noise - the average distance measured by the distance is the mean value, Then laser_sigma_hit is the weight of the Gaussian distribution of the standard deviation)
+ <param name="laser_z_short" value="0.05"/> //The blend weight of the z_short part of the model, the default is 0.1 (mixed weight 2. Unexpected object weight (similar to the unary index about y-axis symmetry 0 ~ measuring distance (non The part of the maximum distance: --ηλe^(-λz), the rest is 0, where η is the normalization parameter, λ is laser_lambda_short, and z is an independent measurement at time t (a ranging value, ranging sensor A measurement usually produces a series of measurements)), a dynamic environment such as a person or moving object)
+ <param name="laser_z_max" value="0.05"/> //The blending weight of the z_max part of the model, the default is 0.05 (mixed weight 3. measurement failure weight (1 for the maximum distance, the rest is 0), such as the sonar mirror Reflection, laser black light absorption object or measurement under strong light, the most typical is the maximum distance)
+ <param name="laser_z_rand" value="0.5"/> //The mixed weight of the z_rand part of the model, the default is 0.05 (mixed weight 4. random measurement weight - evenly distributed (1 average distribution to 0 ~ maximum measurement range) , completely unexplained measurements, such as multiple reflections of sonar, sensor crosstalk)
+<param name="laser_sigma_hit" value="0.2"/> //The standard deviation of the Gaussian model used in the z_hit part of the model, default 0.2m
+ <param name="laser_lambda_short" value="0.1"/> //The exponential decay parameter of the z_short part of the model, the default is 0.1 (according to ηλe^(-λz), the larger λ increases with distance, the faster the probability of accidental object decays)
+ <param name="laser_likelihood_max_dist" value="2.0"/> //The maximum distance on the map to make the obstacle expand, used as the likelihood_field model (likelihood_field_range_finder_model only describes the distance of the nearest obstacle, (currently understood to be within this distance) The obstacle is expanded, but there is no mention of expansion in the algorithm. What is the meaning of ambiguity? The algorithm uses the above laser_sigma_hit. The algorithm for calculating the probability in the likelihood domain is to measure each time at time t (to get rid of the maximum) The probability of measurement of the measurement range is multiplied by a single measurement probability: Zh * prob(dist, σ) + avg, Zh is laser_z_hit, avg is the probability of uniform distribution, the distance of the nearest obstacle is dist, and prob is 0 as the central standard deviation The distance probability of the Gaussian distribution of σ(laser_sigma_hit)
+ <param name="laser_model_type" value="likelihood_field"/> //The model is used, it can be beam, likehood_field, likehood_field_prob (like the likehood_field but with the beamskip feature--the official website comment), the default is "likehood_field"
+ 
+ / / odometer model parameters
+    <!--
+ The ××× odometer model does not involve the drift or slip of the robot. Once this happens, the subsequent positioning is basically abolished. Although the Augmented_MCL has failure recovery, the actual operation takes too long and the result is not ideal (the position is actually Jump, this is very unreasonable, maybe the parameter configuration is not very good)
+    -->
+ <param name="odom_model_type" value="diff"/> //Model usage, can be "diff", "omni", "diff-corrected", "omni-corrected", the latter two are for the old version of the odometer Correction of the model, the corresponding odometer parameters need to be reduced
+ <param name="odom_alpha1" value="0.2"/> //Specifies the expected noise of the odometer rotation estimated by the rotation component of the moving part of the robot. The default is 0.2 (rotation exists with rotating noise)
+ <param name="odom_alpha2" value="0.2"/> //Determine the expected noise of the odometer rotation estimated by the translation component of the moving part of the robot, default 0.2 (translation noise may occur during rotation)
+    <!-- translation std dev, m -->
+ <param name="odom_alpha3" value="0.8"/> //Specify the expected noise of the odometer translation estimated by the translation component of the motion part of the robot, default 0.2 (similar to above)
+ <param name="odom_alpha4" value="0.2"/> //Specify the expected noise of the odometer translation estimated by the rotation component of the moving part of the robot, default 0.2 (similar to above)
+ <param name="odom_alpha5" value="0.1"/> //Translate the relevant noise parameters (only for the case where the model is "omni" - comment on the wiki official website)
+ <param name="odom_frame_id" value="odom"/> //The coordinate system used by the odometer by default
+ <param name="base_frame_id" value="base_link"/> //Use as the base coordinate system for the robot
+ <param name="global_frame_id" value="map"/> //The name of the coordinate system published by the positioning system
+ <param name="tf_broadcast" value="true"/> //Set to false to prevent amcl from issuing the tf transform between the global coordinate system and the odometer coordinate system.
+ 
+ / / Robot initialization data settings
+ <param name="initial_pose_x" value="0.0"/> //The initial pose mean (x) is used to initialize the Gaussian distribution filter. (The initial_pose_ parameter determines the center of the initial pose particle set range that is sprinkled out)
+ <param name="initial_pose_y" value="0.0"/> //The initial pose mean (y) is used to initialize the Gaussian distribution filter. (ibid.)
+<param name="initial_pose_a" value="0.0"/> //The initial pose mean (yaw) is used to initialize the Gaussian distribution filter. (particle orientation)
+ <param name="initial_cov_xx" value="0.5*0.5"/> //Initial pose covariance (x*x), used to initialize the Gaussian distribution filter. (The initial_cov_ parameter determines the range of the initial particle set)
+ <param name="initial_cov_yy" value="0.5*0.5"/> //Initial pose covariance (y*y), used to initialize the Gaussian distribution filter. (ibid.)
+ <param name="initial_cov_aa" value="(π/12)*(π/12)"/> //The initial pose covariance (yaw*yaw) is used to initialize the Gaussian distribution filter. (deviation of particle orientation)
+  </node>
+</launch>
