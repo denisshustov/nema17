@@ -10,6 +10,7 @@ Panels:
         - /ODOM1
         - /PoseArray1
         - /RANGE1
+        - /RANGE1/Range_3_center1
       Splitter Ratio: 0.4282945692539215
     Tree Height: 722
   - Class: rviz/Selection
@@ -510,7 +511,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 8
+      Min Intensity: 11
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -599,18 +600,18 @@ Visualization Manager:
           Buffer Length: 1
           Class: rviz/Range
           Color: 196; 160; 0
-          Enabled: true
-          Name: Range
+          Enabled: false
+          Name: Range_1_right
           Queue Size: 100
           Topic: /ppp/range_sensor1
           Unreliable: false
-          Value: true
+          Value: false
         - Alpha: 0.5
           Buffer Length: 1
           Class: rviz/Range
           Color: 196; 160; 0
           Enabled: true
-          Name: Range
+          Name: Range_2_left
           Queue Size: 100
           Topic: /ppp/range_sensor2
           Unreliable: false
@@ -620,12 +621,12 @@ Visualization Manager:
           Class: rviz/Range
           Color: 196; 160; 0
           Enabled: true
-          Name: Range
+          Name: Range_3_center
           Queue Size: 100
           Topic: /ppp/range_sensor3
           Unreliable: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: RANGE
   Enabled: true
   Global Options:
@@ -655,16 +656,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 16.014663696289062
+      Distance: 6.527097225189209
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -1.3669525384902954
-        Y: 1.2704752683639526
-        Z: 0.2038664072751999
+        X: 0.4035720229148865
+        Y: 0.7914188504219055
+        Z: 0.1933627724647522
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
