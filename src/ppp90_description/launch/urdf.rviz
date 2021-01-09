@@ -9,7 +9,6 @@ Panels:
         - /ROBOT1/TF1/Frames1
         - /ODOM1
         - /PoseArray1
-        - /RANGE1
         - /RANGE1/Range_3_center1
       Splitter Ratio: 0.4282945692539215
     Tree Height: 722
@@ -626,7 +625,7 @@ Visualization Manager:
           Topic: /ppp/range_sensor3
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: RANGE
   Enabled: true
   Global Options:
@@ -656,7 +655,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 19.427616119384766
+      Distance: 20.965709686279297
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
