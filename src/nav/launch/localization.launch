@@ -19,6 +19,8 @@
         <param name="odom0" value="/odom"/>
         <param name="imu0" value="/imu"/>
         <param name="range_sensor1" value="/ppp/range_sensor1"/>
+        <param name="range_sensor2" value="/ppp/range_sensor2"/>
+        <param name="range_sensor3" value="/ppp/range_sensor3"/>
 
         <remap from="/ppp/cmd_vel" to="/cmd_vel" />
         <param name="use_control" value="true"/> 
@@ -74,19 +76,35 @@
                                       false, false,  true,
                                       true,  false,  false]</rosparam>
         
-        <rosparam param="range_sensor1">[true, true, false,
+        <rosparam param="range_sensor1_config">[false, true, false,
+                                        false, false,  true, 
+                                        false, true, false, 
+                                        false, false,  true,
+                                        false, false, false]</rosparam>
+        
+        <rosparam param="range_sensor2_config">[false, true, false,
+                                        false, false,  true, 
+                                        false, true, false, 
+                                        false, false,  true,
+                                        false, false, false]</rosparam>
+        
+        <rosparam param="range_sensor3_config">[true, false, false,
                                         false, false,  false, 
-                                        false, false, false, 
+                                        true, false, false, 
                                         false, false,  false,
                                         false, false, false]</rosparam>
 
         <param name="odom0_differential" value="false"/>
         <param name="imu0_differential" value="true"/>
         <param name="range_sensor1_differential" value="true"/>
+        <param name="range_sensor2_differential" value="true"/>
+        <param name="range_sensor3_differential" value="true"/>
 
         <param name="odom0_relative" value="true"/>
         <param name="imu0_relative" value="false"/>
         <param name="range_sensor1_relative" value="false"/>
+        <param name="range_sensor2_relative" value="false"/>
+        <param name="range_sensor3_relative" value="false"/>
 
         <param name="imu0_remove_gravitational_acceleration" value="true"/>
 
@@ -94,6 +112,9 @@
 
         <param name="odom0_queue_size" value="50"/>
         <param name="imu0_queue_size" value="50"/>
+        <param name="range_sensor1_queue_size" value="50"/>
+        <param name="range_sensor2_queue_size" value="50"/>
+        <param name="range_sensor3_queue_size" value="50"/>
 
   </node>
 </launch>
