@@ -1,5 +1,6 @@
 <launch>
 
+  <param name="/use_sim_time" value="true"/>
   <node name="reset_odometry" pkg="nav" output="screen" type="reset_odometry.py">
   </node>
 
