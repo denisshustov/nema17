@@ -9,7 +9,8 @@ Panels:
         - /ROBOT1/TF1/Frames1
         - /ODOM1
         - /PoseArray1
-      Splitter Ratio: 0.4253731369972229
+        - /RANGE1
+      Splitter Ratio: 0.4282945692539215
     Tree Height: 722
   - Class: rviz/Selection
     Name: Selection
@@ -115,7 +116,34 @@ Visualization Manager:
           Show Names: false
           Tree:
             map:
-              {}
+              odom:
+                base_footprint:
+                  base_link:
+                    12GAN20__1__1:
+                      {}
+                    12GAN20__1__Mirror__1:
+                      {}
+                    back_top2_1:
+                      {}
+                    back_top_1:
+                      {}
+                    base_imu_link:
+                      {}
+                    forward_top_1_1:
+                      {}
+                    forward_top_1_Mirror__1:
+                      Lidar_1:
+                        {}
+                    nema17_1:
+                      {}
+                    nema17_Mirror__1:
+                      {}
+                    sonyc_1:
+                      {}
+                    sonyc_Mirror__1:
+                      {}
+                    sonyc__1__1:
+                      {}
           Update Interval: 0
           Value: true
         - Alpha: 1
@@ -482,7 +510,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 11
+      Min Intensity: 8
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -549,7 +577,7 @@ Visualization Manager:
           Color: 255; 255; 255
           Color Transformer: Intensity
           Decay Time: 0
-          Enabled: false
+          Enabled: true
           Invert Rainbow: false
           Max Color: 233; 185; 110
           Max Intensity: 4096
@@ -566,37 +594,37 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: false
+          Value: true
         - Alpha: 0.5
           Buffer Length: 1
           Class: rviz/Range
           Color: 196; 160; 0
-          Enabled: false
+          Enabled: true
           Name: Range
           Queue Size: 100
           Topic: /ppp/range_sensor1
           Unreliable: false
-          Value: false
+          Value: true
         - Alpha: 0.5
           Buffer Length: 1
           Class: rviz/Range
           Color: 196; 160; 0
-          Enabled: false
+          Enabled: true
           Name: Range
           Queue Size: 100
           Topic: /ppp/range_sensor2
           Unreliable: false
-          Value: false
+          Value: true
         - Alpha: 0.5
           Buffer Length: 1
           Class: rviz/Range
           Color: 196; 160; 0
-          Enabled: false
+          Enabled: true
           Name: Range
           Queue Size: 100
           Topic: /ppp/range_sensor3
           Unreliable: false
-          Value: false
+          Value: true
       Enabled: false
       Name: RANGE
   Enabled: true
@@ -627,16 +655,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 12.079834938049316
+      Distance: 16.014663696289062
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.40158388018608093
-        Y: 1.030629277229309
-        Z: 0.1981344372034073
+        X: -1.3669525384902954
+        Y: 1.2704752683639526
+        Z: 0.2038664072751999
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
