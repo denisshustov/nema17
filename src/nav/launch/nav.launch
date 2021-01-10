@@ -13,7 +13,7 @@
   <node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link"
     args="0 0 0 0 0 0 /base_footprint /base_link 40" />
     
-  <!-- <include file="$(find nav)/launch/move.launch"/> -->
+  <include file="$(find nav)/launch/move.launch"/>
 
   <!-- <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>
   <include file="$(find sensor_pointcloud)/launch/sensor_pointcloud.launch"/> -->

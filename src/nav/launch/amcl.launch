@@ -20,9 +20,9 @@
       <param name="laser_max_beams" value="180"/>
       <param name="kld_err" value="0.05"/>       <!-- The maximum error between the true distribution and the estimated distribution, default 0.01 -->
       <param name="kld_z" value="0.5"/>
-      <param name="odom_alpha1" value="0.8"/><!--TEST THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-      <param name="odom_alpha2" value="1"/>
-      <param name="odom_alpha3" value="1"/>
+      <param name="odom_alpha1" value="2"/><!--TEST THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+      <param name="odom_alpha2" value="2"/>
+      <param name="odom_alpha3" value="2.5"/>
       <param name="odom_alpha4" value="0.2"/>
 
       <param name="laser_min_range" value="0.15"/>

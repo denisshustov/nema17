@@ -7,8 +7,7 @@ Panels:
         - /Global Options1
         - /ROBOT1/TF1
         - /ROBOT1/TF1/Frames1
-        - /ODOM1
-        - /PoseArray1
+        - /Map1
         - /RANGE1/Range_3_center1
       Splitter Ratio: 0.4282945692539215
     Tree Height: 722
@@ -413,7 +412,7 @@ Visualization Manager:
               Scale: 1
               Value: true
             Value: true
-          Enabled: true
+          Enabled: false
           Head Length: 0.30000001192092896
           Head Radius: 0.10000000149011612
           Name: PoseWithCovariance
@@ -422,7 +421,7 @@ Visualization Manager:
           Shape: Arrow
           Topic: /amcl_pose
           Unreliable: false
-          Value: true
+          Value: false
         - Angle Tolerance: 0.10000000149011612
           Class: rviz/Odometry
           Covariance:
@@ -440,7 +439,7 @@ Visualization Manager:
               Scale: 1
               Value: true
             Value: true
-          Enabled: false
+          Enabled: true
           Keep: 100
           Name: Odometry
           Position Tolerance: 0.10000000149011612
@@ -456,7 +455,7 @@ Visualization Manager:
             Value: Arrow
           Topic: /odom
           Unreliable: false
-          Value: false
+          Value: true
         - Angle Tolerance: 0.10000000149011612
           Class: rviz/Odometry
           Covariance:
@@ -474,7 +473,7 @@ Visualization Manager:
               Scale: 1
               Value: true
             Value: true
-          Enabled: false
+          Enabled: true
           Keep: 1
           Name: Odometry_Filtered
           Position Tolerance: 0.10000000149011612
@@ -490,7 +489,7 @@ Visualization Manager:
             Value: Arrow
           Topic: /odometry/filtered
           Unreliable: false
-          Value: false
+          Value: true
       Enabled: false
       Name: ODOM
     - Alpha: 1
@@ -510,7 +509,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 10
+      Min Intensity: 11
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -655,7 +654,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 20.965709686279297
+      Distance: 6.722989559173584
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1

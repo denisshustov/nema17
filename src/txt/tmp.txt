@@ -21,6 +21,12 @@ data:
 - 0
 - 0
 - 0" 
+------------------------------------------------------------------------------
+
+rosbag play --clock -l 2.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/range_sensor1 /ppp/range_sensor2 /ppp/range_sensor3 /ppp/real_cmd_vel /rangeSonar1 /rosout /scan /voltage
+
+/tf
+/tf_static
 
 ------------------------------------------------------------------------------
   <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" 
