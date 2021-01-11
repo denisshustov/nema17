@@ -9,7 +9,7 @@ cost_scaling_factor: 3.0
 map_type: costmap
 observation_sources: scan
 
-transform_tolerance: 0.3
+transform_tolerance: 0.5
 observation_sources: scan
 
 scan: {  

@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /ROBOT1
-        - /ROBOT1/TF1
         - /ROBOT1/TF1/Frames1
         - /Map1
         - /RANGE1/Range_3_center1
@@ -520,7 +519,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 9
+      Min Intensity: 8
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -665,16 +664,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.696036338806152
+      Distance: 4.439258575439453
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.6272477507591248
-        Y: 0.3425455391407013
-        Z: 0.42893925309181213
+        X: 0.3835086524486542
+        Y: 0.15044111013412476
+        Z: 0.42795416712760925
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
