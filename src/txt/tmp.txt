@@ -21,6 +21,9 @@ data:
 - 0
 - 0
 - 0" 
+
+rosrun  map_server map_server ~/catkin_ws/src/nema17/src/nav/map/mymap.yaml
+
 ------------------------------------------------------------------------------
 
 rosbag play --clock -l 2.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/range_sensor1 /ppp/range_sensor2 /ppp/range_sensor3 /rangeSonar1 /rosout /scan /voltage
