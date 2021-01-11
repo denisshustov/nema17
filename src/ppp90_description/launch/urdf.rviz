@@ -116,43 +116,7 @@ Visualization Manager:
           Show Axes: true
           Show Names: false
           Tree:
-            base_footprint:
-              base_link:
-                12GAN20__1__1:
-                  brush_1:
-                    {}
-                12GAN20__1__Mirror__1:
-                  brush_Mirror__1:
-                    {}
-                back_top2_1:
-                  {}
-                back_top_1:
-                  {}
-                base_imu_link:
-                  {}
-                forward_top_1_1:
-                  {}
-                forward_top_1_Mirror__1:
-                  Lidar_1:
-                    {}
-                nema17_1:
-                  wheel_1:
-                    {}
-                nema17_Mirror__1:
-                  wheel_Mirror__1:
-                    {}
-                roll_celinder:
-                  ball:
-                    {}
-                sonyc_1:
-                  {}
-                sonyc_Mirror__1:
-                  {}
-                sonyc__1__1:
-                  {}
             map:
-              {}
-            odom:
               {}
           Update Interval: 0
           Value: true
@@ -520,7 +484,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 8
+      Min Intensity: 7
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -665,7 +629,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 15.540994644165039
+      Distance: 12.870275497436523
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -683,7 +647,7 @@ Visualization Manager:
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.10383571684360504
+      Yaw: 0.09383520483970642
     Saved: ~
 Window Geometry:
   Displays:

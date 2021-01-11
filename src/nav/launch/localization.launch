@@ -23,7 +23,10 @@
         <param name="range_sensor3" value="/ppp/range_sensor3"/>
 
         <remap from="/ppp/cmd_vel" to="/cmd_vel" />
-        <param name="use_control" value="true"/> 
+<!-- 
+        <remap from="/imu/data" to="/imu" />
+        <remap from="/odometry/filtered" to="/odom"/>
+        <param name="use_control" value="true"/>  -->
 
         <rosparam param="control_config">[true,  false, false,
                                           false, false, true]</rosparam>
