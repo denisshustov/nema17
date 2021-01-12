@@ -1,6 +1,6 @@
 <launch>
 
-  <param name="/use_sim_time" value="true"/>
+  <!-- <param name="/use_sim_time" value="true"/> -->
   <!-- <node pkg="rosservice" type="rosservice" name="reset_odom_service" args="/reset_odom_service 'reset: true'" /> -->
   <node name="map_server" pkg="map_server" output="screen"  type="map_server" args="$(find nav)/map/mymap.yaml"/>
 
@@ -17,7 +17,7 @@
     
   <node pkg="rosservice" type="rosservice" name="global_loc" args="call --wait /global_localization" />
   
-  <!-- <include file="$(find nav)/launch/move.launch"/> -->
+  <include file="$(find nav)/launch/move.launch"/>
 
   <!-- <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>
   <include file="$(find sensor_pointcloud)/launch/sensor_pointcloud.launch"/> -->
