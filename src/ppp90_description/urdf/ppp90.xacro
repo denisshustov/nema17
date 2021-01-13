@@ -103,6 +103,15 @@
   <axis xyz="0.0 -1.0 -0.0"/>
 </joint>
 
+  <gazebo reference="ball">
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+  </gazebo>
+  <gazebo reference="roll_celinder">
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+  </gazebo>
+
 <link name="wheel_1">
   <inertial>
     <origin rpy="0 0 0" xyz="6.395377760427118e-05 0.012000086928228931 -0.0002917507270338848"/>
