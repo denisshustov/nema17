@@ -75,7 +75,9 @@ class Motor_Driver:
         start = time.time()
         left_w = rpm_left < 0
         right_w = rpm_right < 0
-        
+        is_turn = (abs(rpm_left)-abs(rpm_right)) == 0
+        is_x_vel = (left_w and right_w) or (not left_w and not right_w)
+
         #https://www.se.com/no/en/faqs/FA337686/
         # fz = RPM / ((a/360)*60)
 
@@ -95,24 +97,27 @@ class Motor_Driver:
         real_rpm = (real_fz * 0.3) / 60
 
         real_x = real_rpm * self.DIST_PER_RAD
-
+        print("rpm_left = {}".format(rpm_left))
+        print("rpm_right = {}".format(rpm_right))
         # print("-------------------------------")
         # print("real_x = {}".format(real_x))
         # print("SET FZ = {}".format(fz))
         # print("GET FZ = {}".format(real_fz))
         # print("REAL RPM = {}".format(real_rpm))
-       
-        if left_w != right_w:
+        move_cmd.angular.z = 0
+        move_cmd.linear.x = 0
+        if not is_x_vel:
             move_cmd.angular.z = real_x / (self.wheelSep / 2.0)
             if fz > 0:
                 move_cmd.angular.z = move_cmd.angular.z * -1
             # print("Z0 REAL SPEED = {}".format(move_cmd.angular.z))
-        else:
-            move_cmd.angular.z = 0
+
+        if not is_turn
             if left_w and right_w:
                 move_cmd.linear.x = real_x  * -1
             else:
                 move_cmd.linear.x = real_x
+
         # print("-------------------------------")
         
         self.real_cmd_vel_pub.publish(move_cmd)
