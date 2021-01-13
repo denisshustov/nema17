@@ -1,0 +1,10 @@
+https://wiki.ros.org/social_navigation_layers
+
+https://wiki.ros.org/range_sensor_layer
+	sudo apt-get install ros-melodic-range-sensor-layer
+	https://answers.ros.org/question/320735/how-to-setup-range_sensor_layer-in-local-costmap/
+	
+	
+HZ https://wiki.ros.org/move_slow_and_clear?distro=noetic
+
+https://discuss.openhdfpv.com/t/asus-usb-ac56-wiring-antennas-etc/103/8
