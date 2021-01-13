@@ -80,12 +80,13 @@ class Motor_Driver:
         # fz = RPM / ((a/360)*60)
 
         fz = (rpm_left * 60) / 0.3
+        fz_right = (rpm_right * 60) / 0.3
 
         self.pi.set_PWM_dutycycle(self.STEP1, 255)  # PWM 1/2 On 1/2 Off
         self.pi.set_PWM_frequency(self.STEP1, abs(fz))  # 500 pulses per second
         
         self.pi.set_PWM_dutycycle(self.STEP2, 255)  # PWM 1/2 On 1/2 Off
-        self.pi.set_PWM_frequency(self.STEP2, abs(fz))  # 500 pulses per second
+        self.pi.set_PWM_frequency(self.STEP2, abs(fz_right))  # 500 pulses per second
         
         self.pi.write(self.DIR1, left_w if self.CW else self.CCW)  # Set direction
         self.pi.write(self.DIR2, right_w if self.CW else self.CCW)  # Set direction
