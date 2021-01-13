@@ -409,7 +409,7 @@
   </collision>
 </link>
 
-<link name="Lidar_1">
+<link name="Lidar_Box">
   <inertial>
     <origin rpy="0 0 0" xyz="3.0855486037040247e-07 2.620424081334338e-07 0.03500000000000002"/>
     <mass value="2.114723824855799"/>
@@ -429,6 +429,41 @@
     </geometry>
   </collision>
 </link>
+
+<link name="Lidar_1">
+  <inertial>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <mass value="0.001"/>
+    <inertia ixx="0.001511" ixy="-0.0" ixz="-0.0" iyy="0.001511" iyz="0.0" izz="0.001295"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <geometry>
+      <cylinder length="0.02" radius="0.02"/>
+    </geometry>
+    <material name="red"/>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <geometry>
+      <cylinder length="0.02" radius="0.02"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="Lidar_box_to_base_link" type="fixed">
+  <origin rpy="0 0 3.14159" xyz="0.115679 -0.143452 0.002"/>
+  <parent link="forward_top_1_Mirror__1"/>
+  <child link="Lidar_Box"/>
+</joint>
+
+
+<joint name="Lidar_Box_LIDAR" type="fixed">
+  <origin rpy="3.14159 0 0" xyz="0.0 0 0.07"/>
+  <parent link="Lidar_Box"/>
+  <child link="Lidar_1"/>
+  <axis xyz="0.0 -1.0 -0.0"/>
+</joint>
 
 <link name="base_imu_link">
   <inertial>
@@ -450,36 +485,6 @@
     </geometry>
   </collision>
 </link>
-
-<!-- -->
-  <!-- <link name='link_1'>
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="0.3" />      
-      <inertia ixx="1e-06" ixy="0.0" ixz="0.0" iyy="0.0" iyz="-0.0" izz="0.0"/>
-    </inertial>
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <sphere radius="0.0215773"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <sphere radius="0.0215773"/>
-      </geometry>
-    </collision>
-  </link>
-
-    
-  <joint name='base_footprint_JOINT_2' type='continuous'>
-      <origin xyz="0.12116 -0.014724 0.01" rpy="0 0 0" />
-      <parent link="base_link"/>
-      <child link="link_1"/>
-  </joint> -->
-
-<!-- -->
 
 
 <joint name="Rev1" type="continuous">
@@ -574,12 +579,6 @@
   <origin rpy="0 0 0" xyz="-0.005021 -0.158024 0.11"/>
   <parent link="base_link"/>
   <child link="back_top2_1"/>
-</joint>
-
-<joint name="Rigid25" type="fixed">
-  <origin rpy="0 0 3.14159" xyz="0.115679 -0.143452 0.002"/>
-  <parent link="forward_top_1_Mirror__1"/>
-  <child link="Lidar_1"/>
 </joint>
 
 <joint name="Rigid26" type="fixed">
