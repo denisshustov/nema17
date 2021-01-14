@@ -1,3 +1,6 @@
+ping 192.168.77.236
+ssh pi@192.168.77.236
+
 ping 192.168.77.245
 ssh pi@192.168.77.245
 rosrun motor_driver motor_driver.py

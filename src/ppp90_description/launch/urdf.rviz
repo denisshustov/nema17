@@ -91,8 +91,6 @@ Visualization Manager:
               Value: false
             forward_top_1_Mirror__1:
               Value: false
-            map:
-              Value: true
             nema17_1:
               Value: false
             nema17_Mirror__1:
@@ -117,8 +115,6 @@ Visualization Manager:
           Show Axes: true
           Show Names: false
           Tree:
-            map:
-              {}
             odom:
               base_footprint:
                 base_link:
@@ -520,7 +516,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 10
+      Min Intensity: 9
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -641,7 +637,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -665,16 +661,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10.627524375915527
+      Distance: 5.433383941650391
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.8925313949584961
-        Y: -0.019064325839281082
-        Z: 0.3734396696090698
+        X: -0.36257946491241455
+        Y: -0.5230076909065247
+        Z: 0.36219653487205505
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -683,7 +679,7 @@ Visualization Manager:
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.363832950592041
+      Yaw: 6.233831882476807
     Saved: ~
 Window Geometry:
   Displays:
