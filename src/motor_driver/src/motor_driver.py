@@ -75,8 +75,14 @@ class Motor_Driver:
         start = time.time()
         left_w = rpm_left < 0
         right_w = rpm_right < 0
-        is_turn = (abs(rpm_left)-abs(rpm_right)) == 0
+
+        is_turn = left_w != right_w and  (abs(rpm_left)-abs(rpm_right)) == 0
         is_x_vel = (left_w and right_w) or (not left_w and not right_w)
+        is_diagonal = is_x_vel and (rpm_left != rpm_right)
+        
+        # print("is_x_vel = {}".format(is_x_vel))
+        # print("is_turn = {}".format(is_turn))
+        # print("is_diagonal = {}".format(is_diagonal))
 
         #https://www.se.com/no/en/faqs/FA337686/
         # fz = RPM / ((a/360)*60)
@@ -104,20 +110,20 @@ class Motor_Driver:
         # print("SET FZ = {}".format(fz))
         # print("GET FZ = {}".format(real_fz))
         # print("REAL RPM = {}".format(real_rpm))
-        move_cmd.angular.z = 0
-        move_cmd.linear.x = 0
-        if not is_x_vel:
+       
+        if (is_turn)  or is_diagonal:
             move_cmd.angular.z = real_x / (self.wheelSep / 2.0)
             if fz > 0:
                 move_cmd.angular.z = move_cmd.angular.z * -1
             # print("Z0 REAL SPEED = {}".format(move_cmd.angular.z))
+        else:
+            move_cmd.angular.z = 0
 
-        if not is_turn
+        if is_x_vel or is_diagonal:
             if left_w and right_w:
                 move_cmd.linear.x = real_x  * -1
             else:
                 move_cmd.linear.x = real_x
-
         # print("-------------------------------")
         
         self.real_cmd_vel_pub.publish(move_cmd)
