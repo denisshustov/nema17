@@ -55,5 +55,4 @@ CATKIN_IGNORE
 src/.vscode/settings.json
 src/.vscode/c_cpp_properties.json
 
-
-src/ppp90_description/launch/urdf.rviz
+*.rviz

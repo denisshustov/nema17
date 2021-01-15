@@ -87,11 +87,11 @@ class Motor_Driver:
         #https://www.se.com/no/en/faqs/FA337686/
         # fz = RPM / ((a/360)*60)
 
-        fz = (rpm_left * 60) / 0.3
+        fz_left = (rpm_left * 60) / 0.3
         fz_right = (rpm_right * 60) / 0.3
 
         self.pi.set_PWM_dutycycle(self.STEP1, 255)  # PWM 1/2 On 1/2 Off
-        self.pi.set_PWM_frequency(self.STEP1, abs(fz))  # 500 pulses per second
+        self.pi.set_PWM_frequency(self.STEP1, abs(fz_left))  # 500 pulses per second
         
         self.pi.set_PWM_dutycycle(self.STEP2, 255)  # PWM 1/2 On 1/2 Off
         self.pi.set_PWM_frequency(self.STEP2, abs(fz_right))  # 500 pulses per second
@@ -99,31 +99,46 @@ class Motor_Driver:
         self.pi.write(self.DIR1, left_w if self.CW else self.CCW)  # Set direction
         self.pi.write(self.DIR2, right_w if self.CW else self.CCW)  # Set direction
         
-        real_fz = self.pi.get_PWM_frequency(self.STEP1)
-        real_rpm = (real_fz * 0.3) / 60
+        real_fz_left = self.pi.get_PWM_frequency(self.STEP1)
+        real_fz_right = self.pi.get_PWM_frequency(self.STEP2)
 
-        real_x = real_rpm * self.DIST_PER_RAD
-        print("rpm_left = {}".format(rpm_left))
-        print("rpm_right = {}".format(rpm_right))
+        real_rpm_left = (real_fz_left * 0.3) / 60
+        real_rpm_right = (real_fz_right * 0.3) / 60
+
+        real_velocity_left = real_rpm_left * self.DIST_PER_RAD
+        real_velocity_right = real_rpm_right * self.DIST_PER_RAD
+
+        # print("----------------------------")
+        # print("real_velocity_left = {}".format(real_velocity_left))
+        # print("real_velocity_right = {}".format(real_velocity_right))
+        # print("angular_rate = {}".format(angular_rate))
+        #print("linear_velocity = {}".format((real_velocity_right+real_velocity_left)/2))
+
+        # print("rpm_left = {}".format(rpm_left))
+        # print("rpm_right = {}".format(rpm_right))
+        # print("----------------------------")
+        
         # print("-------------------------------")
-        # print("real_x = {}".format(real_x))
+        # print("real_velocity_left = {}".format(real_velocity_left))
         # print("SET FZ = {}".format(fz))
-        # print("GET FZ = {}".format(real_fz))
-        # print("REAL RPM = {}".format(real_rpm))
+        # print("GET FZ LEFT= {}".format(real_fz_left))
+        # print("real_fz_left = {}".format(real_fz_left))
        
-        if (is_turn)  or is_diagonal:
-            move_cmd.angular.z = real_x / (self.wheelSep / 2.0)
-            if fz > 0:
+        if (is_turn):
+            move_cmd.angular.z = real_velocity_left / (self.wheelSep / 2.0)
+            if fz_left > 0:
                 move_cmd.angular.z = move_cmd.angular.z * -1
             # print("Z0 REAL SPEED = {}".format(move_cmd.angular.z))
-        else:
+        elif is_diagonal:
+            move_cmd.angular.z = (real_velocity_right - real_velocity_left) / self.wheelSep
+        else: 
             move_cmd.angular.z = 0
-
+            
         if is_x_vel or is_diagonal:
             if left_w and right_w:
-                move_cmd.linear.x = real_x  * -1
+                move_cmd.linear.x = ((real_velocity_right+real_velocity_left)/2)  * -1
             else:
-                move_cmd.linear.x = real_x
+                move_cmd.linear.x = (real_velocity_right+real_velocity_left)/2
         # print("-------------------------------")
         
         self.real_cmd_vel_pub.publish(move_cmd)
