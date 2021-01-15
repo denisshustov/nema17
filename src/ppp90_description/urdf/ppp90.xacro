@@ -459,7 +459,7 @@
 
 
 <joint name="Lidar_Box_LIDAR" type="fixed">
-  <origin rpy="3.14159 0 0" xyz="0.0 0 0.07"/>
+  <origin rpy="0 0 3.14159" xyz="0.0 0 0.07"/>
   <parent link="Lidar_Box"/>
   <child link="Lidar_1"/>
   <axis xyz="0.0 -1.0 -0.0"/>
