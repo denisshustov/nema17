@@ -169,7 +169,7 @@ class Driver:
     def __init__(self):
         rospy.init_node('driver')
 
-        self.motor_driver = Motor_Driver(26, 19, 6,    16, 20, 21)
+        self.motor_driver = Motor_Driver(26, 19, 6,    16, 18, 21)
         
         self._left_rpm = 0
         self._right_rpm = 0
