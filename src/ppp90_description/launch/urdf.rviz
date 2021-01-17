@@ -10,7 +10,8 @@ Panels:
         - /ROBOT1/TF1
         - /ROBOT1/TF1/Frames1
         - /Map1
-        - /PATHES1/Path1
+        - /PATHES1/Local_Path1
+        - /ODOM1
         - /RANGE1
       Splitter Ratio: 0.4806201457977295
     Tree Height: 416
@@ -93,8 +94,6 @@ Visualization Manager:
               Value: false
             forward_top_1_Mirror__1:
               Value: false
-            map:
-              Value: false
             nema17_1:
               Value: false
             nema17_Mirror__1:
@@ -119,43 +118,42 @@ Visualization Manager:
           Show Axes: true
           Show Names: false
           Tree:
-            map:
-              odom:
-                base_footprint:
-                  base_link:
-                    12GAN20__1__1:
-                      brush_1:
+            odom:
+              base_footprint:
+                base_link:
+                  12GAN20__1__1:
+                    brush_1:
+                      {}
+                  12GAN20__1__Mirror__1:
+                    brush_Mirror__1:
+                      {}
+                  back_top2_1:
+                    {}
+                  back_top_1:
+                    {}
+                  base_imu_link:
+                    {}
+                  forward_top_1_1:
+                    {}
+                  forward_top_1_Mirror__1:
+                    Lidar_Box:
+                      Lidar_1:
                         {}
-                    12GAN20__1__Mirror__1:
-                      brush_Mirror__1:
-                        {}
-                    back_top2_1:
+                  nema17_1:
+                    wheel_1:
                       {}
-                    back_top_1:
+                  nema17_Mirror__1:
+                    wheel_Mirror__1:
                       {}
-                    base_imu_link:
+                  roll_celinder:
+                    ball:
                       {}
-                    forward_top_1_1:
-                      {}
-                    forward_top_1_Mirror__1:
-                      Lidar_Box:
-                        Lidar_1:
-                          {}
-                    nema17_1:
-                      wheel_1:
-                        {}
-                    nema17_Mirror__1:
-                      wheel_Mirror__1:
-                        {}
-                    roll_celinder:
-                      ball:
-                        {}
-                    sonyc_1:
-                      {}
-                    sonyc_Mirror__1:
-                      {}
-                    sonyc__1__1:
-                      {}
+                  sonyc_1:
+                    {}
+                  sonyc_Mirror__1:
+                    {}
+                  sonyc__1__1:
+                    {}
           Update Interval: 0
           Value: true
         - Alpha: 1
@@ -527,7 +525,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 12
+      Min Intensity: 6
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -672,16 +670,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.947331428527832
+      Distance: 7.269009113311768
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.5513331294059753
-        Y: -0.13815999031066895
-        Z: 0.4817357361316681
+        X: 0.48939403891563416
+        Y: -0.14752508699893951
+        Z: 0.46190306544303894
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -690,7 +688,7 @@ Visualization Manager:
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.268852233886719
+      Yaw: 0.08565862476825714
     Saved: ~
 Window Geometry:
   Displays:

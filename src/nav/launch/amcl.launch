@@ -25,8 +25,8 @@
       <param name="odom_alpha3" value="2.5"/>
       <param name="odom_alpha4" value="0.2"/>
 
-      <param name="laser_min_range" value="0.15"/>
-      <param name="laser_max_range" value="12"/>
+      <param name="laser_min_range" value="-1"/><!--0.15-->
+      <param name="laser_max_range" value="-1"/><!--12-->
 
       <param name="laser_z_hit" value="0.9"/>
       <param name="laser_z_rand" value="0.2"/>

@@ -17,7 +17,7 @@ class Motor_Driver:
     SPR = 200   # Steps per Revolution (360 / 1.8)    
     PI = 3.14159265359
     wheel_radius = 0.074 / 2 #0.037
-    wheelSep = 0.29
+    wheelSep = 0.288
     DIST_PER_RAD = 2 * PI * wheel_radius        #0.232477856
 
     def __init__(self, dir1, step1, en1, dir2, step2, en2):
@@ -145,7 +145,7 @@ class Motor_Driver:
 
 class Driver:
     PI = 3.14159265359
-    wheelSep = 0.29
+    wheelSep = 0.288
     wheel_radius = 0.074 / 2 #0.037
     DIST_PER_RAD = 2 * PI * wheel_radius       #0.232477856
 
