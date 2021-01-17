@@ -64,13 +64,14 @@ class Cmd_to_odom:
             self.current_time = rospy.Time.now()
             self.dt = (self.current_time - self.last_time).to_sec()
             self.last_time = self.current_time
+            cmdVel = self.cmdVel
 
-            if self.cmdVel != None and \
-                self.cmdVel.linear != None and \
-                self.cmdVel.angular != None:
-                    self.linear_velocity_x = self.cmdVel.linear.x
-                    self.linear_velocity_y = self.cmdVel.linear.y
-                    self.angular_velocity_z = self.cmdVel.angular.z
+            if cmdVel != None and \
+                cmdVel.linear != None and \
+                cmdVel.angular != None:
+                    self.linear_velocity_x = cmdVel.linear.x
+                    self.linear_velocity_y = cmdVel.linear.y
+                    self.angular_velocity_z = cmdVel.angular.z
 
             # rospy.loginfo("x={},y={},z={}".format( \
             #     self.linear_velocity_x,self.linear_velocity_y,self.angular_velocity_z))

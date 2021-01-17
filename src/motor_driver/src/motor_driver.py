@@ -53,7 +53,7 @@ class Motor_Driver:
 
         if rpm_left == 0 and rpm_right == 0:
             if(self.prev_rpm_left != rpm_left and self.prev_rpm_right != rpm_right):
-                rospy.loginfo("Disabled drivers, speed 0!")
+                # rospy.loginfo("Disabled drivers, speed 0!")
                 GPIO.output(self.EN1, GPIO.HIGH)
                 GPIO.output(self.EN2, GPIO.HIGH)
                 self.prev_rpm_left = rpm_left
@@ -65,7 +65,7 @@ class Motor_Driver:
             return
         else:
             if(self.prev_rpm_left != rpm_left and self.prev_rpm_right != rpm_right):
-                rospy.loginfo("Enabled drivers, rpm "+str(rpm_left))
+                # rospy.loginfo("Enabled drivers, rpm "+str(rpm_left))
                 GPIO.output(self.EN1, GPIO.LOW)
                 GPIO.output(self.EN2, GPIO.LOW)
 
@@ -150,11 +150,11 @@ class Driver:
     DIST_PER_RAD = 2 * PI * wheel_radius       #0.232477856
 
     def callback(self, msg):
-        rospy.loginfo("Received a /ppp/cmd_vel message!")
-        rospy.loginfo("Linear Components: [%f, %f, %f]" % (
-            msg.linear.x, msg.linear.y, msg.linear.z))
-        rospy.loginfo("Angular Components: [%f, %f, %f]" % (
-            msg.angular.x, msg.angular.y, msg.angular.z))
+        # rospy.loginfo("Received a /ppp/cmd_vel message!")
+        # rospy.loginfo("Linear Components: [%f, %f, %f]" % (
+        #     msg.linear.x, msg.linear.y, msg.linear.z))
+        # rospy.loginfo("Angular Components: [%f, %f, %f]" % (
+        #     msg.angular.x, msg.angular.y, msg.angular.z))
         
         l_vel = msg.linear.x - ((self.wheelSep / 2.0) * msg.angular.z)# m/s
         r_vel = msg.linear.x + ((self.wheelSep / 2.0) * msg.angular.z)# m/s
