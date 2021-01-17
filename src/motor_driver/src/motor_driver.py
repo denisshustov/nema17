@@ -17,7 +17,7 @@ class Motor_Driver:
     SPR = 200   # Steps per Revolution (360 / 1.8)    
     PI = 3.14159265359
     wheel_radius = 0.074 / 2 #0.037
-    wheelSep = 0.2765
+    wheelSep = 0.29
     DIST_PER_RAD = 2 * PI * wheel_radius        #0.232477856
 
     def __init__(self, dir1, step1, en1, dir2, step2, en2):
@@ -111,8 +111,8 @@ class Motor_Driver:
         # print("----------------------------")
         # print("real_velocity_left = {}".format(real_velocity_left))
         # print("real_velocity_right = {}".format(real_velocity_right))
-        # print("angular_rate = {}".format(angular_rate))
-        #print("linear_velocity = {}".format((real_velocity_right+real_velocity_left)/2))
+        # # print("angular_rate = {}".format(angular_rate))
+        # print("linear_velocity = {}".format((real_velocity_right+real_velocity_left)/2))
 
         # print("rpm_left = {}".format(rpm_left))
         # print("rpm_right = {}".format(rpm_right))
@@ -120,7 +120,7 @@ class Motor_Driver:
         
         # print("-------------------------------")
         # print("real_velocity_left = {}".format(real_velocity_left))
-        # print("SET FZ = {}".format(fz))
+        # # print("SET FZ = {}".format(fz))
         # print("GET FZ LEFT= {}".format(real_fz_left))
         # print("real_fz_left = {}".format(real_fz_left))
        
@@ -145,7 +145,7 @@ class Motor_Driver:
 
 class Driver:
     PI = 3.14159265359
-    wheelSep = 0.2765
+    wheelSep = 0.29
     wheel_radius = 0.074 / 2 #0.037
     DIST_PER_RAD = 2 * PI * wheel_radius       #0.232477856
 
