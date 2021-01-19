@@ -2,7 +2,7 @@
 
 <launch>
     <include file="$(find motor_driver)/launch/motor-driver.launch"/>
-    <include file="$(find odom_publisher)/launch/odom-pub.launch"/>
+    <!-- <include file="$(find odom_publisher)/launch/odom-pub.launch"/> -->
     <include file="$(find brushUltraSonycSensorsVoltage)/launch/brush-ultrasonyc-sensors-voltage.launch"/>
     <include file="$(find rplidar_ros)/launch/rplidar.launch"/>
     <!-- <include file="$(find razor_imu_9dof)/launch/razor-pub.launch"/> -->

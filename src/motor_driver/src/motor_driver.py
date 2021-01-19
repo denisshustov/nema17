@@ -48,7 +48,7 @@ class Motor_Driver:
         self.real_cmd_vel_pub = rospy.Publisher("/ppp/real_cmd_vel", Twist, queue_size = 500)        
 
 
-    def run(self, rpm_left, rpm_right):
+    def run(self, rpm_left, rpm_right, x, z):
         move_cmd = Twist()
 
         if rpm_left == 0 and rpm_right == 0:
@@ -78,8 +78,10 @@ class Motor_Driver:
 
         is_turn = left_w != right_w and  (abs(rpm_left)-abs(rpm_right)) == 0
         is_x_vel = (left_w and right_w) or (not left_w and not right_w)
-        is_diagonal = is_x_vel and (rpm_left != rpm_right)
+        is_diagonal = not is_turn and (rpm_left != rpm_right)
         
+        # print("left_w = {}".format(left_w))
+        # print("right_w = {}".format(right_w))
         # print("is_x_vel = {}".format(is_x_vel))
         # print("is_turn = {}".format(is_turn))
         # print("is_diagonal = {}".format(is_diagonal))
@@ -125,20 +127,15 @@ class Motor_Driver:
         # print("real_fz_left = {}".format(real_fz_left))
        
         if (is_turn):
-            move_cmd.angular.z = real_velocity_left / (self.wheelSep / 2.0)
-            if fz_left > 0:
-                move_cmd.angular.z = move_cmd.angular.z * -1
-            # print("Z0 REAL SPEED = {}".format(move_cmd.angular.z))
+            move_cmd.angular.z = abs(real_velocity_left / (self.wheelSep / 2.0))* math.copysign(1, z)
         elif is_diagonal:
-            move_cmd.angular.z = (real_velocity_right - real_velocity_left) / self.wheelSep
+            move_cmd.angular.z = abs((real_velocity_right - real_velocity_left) / self.wheelSep)* math.copysign(1, z)
         else: 
             move_cmd.angular.z = 0
             
         if is_x_vel or is_diagonal:
-            if left_w and right_w:
-                move_cmd.linear.x = ((real_velocity_right+real_velocity_left)/2)  * -1
-            else:
-                move_cmd.linear.x = (real_velocity_right+real_velocity_left)/2
+            move_cmd.linear.x = abs((real_velocity_right+real_velocity_left)/2) * math.copysign(1, x)
+
         # print("-------------------------------")
         
         self.real_cmd_vel_pub.publish(move_cmd)
@@ -155,7 +152,9 @@ class Driver:
         #     msg.linear.x, msg.linear.y, msg.linear.z))
         # rospy.loginfo("Angular Components: [%f, %f, %f]" % (
         #     msg.angular.x, msg.angular.y, msg.angular.z))
-        
+        self.x = msg.linear.x
+        self.z = msg.angular.z
+
         l_vel = msg.linear.x - ((self.wheelSep / 2.0) * msg.angular.z)# m/s
         r_vel = msg.linear.x + ((self.wheelSep / 2.0) * msg.angular.z)# m/s
 
@@ -173,6 +172,8 @@ class Driver:
         
         self._left_rpm = 0
         self._right_rpm = 0
+        self.x = 0
+        self.z = 0
 
         self._timeout = rospy.get_param('~timeout', 2)
         self._rate = rospy.get_param('~rate', 1000)
@@ -185,7 +186,7 @@ class Driver:
         rate = rospy.Rate(self._rate)
 
         while not rospy.is_shutdown():
-            self.motor_driver.run(self._left_rpm, self._right_rpm)
+            self.motor_driver.run(self._left_rpm, self._right_rpm, self.x, self.z)
             rate.sleep()
 
 
