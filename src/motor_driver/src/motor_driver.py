@@ -122,14 +122,15 @@ class Motor_Driver:
         
         # print("-------------------------------")
         # print("real_velocity_left = {}".format(real_velocity_left))
+        # print("real_velocity_right = {}".format(real_velocity_right))
         # # print("SET FZ = {}".format(fz))
         # print("GET FZ LEFT= {}".format(real_fz_left))
         # print("real_fz_left = {}".format(real_fz_left))
        
-        if (is_turn):
+        if (is_turn or is_diagonal):
             move_cmd.angular.z = abs(real_velocity_left / (self.wheelSep / 2.0))* math.copysign(1, z)
-        elif is_diagonal:
-            move_cmd.angular.z = abs((real_velocity_right - real_velocity_left) / self.wheelSep)* math.copysign(1, z)
+        # elif is_diagonal:
+        #     move_cmd.angular.z = abs((real_velocity_right - real_velocity_left) / self.wheelSep)* math.copysign(1, z)
         else: 
             move_cmd.angular.z = 0
             
