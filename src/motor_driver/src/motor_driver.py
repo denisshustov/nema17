@@ -48,7 +48,7 @@ class Motor_Driver:
         self.real_cmd_vel_pub = rospy.Publisher("/ppp/real_cmd_vel", Twist, queue_size = 500)        
 
 
-    def run(self, rpm_left, rpm_right, x, z):
+    def run(self, rpm_left, rpm_right):
         move_cmd = Twist()
 
         if rpm_left == 0 and rpm_right == 0:
@@ -76,16 +76,6 @@ class Motor_Driver:
         left_w = rpm_left < 0
         right_w = rpm_right < 0
 
-        is_turn = left_w != right_w and  (abs(rpm_left)-abs(rpm_right)) == 0
-        is_x_vel = (left_w and right_w) or (not left_w and not right_w)
-        is_diagonal = not is_turn and (rpm_left != rpm_right)
-        
-        # print("left_w = {}".format(left_w))
-        # print("right_w = {}".format(right_w))
-        # print("is_x_vel = {}".format(is_x_vel))
-        # print("is_turn = {}".format(is_turn))
-        # print("is_diagonal = {}".format(is_diagonal))
-
         #https://www.se.com/no/en/faqs/FA337686/
         # fz = RPM / ((a/360)*60)
 
@@ -101,48 +91,39 @@ class Motor_Driver:
         self.pi.write(self.DIR1, left_w if self.CW else self.CCW)  # Set direction
         self.pi.write(self.DIR2, right_w if self.CW else self.CCW)  # Set direction
         
+        #----------------------------------------------
+
         real_fz_left = self.pi.get_PWM_frequency(self.STEP1)
         real_fz_right = self.pi.get_PWM_frequency(self.STEP2)
 
+        real_fz_left = real_fz_left * math.copysign(1, fz_left)
+        real_fz_right = real_fz_right * math.copysign(1, fz_right)
+        
         real_rpm_left = (real_fz_left * 0.3) / 60
         real_rpm_right = (real_fz_right * 0.3) / 60
 
         real_velocity_left = real_rpm_left * self.DIST_PER_RAD
         real_velocity_right = real_rpm_right * self.DIST_PER_RAD
 
-        print("----------------------------")
-        print("real_velocity_left = {}".format(real_velocity_left))
-        print("real_velocity_right = {}".format(real_velocity_right))
-        # print("angular_rate = {}".format(angular_rate))
-        print("linear_velocity = {}".format((real_velocity_right+real_velocity_left)/2))
+        # print("----------------------------")
+        # print("real_velocity_left = {}".format(real_velocity_left))
+        # print("real_velocity_right = {}".format(real_velocity_right))
+        # print("linear_velocity = {}".format((real_velocity_right+real_velocity_left)/2))
 
-        print("rpm_left = {}".format(rpm_left))
-        print("rpm_right = {}".format(rpm_right))
-        print("----------------------------")
+        # print("rpm_left = {}".format(rpm_left))
+        # print("rpm_right = {}".format(rpm_right))
+        # print("----------------------------")
         
-        print("-------------------------------")
-        print("real_velocity_left = {}".format(real_velocity_left))
-        print("real_velocity_right = {}".format(real_velocity_right))
-        # print("SET FZ = {}".format(fz))
-        print("GET FZ LEFT= {}".format(real_fz_left))
-        print("real_fz_left = {}".format(real_fz_left))
+        # print("-------------------------------")
+        # print("real_velocity_left = {}".format(real_velocity_left))
+        # print("real_velocity_right = {}".format(real_velocity_right))
+        # print("GET FZ LEFT= {}".format(real_fz_left))
+        # print("real_fz_left = {}".format(real_fz_left))
        
-        if (is_turn or is_diagonal):
-            if real_velocity_right == real_velocity_left:
-                move_cmd.angular.z =  abs((real_velocity_left * 2) / self.wheelSep)* math.copysign(1, z)
-            else:
-                move_cmd.angular.z =  abs((real_velocity_right - real_velocity_left) / self.wheelSep) * math.copysign(1, z)
-        else: 
-            move_cmd.angular.z = 0
-            
-        if is_x_vel or is_diagonal:
-            move_cmd.linear.x =  abs((real_velocity_right + real_velocity_left)/2) * math.copysign(1, x)
-            #  abs((real_velocity_left + (move_cmd.angular.z * self.wheelSep)/2)) * math.copysign(1, x)
-            #abs((real_velocity_right + real_velocity_left + (move_cmd.angular.z * self.wheelSep))/2) * math.copysign(1, x)
-            # abs((real_velocity_right + real_velocity_left)/2) * math.copysign(1, x)
-        else:
-            move_cmd.linear.x  = 0
-        print("-------------------------------")
+        move_cmd.angular.z = (real_velocity_right - real_velocity_left) / self.wheelSep       
+        move_cmd.linear.x = (real_velocity_right + real_velocity_left)/2
+       
+        # print("-------------------------------")
         
         self.real_cmd_vel_pub.publish(move_cmd)
 
@@ -168,9 +149,6 @@ class Driver:
         if  abs(msg.linear.x) > 0 and abs(msg.linear.x) < 0.01:
             msg.linear.x = 0.01 * math.copysign(1, msg.linear.x) 
 
-        self.x = msg.linear.x
-        self.z = msg.angular.z
-
         l_vel = msg.linear.x - ((self.wheelSep / 2.0) * msg.angular.z)# m/s
         r_vel = msg.linear.x + ((self.wheelSep / 2.0) * msg.angular.z)# m/s
 
@@ -188,11 +166,9 @@ class Driver:
         
         self._left_rpm = 0
         self._right_rpm = 0
-        self.x = 0
-        self.z = 0
 
         self._timeout = rospy.get_param('~timeout', 2)
-        self._rate = rospy.get_param('~rate', 1000)
+        self._rate = rospy.get_param('~rate', 100)
 
         self.ros_sub_twist = rospy.Subscriber("/ppp/cmd_vel", Twist, self.callback)
         rospy.loginfo("Initialization complete")
@@ -202,7 +178,7 @@ class Driver:
         rate = rospy.Rate(self._rate)
 
         while not rospy.is_shutdown():
-            self.motor_driver.run(self._left_rpm, self._right_rpm, self.x, self.z)
+            self.motor_driver.run(self._left_rpm, self._right_rpm)
             rate.sleep()
 
 
