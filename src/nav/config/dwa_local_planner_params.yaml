@@ -21,7 +21,7 @@ DWAPlannerROS:
 
 # Goal Tolerance Parameters 
   xy_goal_tolerance: 0.25
-  yaw_goal_tolerance: 0.5
+  yaw_goal_tolerance: 3
 
   
   trans_stopped_vel: 0.1

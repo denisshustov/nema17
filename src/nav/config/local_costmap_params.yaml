@@ -15,9 +15,15 @@ local_costmap:
   plugins:
     - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
     - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
-  
+    - {name: ultrasonic_layer,   type: "range_sensor_layer::RangeSensorLayer"}  
 
-
+ultrasonic_layer:
+    topics: ["/ppp/range_sensor1","/ppp/range_sensor2","/ppp/range_sensor3"]
+    no_readings_timeout: 2.0
+    clear_threshold: 0.4
+    mark_threshold: 0.9
+    clear_on_max_reading: true
+    
 # local_costmap:
 #   global_frame: map
 #   update_frequency: 2.0

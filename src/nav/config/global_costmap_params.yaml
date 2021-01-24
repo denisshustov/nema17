@@ -5,7 +5,8 @@ global_costmap:
   # update_frequency: 10.0
   # publish_frequency: 10.0
   # transform_tolerance: 0.5
-
+  # width: 10
+  # height: 10
   static_map: true
   rolling_window: false
   #footprint: [[0.15, 0.12], [0.15, -0.15], [-0.12, -0.15], [-0.12, 0.12]]

@@ -21,15 +21,15 @@ rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
     stride: 0
   data_offset: 0
 data:
-- 0
-- 0
-- 0" 
+- 1
+- 1
+- 1" 
 
 rosrun  map_server map_server ~/catkin_ws/src/nema17/src/nav/map/mymap.yaml
 
 ------------------------------------------------------------------------------
 
-rosbag play --clock -l 5.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/real_cmd_vel /ppp/range_sensor1 /ppp/range_sensor2 /ppp/range_sensor3 /rangeSonar1 /rosout /scan /voltage /ppp/real_cmd_vel /odom /tf /tf_static
+rosbag play --clock -l 10.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/real_cmd_vel /ppp/range_sensor1 /ppp/range_sensor2 /ppp/range_sensor3 /rangeSonar1 /rosout /scan /voltage /ppp/real_cmd_vel /odom /tf /tf_static
 
 ------------------------------------------------------------------------------
   <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" 

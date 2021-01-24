@@ -168,7 +168,7 @@ class Driver:
         self._right_rpm = 0
 
         self._timeout = rospy.get_param('~timeout', 2)
-        self._rate = rospy.get_param('~rate', 100)
+        self._rate = rospy.get_param('~rate', 1000)
 
         self.ros_sub_twist = rospy.Subscriber("/ppp/cmd_vel", Twist, self.callback)
         rospy.loginfo("Initialization complete")
