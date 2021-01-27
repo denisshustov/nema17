@@ -2,7 +2,7 @@
 
   <!-- <param name="/use_sim_time" value="true"/> -->
   <!-- <node pkg="rosservice" type="rosservice" name="reset_odom_service" args="/reset_odom_service 'reset: true'" /> -->
-  <node name="map_server" pkg="map_server" output="screen"  type="map_server" args="$(find nav)/map/mymap.yaml"/>
+  <node name="map_server" pkg="map_server" output="screen"  type="map_server" args="$(find nav)/map/mymap_3.yaml"/>
 
   <node name="reset_odometry" pkg="nav" output="screen" type="reset_odometry.py">
   </node>

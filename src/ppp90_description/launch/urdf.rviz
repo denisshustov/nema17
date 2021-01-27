@@ -30,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -91,14 +91,10 @@ Visualization Manager:
               Value: false
             forward_top_1_Mirror__1:
               Value: false
-            map:
-              Value: true
             nema17_1:
               Value: false
             nema17_Mirror__1:
               Value: false
-            odom:
-              Value: true
             roll_celinder:
               Value: false
             sonyc_1:
@@ -117,44 +113,7 @@ Visualization Manager:
           Show Axes: true
           Show Names: false
           Tree:
-            map:
-              {}
-            odom:
-              base_footprint:
-                base_link:
-                  12GAN20__1__1:
-                    brush_1:
-                      {}
-                  12GAN20__1__Mirror__1:
-                    brush_Mirror__1:
-                      {}
-                  back_top2_1:
-                    {}
-                  back_top_1:
-                    {}
-                  base_imu_link:
-                    {}
-                  forward_top_1_1:
-                    {}
-                  forward_top_1_Mirror__1:
-                    Lidar_Box:
-                      Lidar_1:
-                        {}
-                  nema17_1:
-                    wheel_1:
-                      {}
-                  nema17_Mirror__1:
-                    wheel_Mirror__1:
-                      {}
-                  roll_celinder:
-                    ball:
-                      {}
-                  sonyc_1:
-                    {}
-                  sonyc_Mirror__1:
-                    {}
-                  sonyc__1__1:
-                    {}
+            {}
           Update Interval: 0
           Value: true
         - Alpha: 1
@@ -671,16 +630,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 11.715450286865234
+      Distance: 18.11988067626953
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.1817825883626938
-        Y: 0.06727606803178787
-        Z: -0.19585128128528595
+        X: 3.7019762992858887
+        Y: 3.0820937156677246
+        Z: -0.19891870021820068
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
