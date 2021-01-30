@@ -17,10 +17,10 @@
         <param name="transform_time_offset" value="0.0"/>
 
         <param name="odom0" value="/odom"/>
-        <param name="imu0" value="/imu"/>
+        <!-- <param name="imu0" value="/imu"/>
         <param name="range_sensor1" value="/ppp/range_sensor1"/>
         <param name="range_sensor2" value="/ppp/range_sensor2"/>
-        <param name="range_sensor3" value="/ppp/range_sensor3"/>
+        <param name="range_sensor3" value="/ppp/range_sensor3"/> -->
 
         <remap from="/ppp/cmd_vel" to="/cmd_vel" />
 <!-- 
@@ -73,7 +73,7 @@
                                         true,  false, false,
                                         false, false, true,
                                         false, false, false]</rosparam>
-        <rosparam param="imu0_config">[false, false, false,
+        <!-- <rosparam param="imu0_config">[false, false, false,
                                       false, false, true,
                                       false, false, false,
                                       false, false,  true,
@@ -95,10 +95,10 @@
                                         false, false,  false, 
                                         true, false, false, 
                                         false, false,  false,
-                                        false, false, false]</rosparam>
+                                        false, false, false]</rosparam> -->
 
         <param name="odom0_differential" value="false"/>
-        <param name="imu0_differential" value="true"/>
+        <!-- <param name="imu0_differential" value="true"/>
         <param name="range_sensor1_differential" value="true"/>
         <param name="range_sensor2_differential" value="true"/>
         <param name="range_sensor3_differential" value="true"/>
@@ -111,13 +111,13 @@
 
         <param name="imu0_remove_gravitational_acceleration" value="true"/>
 
-        <param name="print_diagnostics" value="true"/>
+        <param name="print_diagnostics" value="true"/> -->
 
         <param name="odom0_queue_size" value="50"/>
-        <param name="imu0_queue_size" value="50"/>
+        <!-- <param name="imu0_queue_size" value="50"/>
         <param name="range_sensor1_queue_size" value="50"/>
         <param name="range_sensor2_queue_size" value="50"/>
-        <param name="range_sensor3_queue_size" value="50"/>
+        <param name="range_sensor3_queue_size" value="50"/> -->
 
   </node>
 </launch>
