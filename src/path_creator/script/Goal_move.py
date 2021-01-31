@@ -26,31 +26,36 @@ class Goal_move():
         9:'An action client can determine that a goal is LOST. This should not be sent over the wire by an action server'
     }
 
-    def init_markers(self):
-        markerArray = MarkerArray()
-        publisher = rospy.Publisher('visualization_marker', MarkerArray, queue_size = 50)
-
+    def get_marker(self, index):
         marker = Marker()
         marker.header.frame_id = "map"
-        marker.type = marker.SPHERE
+        marker.id = index
+        marker.ns = "hz_namespace"
+        marker.type = marker.TEXT_VIEW_FACING #SPHERE
         marker.action = marker.ADD
-        marker.scale.x = 0.2
+        marker.text = str(index)
         marker.scale.y = 0.2
         marker.scale.z = 0.2
         marker.color.a = 1.0
         marker.color.r = 1.0
         marker.color.g = 1.0
         marker.color.b = 0.0
-        marker.pose.orientation.w = 1.0
-        marker.pose.position.x = 8.77073478699
-        marker.pose.position.y = 4.06972980499
-        marker.pose.position.z = 0
-        
-        markerArray.markers.append(marker)
-        publisher.publish(markerArray)
-        print 'publishe marker'
 
-        rospy.sleep(0.01)
+        q = tf.transformations.quaternion_from_euler(0, 0, self.goal_list[index][2], axes='sxyz')
+        marker.pose.orientation = geometry_msgs.msg.Quaternion(*q)
+        marker.pose.position.x = self.goal_list[index][0]
+        marker.pose.position.y = self.goal_list[index][1]
+        marker.pose.position.z = 0
+        return marker
+
+    def init_markers(self):
+        index = 0
+        for g in self.goal_list:
+            self.markerArray.markers.append(self.get_marker(index))
+            index += 1
+        
+        print 'Publish markers'
+        self.marker_pub.publish(self.markerArray)
 
     def __init__(self, goal_list):
         rospy.init_node('goal_move')
@@ -58,15 +63,17 @@ class Goal_move():
 
         self.client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
         self.cmd_vel_pub = rospy.Publisher('/ppp/cmd_vel', Twist, queue_size = 50)
+        self.marker_pub = rospy.Publisher('visualization_marker', MarkerArray, queue_size = 1)
 
+        self.markerArray = MarkerArray()
         self.goal_list = goal_list
         self.current_goal_index = 0
 
+        self.init_markers()
         print 'Waiting for server...'
         self.client.wait_for_server(rospy.Duration(5))
         
-        self.init_markers()
-        #self.go_to_goal()
+        self.go_to_goal()
 
     def shutdown(self):
         rospy.loginfo("Stopping the robot...")
@@ -74,28 +81,6 @@ class Goal_move():
         rospy.sleep(2)
         self.cmd_vel_pub.publish(Twist())
         rospy.sleep(1)
-
-    def callback_active(self):
-        #rospy.loginfo("Goal pose "+str(self.current_goal_index)+" is now being processed by the Action Server...")
-        pass
-
-    def callback_feedback(self, feedback):
-        #rospy.loginfo("Feedback for goal pose "+str(self.current_goal_index)+" received." + str(feedback))
-        pass
-
-#http://docs.ros.org/en/diamondback/api/actionlib_msgs/html/msg/GoalStatus.html
-
-    def callback_done(self, status, result):
-        rospy.loginfo("status={}, result={}".format(status, result))
-
-        if status != 3:
-            rospy.loginfo("Goal pose "+str(self.current_goal_index)+" received a cancel request after it started executing, completed execution!")
-        elif status == 3:
-            rospy.loginfo("Goal pose "+str(self.current_goal_index)+" reached")
-        
-        rospy.loginfo("STATUS = {} ".format(self.client.get_goal_status_text()))
-        
-        self.choose_next_goal()
     
     def choose_next_goal(self):
         if self.current_goal_index + 1 < len(self.goal_list):
@@ -107,7 +92,6 @@ class Goal_move():
             rospy.signal_shutdown("Shutting down...")
 
     def go_to_goal(self):
-
 
         pose = geometry_msgs.msg.Pose()
         pose.position.x = self.goal_list[self.current_goal_index][0]
@@ -123,23 +107,24 @@ class Goal_move():
         goal.target_pose.header.stamp = rospy.Time.now()
 
         print 'Sending goal to action server: %s' % goal
-        self.client.send_goal(goal, self.callback_done, self.callback_active, self.callback_feedback)
+        self.client.send_goal(goal)
+        self.marker_pub.publish(self.markerArray)
 
-        finished_within_time = self.client.wait_for_result(rospy.Duration(30)) 
+        finished_within_time = self.client.wait_for_result(rospy.Duration(1)) 
 
         if not finished_within_time:
-            #self.client.cancel_goal()
+            self.client.cancel_goal()
             rospy.loginfo("Timed out achieving goal")
-            #self.choose_next_goal()
-        # else:
-        #     # We made it!
-        #     state = self.client.get_state()
-        #     if state == GoalStatus.SUCCEEDED:
-        #         rospy.loginfo("Goal succeeded!")
-
-        # print 'Result received. Action state is %s' % self.client.get_state()
-        # print 'Goal status message is %s' % self.client.get_goal_status_text()
-
+            print 'Result received. Action state is %s' % self.client.get_state()
+            print 'Goal status message is %s' % self.client.get_goal_status_text()
+            self.choose_next_goal()
+        else:
+            state = self.client.get_state()
+            if state == GoalStatus.SUCCEEDED:
+                rospy.loginfo("Goal succeeded!")
+                print 'Result received. Action state is %s' % self.client.get_state()
+                print 'Goal status message is %s' % self.client.get_goal_status_text()
+                self.choose_next_goal()
 
 if __name__ == '__main__':
     try:
@@ -160,120 +145,3 @@ if __name__ == '__main__':
 
     except rospy.ROSInterruptException:
         print "program interrupted before completion"
-
-# #!/usr/bin/env python2
-
-# #import requests
-# import roslib;# roslib.load_manifest('rbx1_nav')
-# import rospy
-# import actionlib
-# from actionlib_msgs.msg import *
-# from geometry_msgs.msg import Pose, Point, Quaternion, Twist
-# from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
-# from tf.transformations import quaternion_from_euler
-# from visualization_msgs.msg import Marker
-# from math import radians, pi
-
-# class Goal_move():
-#     def __init__(self):
-#         rospy.init_node('nav_test', anonymous=False)
-        
-#         rospy.on_shutdown(self.shutdown)
-        
-#         # How big is the square we want the robot to navigate?
-#         points = [[7.40554666519,3.98127555847], [7.35754680634,4.37160396576]]#rospy.get_param("~square_size", 1.0) # meters
-        
-#         # Create a list to hold the target quaternions (orientations)
-#         quaternions = list()
-        
-#         # First define the corner orientations as Euler angles
-#         euler_angles = (pi/2, pi, 3*pi/2, 0)
-        
-#         # Then convert the angles to quaternions
-#         for angle in euler_angles:
-#             q_angle = quaternion_from_euler(0, 0, angle, axes='sxyz')
-#             q = Quaternion(*q_angle)
-#             quaternions.append(q)
-        
-#         # Create a list to hold the waypoint poses
-#         waypoints = list()
-
-#         for point in points:
-#             pose = Pose()
-#             pose.position.x = point[0]
-#             pose.position.y = point[1]
-#             pose.position.z = 0.0
-#             pose.orientation = quaternions[3]
-#             waypoints.append(pose)
-
-#         # Initialize the visualization markers for RViz
-#         self.init_markers()
-        
-#         # Set a visualization marker at each waypoint        
-#         for waypoint in waypoints:
-#             p = Point()
-#             p = waypoint.position
-#             self.markers.points.append(p)
-            
-#         # Publisher to manually control the robot (e.g. to stop it)
-#         self.cmd_vel_pub = rospy.Publisher('/ppp/cmd_vel', Twist, queue_size = 50)
-        
-#         # Subscribe to the move_base action server
-#         self.move_base = actionlib.SimpleActionClient("move_base", MoveBaseAction)
-        
-#         rospy.loginfo("Waiting for move_base action server...")
-        
-#         # Wait 60 seconds for the action server to become available
-#         self.move_base.wait_for_server(rospy.Duration(5))
-        
-#         rospy.loginfo("Connected to move base server")
-#         rospy.loginfo("Starting navigation test")
-        
-#         # Initialize a counter to track waypoints
-#         i = 0
-        
-#         # Cycle through the four waypoints
-#         while i < 2 and not rospy.is_shutdown():
-#             # Update the marker display
-#             self.marker_pub.publish(self.markers)
-            
-#             # Intialize the waypoint goal
-#             goal = MoveBaseGoal()
-#             goal.target_pose.header.frame_id = 'map'
-#             goal.target_pose.header.stamp = rospy.Time.now()
-#             goal.target_pose.pose = waypoints[i]
-            
-#             # Start the robot moving toward the goal
-#             self.move(goal)
-            
-#             i += 1
-        
-#     def move(self, goal):
-#             self.move_base.send_goal(goal)
-#             finished_within_time = self.move_base.wait_for_result(rospy.Duration(30)) 
-            
-#             # If we don't get there in time, abort the goal
-#             if not finished_within_time:
-#                 self.move_base.cancel_goal()
-#                 rospy.loginfo("Timed out achieving goal")
-#             else:
-#                 # We made it!
-#                 state = self.move_base.get_state()
-#                 if state == GoalStatus.SUCCEEDED:
-#                     rospy.loginfo("Goal succeeded!")
-                    
-
-#     def shutdown(self):
-#         rospy.loginfo("Stopping the robot...")
-#         # Cancel any active goals
-#         self.move_base.cancel_goal()
-#         rospy.sleep(2)
-#         # Stop the robot
-#         self.cmd_vel_pub.publish(Twist())
-#         rospy.sleep(1)
-
-# if __name__ == '__main__':
-#     try:
-#         Goal_move()
-#     except rospy.ROSInterruptException:
-#         rospy.loginfo("Navigation test finished.")
