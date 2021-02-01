@@ -110,7 +110,7 @@ class Goal_move():
         self.client.send_goal(goal)
         self.marker_pub.publish(self.markerArray)
 
-        finished_within_time = self.client.wait_for_result(rospy.Duration(1)) 
+        finished_within_time = self.client.wait_for_result(rospy.Duration(30)) 
 
         if not finished_within_time:
             self.client.cancel_goal()

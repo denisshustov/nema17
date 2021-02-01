@@ -143,11 +143,17 @@ class Driver:
         #     msg.linear.x = 0
         #     msg.angular.z = 0
         
-        if  abs(msg.angular.z) > 0 and abs(msg.angular.z) < 0.08:
+        if abs(msg.angular.z) > 0 and abs(msg.angular.z) < 0.08:
             msg.angular.z = 0.08 * math.copysign(1, msg.angular.z) 
+       
+        if abs(msg.angular.z) > 0.7:
+            msg.angular.z = 0.7 * math.copysign(1, msg.angular.z) 
         
-        if  abs(msg.linear.x) > 0 and abs(msg.linear.x) < 0.01:
+        if abs(msg.linear.x) > 0 and abs(msg.linear.x) < 0.01:
             msg.linear.x = 0.01 * math.copysign(1, msg.linear.x) 
+
+        if abs(msg.linear.x) > 0.27:
+            msg.linear.x = 0.27 * math.copysign(1, msg.linear.x) 
 
         l_vel = msg.linear.x - ((self.wheelSep / 2.0) * msg.angular.z)# m/s
         r_vel = msg.linear.x + ((self.wheelSep / 2.0) * msg.angular.z)# m/s
