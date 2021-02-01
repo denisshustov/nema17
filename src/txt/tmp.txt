@@ -95,43 +95,24 @@ rosbag play --clock -l 10.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/real
 ------------------------------------------------------------------------------
 #https://www.vcalc.com/wiki/EmilyB/RPM+to+Linear+Velocity TEST RPM
 
-#velDiff = ((self.wheelSep)/ 2.0) * msg.angular.z
-# vel_l = ((msg.linear.x - (msg.angular.z * self.wheel_bias / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
-# vel_r = ((msg.linear.x + (msg.angular.z * self.wheel_bias / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
-
-# self._left_speed = ((msg.linear.x - (msg.angular.z * self.wheelSep / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
-# self._right_speed =  ((msg.linear.x + (msg.angular.z * self.wheelSep / 2.0)) / self.wheel_radius) * 60/(2*3.14159)
-
-#self._left_rpm = (msg.linear.x + velDiff) / self.wheel_radius
-#self._right_rpm = (msg.linear.x - velDiff) / self.wheel_radius
-
-#left_velocity = left_rpm * (RPM_TO_RAD_PER_S * DIST_PER_RAD);
-#right_velocity = right_rpm * (RPM_TO_RAD_PER_S * DIST_PER_RAD);
-#angular_rate = (right_velocity - left_velocity)/WHEEL_BASE;
-#RPM_TO_RAD_PER_S = 0.104719755        
-#DIST_PER_RAD= 2*pi*WHEEL_RADIUS        
-# left_rpm  = (linear_velocity - 0.5f*angular_rate*WHEEL_BASE)/(RPM_TO_RAD_PER_S * DIST_PER_RAD);
-# right_rpm = (linear_velocity + 0.5f*angular_rate*WHEEL_BASE)/(RPM_TO_RAD_PER_S * DIST_PER_RAD);
-
-# self._left_rpm = ((msg.linear.x - velDiff) / self.wheel_radius)# * (60 / (2 * self.PI))
-# self._right_rpm = ((msg.linear.x + velDiff) / self.wheel_radius)# * (60 / (2 * self.PI))
-
-# // calculate the left and right wheel speeds in rads/s
-# wheel_speed_left = (vr - va * wheel_separation_ / 2.0) / wheel_radius;
-# wheel_speed_right = (vr + va * wheel_separation_ / 2.0) / wheel_radius;
-
-
-#left_rpm  = left_velocity/(RPM_TO_RAD_PER_S * DIST_PER_RAD);
 ------------------------------------------------------------------------------        
 
 self._left_rpm = ((self.wheelSep / 2.0) * msg.angular.z)) / self.DIST_PER_RAD
 z=(_left_rpm*DIST_PER_RAD)/(self.wheelSep / 2.0) 
 
-
 ------------------------------------------------------------------------------
+FOOT_PINT_CIRCLE
 
+wheel_sep=0.288 # diametr
+(0.288/2)=0.144
 
-
+import math
+z=[]
+i=0
+while i<=2*math.pi:
+	z.append([(0.14 * math.sin(i)) + 0.016, ((0.288/2) * math.cos(i))-0.015])
+	i+=0.3
+------------------------------------------------------------------------------
 
 
 
