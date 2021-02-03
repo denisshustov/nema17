@@ -21,9 +21,9 @@ rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
     stride: 0
   data_offset: 0
 data:
-- 1
-- 1
-- 1" 
+- 0
+- 0
+- 0" 
 
 rosrun  map_server map_server ~/catkin_ws/src/nema17/src/nav/map/mymap.yaml
 

@@ -11,6 +11,9 @@ import time
 from math import radians, pi
 from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
+from actionlib_msgs.msg import GoalStatus
+
+from std_msgs.msg import ByteMultiArray
 
 class Goal_move():
     STATUSES = {
@@ -65,6 +68,8 @@ class Goal_move():
         self.cmd_vel_pub = rospy.Publisher('/ppp/cmd_vel', Twist, queue_size = 50)
         self.marker_pub = rospy.Publisher('visualization_marker', MarkerArray, queue_size = 1)
 
+        self.funAndBrushes_pub = rospy.Publisher("/funAndBrushes", ByteMultiArray, queue_size = 1)
+
         self.markerArray = MarkerArray()
         self.goal_list = goal_list
         self.current_goal_index = 0
@@ -76,6 +81,11 @@ class Goal_move():
         self.go_to_goal()
 
     def shutdown(self):
+        bma = ByteMultiArray()
+        bma.data = [0,0,0]
+        self.funAndBrushes_pub.publish(bma)
+        rospy.sleep(1)
+
         rospy.loginfo("Stopping the robot...")
         self.client.cancel_goal()
         rospy.sleep(2)
@@ -84,7 +94,7 @@ class Goal_move():
     
     def choose_next_goal(self):
         if self.current_goal_index + 1 < len(self.goal_list):
-            rospy.loginfo("Go to next goal")
+            rospy.loginfo("Go to next goal {}".format(self.current_goal_index))
             self.current_goal_index += 1
             self.go_to_goal()
         else:
@@ -92,6 +102,9 @@ class Goal_move():
             rospy.signal_shutdown("Shutting down...")
 
     def go_to_goal(self):
+        bma = ByteMultiArray()
+        bma.data = [1,1,1]
+        self.funAndBrushes_pub.publish(bma)
 
         pose = geometry_msgs.msg.Pose()
         pose.position.x = self.goal_list[self.current_goal_index][0]
@@ -110,13 +123,14 @@ class Goal_move():
         self.client.send_goal(goal)
         self.marker_pub.publish(self.markerArray)
 
-        finished_within_time = self.client.wait_for_result(rospy.Duration(30)) 
+        finished_within_time = self.client.wait_for_result(rospy.Duration(10)) 
 
         if not finished_within_time:
             self.client.cancel_goal()
-            rospy.loginfo("Timed out achieving goal")
+            rospy.loginfo("Timed out achieving goal {}".format(self.current_goal_index))
             print 'Result received. Action state is %s' % self.client.get_state()
-            print 'Goal status message is %s' % self.client.get_goal_status_text()
+            print('Goal status message is: {}'.format(self.client.get_goal_status_text()))
+
             self.choose_next_goal()
         else:
             state = self.client.get_state()

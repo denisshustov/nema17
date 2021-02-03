@@ -31,8 +31,8 @@
         <rosparam param="control_config">[true,  false, false,
                                           false, false, true]</rosparam>
         
-        <rosparam param="acceleration_limits">[1, 0.0, 0.0,
-                                              0.0, 0.0, 3.2]</rosparam>
+        <rosparam param="acceleration_limits">[0.27, 0.0, 0.0,
+                                              0.0, 0.0, 0.7]</rosparam>
 
         <rosparam param="process_noise_covariance"> 
         [0.05, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
@@ -98,12 +98,13 @@
                                         false, false, false]</rosparam> -->
 
         <param name="odom0_differential" value="false"/>
+        <param name="odom0_relative" value="true"/>
         <!-- <param name="imu0_differential" value="true"/>
         <param name="range_sensor1_differential" value="true"/>
         <param name="range_sensor2_differential" value="true"/>
         <param name="range_sensor3_differential" value="true"/>
 
-        <param name="odom0_relative" value="true"/>
+        
         <param name="imu0_relative" value="false"/>
         <param name="range_sensor1_relative" value="false"/>
         <param name="range_sensor2_relative" value="false"/>

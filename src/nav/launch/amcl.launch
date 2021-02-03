@@ -22,7 +22,7 @@
       <param name="kld_z" value="0.5"/>
       <param name="odom_alpha1" value="2"/><!--TEST THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
       <param name="odom_alpha2" value="4"/>
-      <param name="odom_alpha3" value="2.5"/>
+      <param name="odom_alpha3" value="0.5"/>
       <param name="odom_alpha4" value="0.2"/>
 
       <param name="laser_min_range" value="-1"/><!--0.15-->
@@ -47,13 +47,13 @@
       <param name="use_map_topic" value="false" />
       <param name="first_map_only" value="false" />
 
-      <param name="initial_pose_x" value="0" />
-      <param name="initial_pose_y" value="0" />
+      <param name="initial_pose_x" value="7" />
+      <param name="initial_pose_y" value="3" />
       <param name="initial_pose_a" value="0" />
 
-      <param name="initial_cov_xx" value="0.1" />
-      <param name="initial_cov_yy" value="0.1" />
-      <param name="initial_cov_aa" value="0.06853" />
+      <param name="initial_cov_xx" value="1" />
+      <param name="initial_cov_yy" value="1" />
+      <param name="initial_cov_aa" value="0.6853" />
 
 
   </node>
