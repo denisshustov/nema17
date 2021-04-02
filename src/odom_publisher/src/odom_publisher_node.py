@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 
 import rospy
@@ -9,7 +9,7 @@ import tf
 from tf.broadcaster import TransformBroadcaster
 from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
 
-from motor_driver.srv import reset_odom_srv, reset_odom_srvResponse
+from odom_publisher.srv import reset_odom_srv, reset_odom_srvResponse
 
 class Cmd_to_odom:
 

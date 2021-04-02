@@ -1,4 +1,4 @@
 <launch>
-        <node name="odom_publisher" pkg="odom_publisher" output="screen" type="odom_publisher.py">
+        <node name="odom_publisher" pkg="odom_publisher" output="screen" type="odom_publisher_node.py">
         </node>
 </launch>
