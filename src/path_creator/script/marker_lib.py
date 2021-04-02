@@ -44,20 +44,21 @@ class Marker_lib():
             self.markerArray.markers.append(self.get_marker(index))
             index += 1
         
-        print 'Publish markers'
+        print('Publish markers')
         self.marker_pub.publish(self.markerArray)
 
-    def __init__(self, goal_list):
-        rospy.init_node('goal_move_markers')
-        self.marker_pub = rospy.Publisher('visualization_marker', MarkerArray, queue_size = 1)
+    def publish_markers(self):
+        self.marker_pub.publish(self.markerArray)
 
-        self.markerArray = MarkerArray()
+    def add_points(self, goal_list):
         self.goal_list = goal_list
         self.current_goal_index = 0
-
         self.init_markers()
-        
-    
+
+    def __init__(self):
+        self.marker_pub = rospy.Publisher('visualization_marker', MarkerArray, queue_size = 1)
+        self.markerArray = MarkerArray()
+
 # if __name__ == '__main__':
 #     try:
 #         positions = [
