@@ -6,6 +6,7 @@ from std_msgs.msg import String
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Quaternion
+
 from nav_msgs.msg import Odometry
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 import math
@@ -65,7 +66,7 @@ class Path_Creator:
                     qqq = pth.get_route(True,False)
                     
                     for q in qqq:
-                        self.points.append([q[0],q[1],math.pi/2])
+                        self.points.append([q[0]*self.map.info.resolution,q[1]*self.map.info.resolution,math.pi/2])
                     # for c in z:
                     #     canvas = cv2.polylines(array_2d_rgb, [c], True, (255, 0, 0) , 1)
 
@@ -73,7 +74,8 @@ class Path_Creator:
                     # cv2.imshow("drawCntsImg.jpg", array_2d)
                     # cv2.waitKey(0)
                     i+=1
-                    break
+                    
+                    # break
                 self.ml.add_points(self.points)
 
             self.ml.publish_markers()  

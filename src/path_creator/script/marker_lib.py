@@ -24,12 +24,15 @@ class Marker_lib():
         marker.type = marker.TEXT_VIEW_FACING #SPHERE
         marker.action = marker.ADD
         marker.text = str(index)
+        marker.scale.x = 0.2
         marker.scale.y = 0.2
         marker.scale.z = 0.2
         marker.color.a = 1.0
         marker.color.r = 1.0
         marker.color.g = 1.0
         marker.color.b = 0.0
+        # marker.points = [Point(self.goal_list[index][0],self.goal_list[index][1], 0.),\
+        #     Point(self.goal_list[index][0],self.goal_list[index][1], 0.)]
 
         q = tf.transformations.quaternion_from_euler(0, 0, self.goal_list[index][2], axes='sxyz')
         marker.pose.orientation = geometry_msgs.msg.Quaternion(*q)
@@ -58,23 +61,3 @@ class Marker_lib():
     def __init__(self):
         self.marker_pub = rospy.Publisher('visualization_marker', MarkerArray, queue_size = 1)
         self.markerArray = MarkerArray()
-
-# if __name__ == '__main__':
-#     try:
-#         positions = [
-#                 [8.77073478699, 4.06972980499, pi/2],
-#                 [8.7332868576, 3.58700752258, pi/2],
-#                 [8.39705371857, 3.49016475677, pi/2],
-#                 [8.46412658691, 4.09582805634, pi/2],
-#                 [8.42993354797, 4.06738042831, pi/2],
-#                 [8.25302028656, 3.49167132378, pi/2],
-#                 [5.10396099091, 3.40945029259, pi/2],
-#                 [4.82347631454, 4.47493648529, pi/2],
-#                 [5.62562417984, 4.33915901184, pi/2],
-#                 [7.40439224243, 4.45074224472, pi/2]
-#             ]
-#         g = Goal_move(positions)
-#         rospy.spin()
-
-#     except rospy.ROSInterruptException:
-#         print "program interrupted before completion"
