@@ -187,6 +187,8 @@ def correct_conturs(src_img, offset=5):
     u_tmp_img = np.uint8(tmp_img)
 
     contours = get_conturs(u_tmp_img)
+    flannen_contours = []
+
     for idx, val in enumerate(contours):
         if cv2.contourArea(val)<cv2.arcLength(val,True):
             xxx=123     #open contur
@@ -199,9 +201,9 @@ def correct_conturs(src_img, offset=5):
                 contours[idx][idx1][idx2][1]=contours[idx][idx1][idx2][1]-y_offset
                 if contours[idx][idx1][idx2][1]<0:
                     contours[idx][idx1][idx2][1] = 0
+                flannen_contours.append((contours[idx][idx1][idx2][0],contours[idx][idx1][idx2][1]))
         
-    return contours
-
+    return (contours,flannen_contours)
 
 def get_counturs_from_label(label_prop_coords, scr_img_shape):
   c = np.flip(label_prop_coords, axis=None)
@@ -213,8 +215,8 @@ def get_counturs_from_label(label_prop_coords, scr_img_shape):
 #   edges = cv2.Canny( np.uint8(tmp_image),0, 255, 1)
 #   contours, hierarchy = cv2.findContours(edges,cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE )
 
-  result = correct_conturs(tmp_image,10)
-  return result
+  (result,flannen_contours) = correct_conturs(tmp_image,10)
+  return (result,flannen_contours)
 
 
 # img = cv2.imread('f:\Project\map.jpg',-1)
