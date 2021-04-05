@@ -37,9 +37,8 @@ class Path_Creator:
         self.points = []
         
         self.ml = mrk.Marker_lib()
-        self.polygons = [] 
-        self.ml_contur = mrk.Marker_lib()
-
+        self.polygons = []
+        
         r = rospy.Rate(100)        
         while not rospy.is_shutdown():
             if self.map != None and self.points == []:
@@ -67,14 +66,17 @@ class Path_Creator:
                     contours = []
                     (conturs,flannen_contours) = ip.get_counturs_from_label(p.coords,array_2d.shape)
 
-                    pth = ip.PathFinder(conturs,array_2d,5,1)
-                    qqq = pth.get_route(True,False)
+                    pth = ip.PathFinder(conturs,array_2d,3,2)
+                    way_points = pth.get_route(True,False)
                     
-                    for q in qqq:
+                    for q in way_points:
                         self.points.append([q[0]*self.map.info.resolution,q[1]*self.map.info.resolution,math.pi/2])
+
                     for fc in flannen_contours:
                         contours.append([fc[0]*self.map.info.resolution,fc[1]*self.map.info.resolution,math.pi/2])
+
                     self.polygons.append(pl.Ploygon_lib('polygon_'+str(i),contours))
+
                     # for c in z:
                     #     canvas = cv2.polylines(array_2d_rgb, [c], True, (255, 0, 0) , 1)
 
@@ -84,14 +86,12 @@ class Path_Creator:
                     i+=1
                     
                     # break
-                # self.ml.add_points(self.points)
-                # self.ml_contur.add_points(self.contours)
+                self.ml.add_points(self.points)
                 
-            #self.ml.publish_markers()
+            self.ml.publish_markers()
             for pol in self.polygons:
                 pol.publish()
-            # self.ml.publish_markers()  
-            # self.ml_contur.publish_markers()  
+
             r.sleep()
         #rospy.spin()
 

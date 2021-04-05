@@ -159,7 +159,7 @@ def get_conturs(u_tmp_img):
     is_ok = True
     contours = []
 
-    for i in range(0,5):
+    for i in range(0,10):
         if i>0:
             kernel=np.ones((i,i), np.uint8)
             erosion=cv2.erode(u_tmp_img, kernel)
