@@ -12,8 +12,8 @@ from scipy import ndimage
 from skimage.measure import regionprops
 
 class PathFinder:
-
-    def __init__(self, contours, src_image, GRID_SIZE = 10, border_in = 5):
+    
+    def __init__(self, contours, src_image, GRID_SIZE = 10, border_in = 5,contours_compensate=0):
         if src_image.shape[0] == 0 or src_image.shape[1] == 0:
             raise Exception('src_image has 0 shape')
         if len(contours)==0:
@@ -21,6 +21,7 @@ class PathFinder:
         if GRID_SIZE==0:
             raise Exception('GRID_SIZE is 0!')
         
+        self.contours_compensate = contours_compensate
         self.GRID_SIZE = GRID_SIZE
         self.border_in = border_in
         self.src_image = src_image
@@ -87,7 +88,7 @@ class PathFinder:
                 if vvv:
                     for c in self.contours:
                         is_in = cv2.pointPolygonTest(c, (vvv[0], vvv[1]), True)
-                        if is_in >= self.border_in:
+                        if is_in >= (self.border_in - self.contours_compensate):
                             int_points.append((vvv[0], vvv[1]))
                             if visualize:
                                 cv2.circle(self.src_image, (vvv[0], vvv[1]),1, (0,0,255), -1)
@@ -176,7 +177,8 @@ def get_conturs(u_tmp_img):
                 is_ok = True
         if is_ok:
             break
-    return contours
+
+    return (contours,i)
 
 def correct_conturs(src_img, offset=5):
     tmp_img = np.zeros(shape=(src_img.shape[0]+offset*50,src_img.shape[1]+offset*50),dtype=int)
@@ -186,7 +188,7 @@ def correct_conturs(src_img, offset=5):
     tmp_img[y_offset:y_offset+src_img.shape[0], x_offset:x_offset+src_img.shape[1]] = src_img
     u_tmp_img = np.uint8(tmp_img)
 
-    contours = get_conturs(u_tmp_img)
+    (contours,contours_compensate) = get_conturs(u_tmp_img)
     flannen_contours = []
 
     for idx, val in enumerate(contours):
@@ -203,7 +205,7 @@ def correct_conturs(src_img, offset=5):
                     contours[idx][idx1][idx2][1] = 0
                 flannen_contours.append((contours[idx][idx1][idx2][0],contours[idx][idx1][idx2][1]))
         
-    return (contours,flannen_contours)
+    return (contours,flannen_contours,contours_compensate)
 
 def get_counturs_from_label(label_prop_coords, scr_img_shape):
   c = np.flip(label_prop_coords, axis=None)
@@ -215,8 +217,8 @@ def get_counturs_from_label(label_prop_coords, scr_img_shape):
 #   edges = cv2.Canny( np.uint8(tmp_image),0, 255, 1)
 #   contours, hierarchy = cv2.findContours(edges,cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE )
 
-  (result,flannen_contours) = correct_conturs(tmp_image,10)
-  return (result,flannen_contours)
+  (result,flannen_contours,contours_compensate) = correct_conturs(tmp_image,10)
+  return (result,flannen_contours,contours_compensate)
 
 
 # img = cv2.imread('f:\Project\map.jpg',-1)
