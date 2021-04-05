@@ -21,8 +21,7 @@ import os
 import sys
 
 import inter_proba_1 as ip
-import marker_lib as mrk
-import polygon_lib as pl
+from WayPoint import *
 
 class Path_Creator:
     def __init__(self):
@@ -34,14 +33,12 @@ class Path_Creator:
         self.robot_center_pixel_y = 10
         
         self.map = None
-        self.points = []
         
-        self.ml = mrk.Marker_lib()
-        self.polygons = []
-        
+        self.way_points = []
+
         r = rospy.Rate(100)        
         while not rospy.is_shutdown():
-            if self.map != None and self.points == []:
+            if self.map != None and self.way_points == []:
                 #z = self.map.info.resolution #meters / pixel 
                 robot_in_pixels = self.robot_diametr / self.map.info.resolution #6x6
 
@@ -63,19 +60,22 @@ class Path_Creator:
                 i=0
 
                 for p in props:
-                    contours = []
+                    
                     (conturs,flannen_contours) = ip.get_counturs_from_label(p.coords,array_2d.shape)
 
-                    pth = ip.PathFinder(conturs,array_2d,3,2)
-                    way_points = pth.get_route(True,False)
+                    pth = ip.PathFinder(conturs,array_2d,2,3)
+                    covered_points = pth.get_route(True,False)
+                    points = []
                     
-                    for q in way_points:
-                        self.points.append([q[0]*self.map.info.resolution,q[1]*self.map.info.resolution,math.pi/2])
+                    for cp in covered_points:
+                        points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
 
+                    corrected_conturs = []
                     for fc in flannen_contours:
-                        contours.append([fc[0]*self.map.info.resolution,fc[1]*self.map.info.resolution,math.pi/2])
-
-                    self.polygons.append(pl.Ploygon_lib('polygon_'+str(i),contours))
+                        corrected_conturs.append([fc[0]*self.map.info.resolution,fc[1]*self.map.info.resolution,math.pi/2])
+                    
+                    way_point = WayPoint(corrected_conturs, points, str(i))                    
+                    self.way_points.append(way_point)
 
                     # for c in z:
                     #     canvas = cv2.polylines(array_2d_rgb, [c], True, (255, 0, 0) , 1)
@@ -86,12 +86,8 @@ class Path_Creator:
                     i+=1
                     
                     # break
-                self.ml.add_points(self.points)
-                
-            self.ml.publish_markers()
-            for pol in self.polygons:
-                pol.publish()
-
+            if len(self.way_points)>0:
+                self.way_points[1].display()
             r.sleep()
         #rospy.spin()
 
