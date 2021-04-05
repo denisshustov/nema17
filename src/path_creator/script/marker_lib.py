@@ -16,23 +16,26 @@ from std_msgs.msg import ByteMultiArray
 
 class Marker_lib():
 
-    def get_marker(self, index):
+    def get_marker(self, index, is_text=False):
         marker = Marker()
         marker.header.frame_id = "map"
-        marker.id = index
+        marker.id = index+1000
         marker.ns = "hz_namespace"
-        marker.type = marker.TEXT_VIEW_FACING #SPHERE
+        if not is_text:
+            marker.type = marker.CYLINDER 
+        else:
+            marker.type = marker.TEXT_VIEW_FACING
+
         marker.action = marker.ADD
         marker.text = str(index)
-        marker.scale.x = 0.2
-        marker.scale.y = 0.2
-        marker.scale.z = 0.2
+        marker.scale.x = 0.02
+        marker.scale.y = 0.02
+        marker.scale.z = 0.5
         marker.color.a = 1.0
         marker.color.r = 1.0
-        marker.color.g = 1.0
+        marker.color.g = 10.0
         marker.color.b = 0.0
-        # marker.points = [Point(self.goal_list[index][0],self.goal_list[index][1], 0.),\
-        #     Point(self.goal_list[index][0],self.goal_list[index][1], 0.)]
+        # marker.points = [Point(0,0, 0.), Point(0,0 , 0.9),]
 
         q = tf.transformations.quaternion_from_euler(0, 0, self.goal_list[index][2], axes='sxyz')
         marker.pose.orientation = geometry_msgs.msg.Quaternion(*q)
@@ -45,6 +48,7 @@ class Marker_lib():
         index = 0
         for g in self.goal_list:
             self.markerArray.markers.append(self.get_marker(index))
+            # self.markerArray.markers.append(self.get_marker(index, True))
             index += 1
         
         print('Publish markers')

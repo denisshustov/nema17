@@ -1,6 +1,12 @@
 {
     "configurations": [
         {
+            "name": "ROS: Launch",
+            "type": "ros",
+            "request": "launch",
+            "target": "/home/nnn/catkin_ws/src/nema17/src/path_creator/launch/path_creator.launch"
+        },
+        {
             "name": "ROS: Attach",
             "type": "ros",
             "request": "attach"
