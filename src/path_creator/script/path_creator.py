@@ -22,6 +22,7 @@ import sys
 
 import inter_proba_1 as ip
 import marker_lib as mrk
+import polygon_lib as pl
 
 class Path_Creator:
     def __init__(self):
@@ -35,6 +36,7 @@ class Path_Creator:
         self.map = None
         self.points = []
         self.ml = mrk.Marker_lib()
+        self.polygon = pl.Ploygon_lib()
 
         r = rospy.Rate(100)        
         while not rospy.is_shutdown():
@@ -78,7 +80,8 @@ class Path_Creator:
                     # break
                 self.ml.add_points(self.points)
 
-            self.ml.publish_markers()  
+            #self.ml.publish_markers()  
+            self.polygon.publish()
             r.sleep()
         #rospy.spin()
 
