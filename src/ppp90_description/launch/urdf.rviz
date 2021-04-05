@@ -9,8 +9,10 @@ Panels:
         - /ROBOT1
         - /ROBOT1/TF1/Frames1
         - /Map1
+        - /Areas1
+        - /Areas1/Polygon3
       Splitter Ratio: 0.4806201457977295
-    Tree Height: 416
+    Tree Height: 608
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -29,7 +31,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -90,14 +92,10 @@ Visualization Manager:
               Value: false
             forward_top_1_Mirror__1:
               Value: false
-            map:
-              Value: true
             nema17_1:
               Value: false
             nema17_Mirror__1:
               Value: false
-            odom:
-              Value: true
             roll_celinder:
               Value: false
             sonyc_1:
@@ -110,49 +108,48 @@ Visualization Manager:
               Value: false
             wheel_Mirror__1:
               Value: false
+          Marker Alpha: 1
           Marker Scale: 1
           Name: TF
           Show Arrows: true
           Show Axes: true
           Show Names: false
           Tree:
-            map:
-              odom:
-                base_footprint:
-                  base_link:
-                    12GAN20__1__1:
-                      brush_1:
-                        {}
-                    12GAN20__1__Mirror__1:
-                      brush_Mirror__1:
-                        {}
-                    back_top2_1:
+            base_footprint:
+              base_link:
+                12GAN20__1__1:
+                  brush_1:
+                    {}
+                12GAN20__1__Mirror__1:
+                  brush_Mirror__1:
+                    {}
+                back_top2_1:
+                  {}
+                back_top_1:
+                  {}
+                base_imu_link:
+                  {}
+                forward_top_1_1:
+                  {}
+                forward_top_1_Mirror__1:
+                  Lidar_Box:
+                    Lidar_1:
                       {}
-                    back_top_1:
-                      {}
-                    base_imu_link:
-                      {}
-                    forward_top_1_1:
-                      {}
-                    forward_top_1_Mirror__1:
-                      Lidar_Box:
-                        Lidar_1:
-                          {}
-                    nema17_1:
-                      wheel_1:
-                        {}
-                    nema17_Mirror__1:
-                      wheel_Mirror__1:
-                        {}
-                    roll_celinder:
-                      ball:
-                        {}
-                    sonyc_1:
-                      {}
-                    sonyc_Mirror__1:
-                      {}
-                    sonyc__1__1:
-                      {}
+                nema17_1:
+                  wheel_1:
+                    {}
+                nema17_Mirror__1:
+                  wheel_Mirror__1:
+                    {}
+                roll_celinder:
+                  ball:
+                    {}
+                sonyc_1:
+                  {}
+                sonyc_Mirror__1:
+                  {}
+                sonyc__1__1:
+                  {}
           Update Interval: 0
           Value: true
         - Alpha: 1
@@ -285,6 +282,7 @@ Visualization Manager:
           Color: 25; 255; 0
           Enabled: true
           Name: Local_Polygon
+          Queue Size: 10
           Topic: /move_base/local_costmap/footprint
           Unreliable: false
           Value: true
@@ -293,6 +291,7 @@ Visualization Manager:
           Color: 0; 0; 127
           Enabled: true
           Name: Global_Polygon
+          Queue Size: 10
           Topic: /move_base/global_costmap/footprint
           Unreliable: false
           Value: true
@@ -351,6 +350,7 @@ Visualization Manager:
             Z: 0
           Pose Color: 255; 85; 255
           Pose Style: None
+          Queue Size: 10
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
@@ -374,6 +374,7 @@ Visualization Manager:
             Z: 0
           Pose Color: 255; 85; 255
           Pose Style: None
+          Queue Size: 10
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
@@ -397,6 +398,7 @@ Visualization Manager:
             Z: 0
           Pose Color: 255; 85; 255
           Pose Style: None
+          Queue Size: 10
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
@@ -431,6 +433,7 @@ Visualization Manager:
           Head Length: 0.30000001192092896
           Head Radius: 0.10000000149011612
           Name: PoseWithCovariance
+          Queue Size: 10
           Shaft Length: 1
           Shaft Radius: 0.05000000074505806
           Shape: Arrow
@@ -458,6 +461,7 @@ Visualization Manager:
           Keep: 100
           Name: Odometry
           Position Tolerance: 0.10000000149011612
+          Queue Size: 10
           Shape:
             Alpha: 1
             Axes Length: 1
@@ -492,6 +496,7 @@ Visualization Manager:
           Keep: 1
           Name: Odometry_Filtered
           Position Tolerance: 0.10000000149011612
+          Queue Size: 10
           Shape:
             Alpha: 1
             Axes Length: 1
@@ -522,9 +527,7 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 15
       Min Color: 0; 0; 0
-      Min Intensity: 7
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -547,6 +550,7 @@ Visualization Manager:
       Head Length: 0.07000000029802322
       Head Radius: 0.029999999329447746
       Name: PoseArray
+      Queue Size: 10
       Shaft Length: 0.23000000417232513
       Shaft Radius: 0.009999999776482582
       Shape: Arrow (Flat)
@@ -559,6 +563,7 @@ Visualization Manager:
       Enabled: false
       History Length: 1
       Name: Imu
+      Queue Size: 10
       Topic: /imu
       Unreliable: false
       Value: false
@@ -571,6 +576,7 @@ Visualization Manager:
       Head Length: 0.30000001192092896
       Head Radius: 0.10000000149011612
       Name: Pose
+      Queue Size: 10
       Shaft Length: 1
       Shaft Radius: 0.05000000074505806
       Shape: Arrow
@@ -594,9 +600,7 @@ Visualization Manager:
           Enabled: false
           Invert Rainbow: false
           Max Color: 233; 185; 110
-          Max Intensity: 4096
           Min Color: 0; 0; 0
-          Min Intensity: 0
           Name: PointCloud2
           Position Transformer: XYZ
           Queue Size: 10
@@ -649,11 +653,60 @@ Visualization Manager:
         {}
       Queue Size: 100
       Value: true
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Class: rviz/Polygon
+          Color: 255; 0; 0
+          Enabled: true
+          Name: Polygon
+          Queue Size: 10
+          Topic: /polygon_0
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Class: rviz/Polygon
+          Color: 25; 255; 0
+          Enabled: true
+          Name: Polygon
+          Queue Size: 10
+          Topic: /polygon_1
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Class: rviz/Polygon
+          Color: 255; 25; 50
+          Enabled: true
+          Name: Polygon
+          Queue Size: 10
+          Topic: /polygon_2
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Class: rviz/Polygon
+          Color: 25; 255; 0
+          Enabled: true
+          Name: Polygon
+          Queue Size: 10
+          Topic: /polygon_3
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Class: rviz/Polygon
+          Color: 25; 255; 0
+          Enabled: true
+          Name: Polygon
+          Queue Size: 10
+          Topic: /polygon_4
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: Areas
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: base_link
+    Fixed Frame: world
     Frame Rate: 30
   Name: root
   Tools:
@@ -677,16 +730,17 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.0469110012054443
+      Distance: 7.156975746154785
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
+      Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.05215423181653023
-        Y: 0.006888115778565407
-        Z: -0.3771110773086548
+        X: 4.971999645233154
+        Y: 2.349274158477783
+        Z: -0.37306147813796997
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -694,16 +748,15 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
-      Value: Orbit (rviz)
-      Yaw: 3.723832130432129
+      Yaw: 4.858832359313965
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 713
+  Height: 911
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000015600000229fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003b00000229000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00540065006c0065006f007000000001c90000009b0000000000000000000000010000010f00000225fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d00000225000000a000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000051300000044fc0100000002fb0000000800540069006d00650100000000000005130000024400fffffffb0000000800540069006d00650100000000000004500000000000000000000003b70000022900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000040000000000000156000002ebfc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d000002eb000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00540065006c0065006f007000000001c90000009b0000000000000000000000010000010f00000225fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d00000225000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073800000044fc0100000002fb0000000800540069006d0065010000000000000738000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000005dc000002eb00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -712,6 +765,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1299
-  X: 67
+  Width: 1848
+  X: 72
   Y: 27
