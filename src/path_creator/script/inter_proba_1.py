@@ -208,17 +208,24 @@ def correct_conturs(src_img, offset=5):
     return (contours,flannen_contours,contours_compensate)
 
 def get_counturs_from_label(label_prop_coords, scr_img_shape):
-  c = np.flip(label_prop_coords, axis=None)
-  tmp_image = np.zeros(shape=(scr_img_shape[0],scr_img_shape[1]))
-  tmp_image[:,:]=255
-  for z in c:
-    tmp_image[z[1],z[0]]=0
+    c = np.flip(label_prop_coords, axis=None)
+    tmp_image = np.zeros(shape=(scr_img_shape[0],scr_img_shape[1],3))
+    tmp_image[:,:]=255
+    for z in c:
+        tmp_image[z[1],z[0]]=0
 
-#   edges = cv2.Canny( np.uint8(tmp_image),0, 255, 1)
-#   contours, hierarchy = cv2.findContours(edges,cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE )
+    gray = cv2.cvtColor(np.uint8(tmp_image), cv2.COLOR_RGB2GRAY)
+    contours, hierarchy = cv2.findContours(gray,cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE )
+    flannen_contours = []
+    contours_compensate = 0
 
-  (result,flannen_contours,contours_compensate) = correct_conturs(tmp_image,10)
-  return (result,flannen_contours,contours_compensate)
+    # for idx, val in enumerate(contours[0]):
+    for idx1, val1 in enumerate(contours[1]):
+        for idx2, val2 in enumerate(val1):
+            flannen_contours.append((contours[1][idx1][idx2][0],contours[1][idx1][idx2][1]))
+
+
+    return (contours,flannen_contours,contours_compensate)
 
 
 # img = cv2.imread('f:\Project\map.jpg',-1)

@@ -32,6 +32,25 @@ rosrun  map_server map_server ~/catkin_ws/src/nema17/src/nav/map/mymap.yaml
 rosbag play --clock -l 10.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/real_cmd_vel /ppp/range_sensor1 /ppp/range_sensor2 /ppp/range_sensor3 /rangeSonar1 /rosout /scan /voltage /ppp/real_cmd_vel /odom /tf /tf_static
 
 ------------------------------------------------------------------------------
+test map:
+roslaunch ppp90_description display.launch 
+roslaunch nav nav.launch
+rosbag play --clock -l 6.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/real_cmd_vel /ppp/range_sensor1 /ppp/range_sensor2 /ppp/range_sensor3 /rangeSonar1 /rosout /scan /voltage /ppp/real_cmd_vel /odom /tf /tf_static
+roslaunch path_creator path_creator.launch
+------------------------------------------------------------------------------
+create map:
+
+rosrun tf tf_monitor
+
+ssh pi@192.168.77.236
+
+roslaunch odom_publisher odom-pub.launch 
+rosrun hector_mapping hector_mapping
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=ppp/cmd_vel
+rosrun map_server map_saver -f new_mymap
+
+
+------------------------------------------------------------------------------
   <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" 
     name="laser_scan_matcher_node" output="screen">
  

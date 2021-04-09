@@ -63,7 +63,7 @@ class Path_Creator:
                     
                     (conturs,flannen_contours,contours_compensate) = ip.get_counturs_from_label(p.coords,array_2d.shape)
 
-                    pth = ip.PathFinder(conturs,array_2d,2,6,contours_compensate)
+                    pth = ip.PathFinder(conturs,array_2d,5,6,contours_compensate)
                     covered_points = pth.get_route(True,False)
                     points = []
                     
@@ -77,17 +77,17 @@ class Path_Creator:
                     way_point = WayPoint(corrected_conturs, points, str(i))                    
                     self.way_points.append(way_point)
 
-                    # for c in conturs:
-                    #     canvas = cv2.polylines(array_2d_rgb, [c], True, (255, 0, 0) , 1)
+                    for c in conturs:
+                        canvas = cv2.polylines(array_2d_rgb, [c], True, (255, 0, 0) , 1)
 
-                    # # cv2.putText(img,str(i), (c[0][0][0],c[0][0][1]), cv2.FONT_HERSHEY_SIMPLEX, 1,(0,255,255),2)
-                    # cv2.imshow("drawCntsImg.jpg", array_2d)
+                    # cv2.putText(img,str(i), (c[0][0][0],c[0][0][1]), cv2.FONT_HERSHEY_SIMPLEX, 1,(0,255,255),2)
+                    # cv2.imshow("drawCntsImg.jpg", array_2d_rgb)
                     # cv2.waitKey(0)
                     i+=1
                     
                     # break
             if len(self.way_points)>0:
-                self.way_points[0].display()
+                self.way_points[1].display()
             r.sleep()
         #rospy.spin()
 
