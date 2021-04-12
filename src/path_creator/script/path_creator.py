@@ -20,7 +20,7 @@ import cv2
 import os
 import sys
 
-import inter_proba_1 as ip
+from inter_proba_1 import *
 from WayPoint import *
 
 class Path_Creator:
@@ -55,39 +55,34 @@ class Path_Creator:
                 array_2d = np.uint8(array_2d)
                 array_2d_rgb = backtorgb = cv2.cvtColor(array_2d,cv2.COLOR_GRAY2RGB)
 
-                labels_ws = ip.get_lables(array_2d)
-                props = ip.regionprops(labels_ws)
+                conturs = get_conturs(array_2d)
                 i=0
 
-                for p in props:
-                    
-                    (conturs,flannen_contours,contours_compensate) = ip.get_counturs_from_label(p.coords,array_2d.shape)
-
-                    pth = ip.PathFinder(conturs,array_2d,5,6,contours_compensate)
+                for cnt in conturs:
+                    pth = PathFinder(cnt,array_2d,3,1)
                     covered_points = pth.get_route(True,False)
+
                     points = []
-                    
                     for cp in covered_points:
                         points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
+                    
+                    flannen_contours=[]
+                    for idx, val in enumerate(cnt):
+                        for idx1, val1 in enumerate(val):
+                            for idx2, val2 in enumerate(val1):
+                                flannen_contours.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
 
                     corrected_conturs = []
                     for fc in flannen_contours:
                         corrected_conturs.append([fc[0]*self.map.info.resolution,fc[1]*self.map.info.resolution,math.pi/2])
-                    
+
                     way_point = WayPoint(corrected_conturs, points, str(i))                    
                     self.way_points.append(way_point)
-
-                    for c in conturs:
-                        canvas = cv2.polylines(array_2d_rgb, [c], True, (255, 0, 0) , 1)
-
-                    # cv2.putText(img,str(i), (c[0][0][0],c[0][0][1]), cv2.FONT_HERSHEY_SIMPLEX, 1,(0,255,255),2)
-                    # cv2.imshow("drawCntsImg.jpg", array_2d_rgb)
-                    # cv2.waitKey(0)
                     i+=1
-                    
-                    # break
+
             if len(self.way_points)>0:
-                self.way_points[1].display()
+                for w in self.way_points:
+                    w.display()
             r.sleep()
         #rospy.spin()
 

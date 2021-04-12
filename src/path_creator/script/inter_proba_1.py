@@ -145,109 +145,24 @@ class PathFinder:
             k+=1
         return ok_arr
 
-def get_lables(image):
-    distance = cv2.distanceTransform(image, cv2.DIST_C, 3)
-    # distance = cv2.distanceTransform(image, cv2.cv.CV_DIST_L2, 5)
-    local_maxi = peak_local_max(distance, indices=False, footprint=np.ones((60, 60)), labels=image)
+def get_conturs(img):
+    # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
+
+    distance = cv2.distanceTransform(img, cv2.DIST_C, 5)
+    local_maxi = peak_local_max(distance, indices=False, footprint=np.ones((60, 60)), labels=img)
     markers = morphology.label(local_maxi)
-    labels_ws = watershed(-distance, markers, mask=image)
+    labels_ws = watershed(-distance, markers, mask=img)
+    result=[]
 
-    return cv2.normalize(labels_ws, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+    for label in np.unique(labels_ws):
+        if label == 0:
+            continue
 
+        # draw label on the mask
+        mask = np.zeros(img.shape, dtype="uint8")
+        mask[labels_ws == label] = 255
+        contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        result.append(contours)
 
-def get_conturs(u_tmp_img):
-
-    is_ok = True
-    contours = []
-
-    for i in range(0,10):
-        if i>0:
-            kernel=np.ones((i,i), np.uint8)
-            erosion=cv2.erode(u_tmp_img, kernel)
-            edges = cv2.Canny(erosion,0, 255)
-        else:
-            edges = cv2.Canny(u_tmp_img,0, 255)
-
-        contours, hierarchy = cv2.findContours(edges,cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)        
-        for idx, val in enumerate(contours):
-            if cv2.contourArea(val)<cv2.arcLength(val,True):
-                is_ok = False
-                break
-            else:
-                is_ok = True
-        if is_ok:
-            break
-
-    return (contours,i)
-
-def correct_conturs(src_img, offset=5):
-    tmp_img = np.zeros(shape=(src_img.shape[0]+offset*50,src_img.shape[1]+offset*50),dtype=int)
-    tmp_img[:,:]=255
-    x_offset=y_offset=offset
-
-    tmp_img[y_offset:y_offset+src_img.shape[0], x_offset:x_offset+src_img.shape[1]] = src_img
-    u_tmp_img = np.uint8(tmp_img)
-
-    (contours,contours_compensate) = get_conturs(u_tmp_img)
-    flannen_contours = []
-
-    for idx, val in enumerate(contours):
-        if cv2.contourArea(val)<cv2.arcLength(val,True):
-            xxx=123     #open contur
-        
-        for idx1, val1 in enumerate(val):
-            for idx2, val2 in enumerate(val1):
-                contours[idx][idx1][idx2][0]=contours[idx][idx1][idx2][0]-x_offset
-                if contours[idx][idx1][idx2][0]<0:
-                    contours[idx][idx1][idx2][0] = 0
-                contours[idx][idx1][idx2][1]=contours[idx][idx1][idx2][1]-y_offset
-                if contours[idx][idx1][idx2][1]<0:
-                    contours[idx][idx1][idx2][1] = 0
-                flannen_contours.append((contours[idx][idx1][idx2][0],contours[idx][idx1][idx2][1]))
-        
-    return (contours,flannen_contours,contours_compensate)
-
-def get_counturs_from_label(label_prop_coords, scr_img_shape):
-    c = np.flip(label_prop_coords, axis=None)
-    tmp_image = np.zeros(shape=(scr_img_shape[0],scr_img_shape[1],3))
-    tmp_image[:,:]=255
-    for z in c:
-        tmp_image[z[1],z[0]]=0
-
-    gray = cv2.cvtColor(np.uint8(tmp_image), cv2.COLOR_RGB2GRAY)
-    contours, hierarchy = cv2.findContours(gray,cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE )
-    flannen_contours = []
-    contours_compensate = 0
-
-    # for idx, val in enumerate(contours[0]):
-    for idx1, val1 in enumerate(contours[1]):
-        for idx2, val2 in enumerate(val1):
-            flannen_contours.append((contours[1][idx1][idx2][0],contours[1][idx1][idx2][1]))
-
-
-    return (contours,flannen_contours,contours_compensate)
-
-
-# img = cv2.imread('f:\Project\map.jpg',-1)
-# img = cv2.imread('f:\Project\map\mymap_2.jpg',-1)
-# img = cv2.imread('/home/pi/git/map_test/img/mymap_22.jpg')#
-# labels_ws = get_lables(img)
-# props = regionprops(labels_ws)
-
-# i=0
-
-# for p in props:
-#     z = get_counturs_from_label(p.coords,img.shape)
-
-#     pth = PathFinder(z,img,10,5)
-#     qqq = pth.get_route(i==13)
-
-#     for c in z:
-#         canvas = cv2.polylines(img, [c], True, (255, 0, 0) , 1)
-
-#     cv2.putText(img,str(i), (c[0][0][0],c[0][0][1]), cv2.FONT_HERSHEY_SIMPLEX, 1,(0,255,255),2)
-#     i+=1
-
-
-# cv2.imshow("drawCntsImg.jpg", pth.src_image)
-# cv2.waitKey(0)
+    return result  
