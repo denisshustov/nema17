@@ -42,24 +42,13 @@ class Path_Creator:
                 #z = self.map.info.resolution #meters / pixel 
                 robot_in_pixels = self.robot_diametr / self.map.info.resolution #6x6
 
-                w = self.map.info.width
-                h = self.map.info.height
-                d = self.map.data
-                array_2d = np.reshape(self.map.data, (-1, self.map.info.width))
+                array_map = self.map_to_array()
 
-                np.place(array_2d, array_2d ==255, -100500)
-                np.place(array_2d, array_2d ==0, 255)
-                np.place(array_2d, array_2d ==-1, 0)
-                np.place(array_2d, array_2d ==100, 0)
-                np.place(array_2d, array_2d ==-100500, 0)
-                array_2d = np.uint8(array_2d)
-                array_2d_rgb = backtorgb = cv2.cvtColor(array_2d,cv2.COLOR_GRAY2RGB)
-
-                conturs = get_conturs(array_2d)
+                conturs = get_conturs(array_map)
                 i=0
 
                 for cnt in conturs:
-                    pth = PathFinder(cnt,array_2d,2,1)
+                    pth = PathFinder(cnt,array_map,2,1)
                     covered_points = pth.get_route()
 
                     points = []
@@ -85,6 +74,18 @@ class Path_Creator:
                     w.display()
             r.sleep()
         #rospy.spin()
+
+    def map_to_array(self):
+        result = np.reshape(self.map.data, (-1, self.map.info.width))
+
+        np.place(result, result ==255, -100500)
+        np.place(result, result ==0, 255)
+        np.place(result, result ==-1, 0)
+        np.place(result, result ==100, 0)
+        np.place(result, result ==-100500, 0)
+        result = np.uint8(result)
+        #array_2d_rgb = backtorgb = cv2.cvtColor(result,cv2.COLOR_GRAY2RGB)
+        return result
 
     def callback(self, data):
         self.map = data
