@@ -59,8 +59,8 @@ class Path_Creator:
                 i=0
 
                 for cnt in conturs:
-                    pth = PathFinder(cnt,array_2d,3,1)
-                    covered_points = pth.get_route(True,False)
+                    pth = PathFinder(cnt,array_2d,2,1)
+                    covered_points = pth.get_route()
 
                     points = []
                     for cp in covered_points:

@@ -13,7 +13,7 @@ from skimage.measure import regionprops
 
 class PathFinder:
     
-    def __init__(self, contours, src_image, GRID_SIZE = 10, border_in = 5,contours_compensate=0):
+    def __init__(self, contours, src_image, GRID_SIZE = 10, border_in = 5, neibor_distance=8,contours_compensate=0,visualize=False,visualize_grid=False):
         if src_image.shape[0] == 0 or src_image.shape[1] == 0:
             raise Exception('src_image has 0 shape')
         if len(contours)==0:
@@ -21,6 +21,9 @@ class PathFinder:
         if GRID_SIZE==0:
             raise Exception('GRID_SIZE is 0!')
         
+        self.neibor_distance = neibor_distance
+        self.visualize = visualize
+        self.visualize_grid = visualize_grid
         self.contours_compensate = contours_compensate
         self.GRID_SIZE = GRID_SIZE
         self.border_in = border_in
@@ -49,7 +52,7 @@ class PathFinder:
     def dist(self, p1, p2):
         return math.hypot(p2[0] - p1[0], p2[1] - p1[1])
         
-    def getNeibors(self, p, arr, trd, take_first=False):
+    def getNeibors(self, p, arr, trd):
         result = []
 
         for x, y in arr:
@@ -67,7 +70,7 @@ class PathFinder:
                 result.append(n)
         return result
     
-    def get_route(self, visualize=False,visualize_grid=False):
+    def get_in_points(self):
         int_points = []
         y_min = min(self.array_of_contours[:,1:])[0]
         y_max = max(self.array_of_contours[:,1:])[0]+self.GRID_SIZE
@@ -79,10 +82,10 @@ class PathFinder:
         height = self.src_image.shape[0]
         width  = self.src_image.shape[1]
         for x in range(x_min, x_max, self.GRID_SIZE):
-            if visualize_grid:
+            if self.visualize_grid:
                 cv2.line(self.src_image, (x, 0), (x, height), (255, 0, 0), 1, 1)
             for y in range(y_min, y_max, self.GRID_SIZE):
-                if visualize_grid:
+                if self.visualize_grid:
                     cv2.line(self.src_image, (0, y), (width, y), (255, 0, 0), 1, 1)
                 vvv = self.line_intersection(((x, 0), (x, height)),((0, y), (width, y)))
                 if vvv:
@@ -90,60 +93,64 @@ class PathFinder:
                         is_in = cv2.pointPolygonTest(c, (vvv[0], vvv[1]), True)
                         if is_in >= (self.border_in - self.contours_compensate):
                             int_points.append((vvv[0], vvv[1]))
-                            if visualize:
+                            if self.visualize:
                                 cv2.circle(self.src_image, (vvv[0], vvv[1]),1, (0,0,255), -1)
+        return int_points
+
+    def get_route(self):
+        int_points = self.get_in_points()
 
         if len(int_points)==0:
             return []
             #raise Exception('int_points is empty, something go wrong')
         #OK!!!!!!!!!!!!!!!!!!
-        un_x = np.unique(np.array(int_points)[:,:1], axis=0)
-        un_x_ptr = 0
-        neibor_distance = 8
+        x_grid_slice = np.unique(np.array(int_points)[:,:1], axis=0)
+        x_grid_ptr = 0
+
         k=0
-        ok_arr = []
-        # for xy in int_points:
+        result = []
         xy = int_points[0]
         while True:
             x=xy[0]
             y=xy[1]
 
-            if visualize:
+            if self.visualize:
                 cv2.circle(self.src_image, (x,y),1, (255,255,255), -1)
 
-            neibors = self.getNeibors(xy,int_points,neibor_distance)
-            relevant_points = self.get_relevant_points(neibors,un_x, un_x_ptr,ok_arr)
+            neibors = self.getNeibors(xy,int_points,self.neibor_distance)
+            relevant_points = self.get_relevant_points(neibors,x_grid_slice, x_grid_ptr,result)
 
 
             if len(relevant_points)>0:
                 relevant_points_fst = sorted(relevant_points, key=lambda s: s[2])[0]
-                if not relevant_points_fst in ok_arr:
-                    ok_arr.append((relevant_points_fst[0],relevant_points_fst[1]))
-                    if visualize:
-                        cv2.line(self.src_image, (x,y), (relevant_points_fst[0],relevant_points_fst[1]), (0, 0, 0), 1, 1)
+                if not relevant_points_fst in result:
+                    result.append((relevant_points_fst[0],relevant_points_fst[1]))
                     xy = relevant_points_fst
+
+                    if self.visualize:
+                        cv2.line(self.src_image, (x,y), (relevant_points_fst[0],relevant_points_fst[1]), (0, 0, 0), 1, 1)
                 else:
-                    un_x_ptr+=1
-                    if len(un_x)<=un_x_ptr:
+                    x_grid_ptr+=1
+                    if len(x_grid_slice)<=x_grid_ptr:
                         break
             else:
-                all_neibors = [n for n in self.getNeibors(xy,int_points,x_max+y_max,True) if not (n[0],n[1]) in ok_arr]
-                if len(all_neibors)>0 and all_neibors[0][2] > neibor_distance:
+                all_neibors = [n for n in self.getNeibors(xy,int_points,self.src_image.shape[0]+self.src_image.shape[1]) if not (n[0],n[1]) in result]
+                if len(all_neibors)>0 and all_neibors[0][2] > self.neibor_distance:
                     #just to first
-                    ok_arr.append((all_neibors[0][0],all_neibors[0][1]))
-                    if visualize:
-                        cv2.line(self.src_image, (x,y), (all_neibors[0][0],all_neibors[0][1]), (0, 0, 0), 1, 1)
+                    result.append((all_neibors[0][0],all_neibors[0][1]))
                     xy = all_neibors[0]
+
+                    if self.visualize:
+                        cv2.line(self.src_image, (x,y), (all_neibors[0][0],all_neibors[0][1]), (0, 0, 0), 1, 1)
                 else:
-                    un_x_ptr+=1
-                    if len(un_x)<=un_x_ptr:
+                    x_grid_ptr+=1
+                    if len(x_grid_slice)<=x_grid_ptr:
                         break
-            # for n in neibors:
-            #     cv2.line(self.src_image, (x,y), (x,y), (0, 0, 0), 1, 1)
+
             if k>1117111:
                 break
             k+=1
-        return ok_arr
+        return result
 
 def get_conturs(img):
     # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
