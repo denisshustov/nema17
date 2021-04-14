@@ -44,28 +44,20 @@ class Path_Creator:
 
                 array_map = self.map_to_array()
 
-                conturs = get_conturs(array_map)
+                conturs = get_conturs(array_map,self.map.info.resolution)
+                # zzz = cv2.convexHull([conturs[0][0],conturs[1][0]], False)
                 i=0
-
-                for cnt in conturs:
-                    pth = PathFinder(cnt,array_map,2,1)
+                start_point = None
+                for (contour, corrected_contur) in conturs:
+                    pth = PathFinder(contour,array_map,3,1,neibor_distance=8,start_point=start_point)
                     covered_points = pth.get_route()
+                    start_point = covered_points[len(covered_points)-1]
 
                     points = []
                     for cp in covered_points:
                         points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
-                    
-                    flannen_contours=[]
-                    for idx, val in enumerate(cnt):
-                        for idx1, val1 in enumerate(val):
-                            for idx2, val2 in enumerate(val1):
-                                flannen_contours.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
-
-                    corrected_conturs = []
-                    for fc in flannen_contours:
-                        corrected_conturs.append([fc[0]*self.map.info.resolution,fc[1]*self.map.info.resolution,math.pi/2])
-
-                    way_point = WayPoint(corrected_conturs, points, str(i))                    
+                
+                    way_point = WayPoint(corrected_contur, points, str(i))                    
                     self.way_points.append(way_point)
                     i+=1
 
@@ -74,7 +66,7 @@ class Path_Creator:
                     w.display()
             r.sleep()
         #rospy.spin()
-
+        
     def map_to_array(self):
         result = np.reshape(self.map.data, (-1, self.map.info.width))
 
