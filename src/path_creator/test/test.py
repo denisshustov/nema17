@@ -20,10 +20,9 @@ import cv2
 import os
 import sys
 
-sys.path.append(os.path.join(sys.path[0], '../script'))
-from inter_proba_1 import *
-
 sys.path.append(os.path.join(sys.path[0], '../script/libraries'))
+
+from PathFinder import *
 from Conturs import *
 
 #/home/pi/catkin_ws/src/path_creator/test/img/map.jpg

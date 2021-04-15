@@ -33,13 +33,13 @@ class Conturs:
                     result.append((a1,b1))
         return result
 
-    def get_intersections(self):
+    def get_intersections(self, delta = 2):
         result = []
         for cnt in self.conturs:
             for cnt1 in self.conturs:
                 if cnt.id != cnt1.id:
                     q = self.intersect2D(np.array(cnt.corrected_contur), \
-                        np.array(cnt1.corrected_contur), 2)
+                        np.array(cnt1.corrected_contur), delta)
                     if len(q)>0:
                         result.append((cnt.id,cnt1.id))
         return result

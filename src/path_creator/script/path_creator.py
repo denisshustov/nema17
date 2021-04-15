@@ -20,7 +20,11 @@ import cv2
 import os
 import sys
 
-from inter_proba_1 import *
+sys.path.append(os.path.join(sys.path[0], 'libraries'))
+from Conturs import *
+
+from PathFinder import *
+
 from WayPoint import *
 
 class Path_Creator:
