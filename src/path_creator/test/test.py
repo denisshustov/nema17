@@ -23,7 +23,7 @@ import sys
 sys.path.append('/home/pi/catkin_ws/src/path_creator/script')
 from inter_proba_1 import *
 
-sys.path.append('/home/pi/catkin_ws/src/path_creator/script/lib')
+sys.path.append('/home/pi/catkin_ws/src/path_creator/script/libraries')
 from Conturs import *
 
 #/home/pi/catkin_ws/src/path_creator/test/img/map.jpg
