@@ -33,7 +33,7 @@ i=0
 
 start_point = None
 for (cnt, corrected_contur) in cnts:
-    pth = PathFinder(cnt, image, 5, 2, start_point=start_point, debug_mode=True)
+    pth = PathFinder(cnt, image, 8, 2, start_point=start_point, debug_mode=True)
     covered_points = pth.get_route()
     start_point = covered_points[len(covered_points)-1]
     pth.show_mounting_point(img)
@@ -41,7 +41,7 @@ for (cnt, corrected_contur) in cnts:
 
     for c in cnt:
         if cv2.contourArea(c) > 100:
-            cv2.drawContours(image, [c], -1, (0, 0, 255), 1, 1)
+            cv2.drawContours(img, [c], -1, (0, 0, 255), 1, 1)
     i+=1
 # pth.show_grid(image)
 # pth.show_mounting_point(image)

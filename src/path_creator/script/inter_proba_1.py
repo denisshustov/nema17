@@ -175,8 +175,8 @@ class PathFinder:
                     if len(x_grid_slice)<=x_grid_ptr:
                         break
             else:
-                all_neibors = [n for n in self.getNeibors(xy,self.mounting_points,self.src_image.shape[0]+self.src_image.shape[1]) if not (n[0],n[1]) in self.path_points]
-                if len(all_neibors)>0 and all_neibors[0][2] > self.neibor_distance:
+                all_neibors = [n for n in self.getNeibors(xy,self.mounting_points,100500) if not (n[0],n[1]) in self.path_points]
+                if len(all_neibors)>0: # and all_neibors[0][2] > self.neibor_distance:
                     #just to first
                     self.path_points.append((all_neibors[0][0],all_neibors[0][1]))
                     xy = all_neibors[0]
@@ -187,7 +187,7 @@ class PathFinder:
 
             # if k>1117111:
             #     break
-            # k+=1
+            k+=1
         return self.path_points
 
 def get_conturs(img):
@@ -210,7 +210,7 @@ def get_conturs(img):
         corrected_conturs=[]
         for idx, val in enumerate(cnt):
             area = cv2.contourArea(val)
-            if area>10:
+            if area>0:
                 contours.append(val)
                 for idx1, val1 in enumerate(val):
                     for idx2, val2 in enumerate(val1):
