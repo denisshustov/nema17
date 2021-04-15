@@ -15,7 +15,6 @@ class PathFinder:
     
     def __init__(self, contours, src_image, \
         GRID_SIZE = 10, border_in = 5, neibor_distance = 8, \
-        contours_compensate=0, \
         start_point=None,debug_mode=False):
 
         if src_image.shape[0] == 0 or src_image.shape[1] == 0:
@@ -32,7 +31,6 @@ class PathFinder:
         self.mounting_points = []
         self.path_points = []
 
-        self.contours_compensate = contours_compensate
         self.GRID_SIZE = GRID_SIZE
         self.border_in = border_in
         self.src_image = src_image
@@ -129,7 +127,7 @@ class PathFinder:
                 if intersect_point:
                     for c in self.contours:
                         is_in = cv2.pointPolygonTest(c, (intersect_point[0], intersect_point[1]), True)
-                        if is_in >= (self.border_in - self.contours_compensate):
+                        if is_in >= self.border_in:
                             mounting_points.append((intersect_point[0], intersect_point[1]))
         return mounting_points
 

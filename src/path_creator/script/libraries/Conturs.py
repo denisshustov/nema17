@@ -18,6 +18,9 @@ class Contur:
         self.corrected_contur = corrected_contur
         self.id = id
         self.label = label
+        self.children = []
+        self.parent = None
+        self.is_processed = False
 
 class Conturs:
     def __init__(self, image):
@@ -34,15 +37,17 @@ class Conturs:
         return result
 
     def get_intersections(self, delta = 2):
-        result = []
         for cnt in self.conturs:
             for cnt1 in self.conturs:
                 if cnt.id != cnt1.id:
                     q = self.intersect2D(np.array(cnt.corrected_contur), \
                         np.array(cnt1.corrected_contur), delta)
                     if len(q)>0:
-                        result.append((cnt.id,cnt1.id))
-        return result
+                        # result.append([cnt.id,cnt1.id])
+                        # if cnt.parent != cnt1:
+                        cnt.children.append(cnt1)
+                        cnt1.parent = cnt
+        return self.conturs
 
     def show(self, img):
         i=0
