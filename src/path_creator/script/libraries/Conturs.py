@@ -17,10 +17,9 @@ class Conturs:
         self.conturs = []
         self.image = image
 
-    def show(self, img,threshold=0):
+    def show(self, img):
         for (c, corrected_contur) in self.conturs:
-            if cv2.contourArea(c) > 0: #!!!!!!!!!!!!!
-                cv2.drawContours(img, [c], -1, (0, 0, 255), 1, 1)
+            cv2.drawContours(img, c, -1, (0, 0, 255), 1, 1)
 
     def get_conturs(self):
         distance = cv2.distanceTransform(self.image, cv2.DIST_C, 5)

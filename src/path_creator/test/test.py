@@ -27,7 +27,7 @@ sys.path.append(os.path.join(sys.path[0], '../script/libraries'))
 from Conturs import *
 
 #/home/pi/catkin_ws/src/path_creator/test/img/map.jpg
-img = cv2.imread('/home/pi/catkin_ws/src/path_creator/test/img/mymap_22.jpg')
+img = cv2.imread(os.path.join(sys.path[0], 'img')+'/mymap_22.jpg')
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
 
