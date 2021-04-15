@@ -33,12 +33,14 @@ flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
 
 cnt_inst = Conturs(image)
 cnts = cnt_inst.get_conturs()
+inter = cnt_inst.get_intersections()
+
 cnt_inst.show(img)
 i=0
 
 start_point = None
-for (cnt, corrected_contur) in cnts:
-    pth = PathFinder(cnt, image, 8, 2, start_point=start_point, debug_mode=True)
+for cnt in cnts:
+    pth = PathFinder(cnt.contur, image, 8, 2, start_point=start_point, debug_mode=True)
     covered_points = pth.get_route()
     start_point = covered_points[len(covered_points)-1]
     pth.show_mounting_point(img)
