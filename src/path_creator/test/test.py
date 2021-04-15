@@ -23,12 +23,17 @@ import sys
 sys.path.append('/home/pi/catkin_ws/src/path_creator/script')
 from inter_proba_1 import *
 
+sys.path.append('/home/pi/catkin_ws/src/path_creator/script/lib')
+from Conturs import *
 
 #/home/pi/catkin_ws/src/path_creator/test/img/map.jpg
 img = cv2.imread('/home/pi/catkin_ws/src/path_creator/test/img/mymap_22.jpg')
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
-cnts = get_conturs(image)
+
+cnt_inst = Conturs(image)
+cnts = cnt_inst.get_conturs()
+cnt_inst.show(img)
 i=0
 
 start_point = None
@@ -39,9 +44,6 @@ for (cnt, corrected_contur) in cnts:
     pth.show_mounting_point(img)
     pth.show_path_point(img)
 
-    for c in cnt:
-        if cv2.contourArea(c) > 100:
-            cv2.drawContours(img, [c], -1, (0, 0, 255), 1, 1)
     i+=1
 # pth.show_grid(image)
 # pth.show_mounting_point(image)

@@ -189,33 +189,3 @@ class PathFinder:
             #     break
             k+=1
         return self.path_points
-
-def get_conturs(img):
-    distance = cv2.distanceTransform(img, cv2.DIST_C, 5)
-    local_maxi = peak_local_max(distance, indices=False, footprint=np.ones((60, 60)), labels=img)
-    markers = morphology.label(local_maxi)
-    labels_ws = watershed(-distance, markers, mask=img)
-    result=[]
-
-    for label in np.unique(labels_ws):
-        if label == 0:
-            continue
-
-        # draw label on the mask
-        mask = np.zeros(img.shape, dtype="uint8")
-        mask[labels_ws == label] = 255
-        cnt, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        
-        contours=[]
-        corrected_conturs=[]
-        for idx, val in enumerate(cnt):
-            area = cv2.contourArea(val)
-            if area>0:
-                contours.append(val)
-                for idx1, val1 in enumerate(val):
-                    for idx2, val2 in enumerate(val1):
-                        corrected_conturs.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
-
-        result.append((contours,corrected_conturs))
-
-    return result
