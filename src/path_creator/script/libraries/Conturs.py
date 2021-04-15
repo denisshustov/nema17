@@ -16,31 +16,40 @@ class Conturs:
     def __init__(self, image):
         self.conturs = []
         self.image = image
-
+        self.labels = []
+        
     def show(self, img):
+        i=0
         for (c, corrected_contur) in self.conturs:
             cv2.drawContours(img, c, -1, (0, 0, 255), 1, 1)
+            props = regionprops(self.labels)[i]
+            x = int(props.centroid[1])
+            y = int(props.centroid[0])
+            cv2.putText(img,str(i), (x,y), cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8, \
+                color=(255,0,255),thickness=2)
+
+            i+=1
 
     def get_conturs(self):
         distance = cv2.distanceTransform(self.image, cv2.DIST_C, 5)
         local_maxi = peak_local_max(distance, indices=False, footprint=np.ones((60, 60)), labels=self.image)
         markers = morphology.label(local_maxi)
-        labels_ws = watershed(-distance, markers, mask=self.image)
-
-        for label in np.unique(labels_ws):
+        self.labels = watershed(-distance, markers, mask=self.image)
+        # props = regionprops(labels_ws)
+        for label in np.unique(self.labels):
             if label == 0:
                 continue
 
             # draw label on the mask
             mask = np.zeros(self.image.shape, dtype="uint8")
-            mask[labels_ws == label] = 255
+            mask[self.labels  == label] = 255
             cnt, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
             
             contours=[]
             corrected_conturs=[]
             for idx, val in enumerate(cnt):
                 area = cv2.contourArea(val)
-                if area>0:
+                if area>10:
                     contours.append(val)
                     for idx1, val1 in enumerate(val):
                         for idx2, val2 in enumerate(val1):
