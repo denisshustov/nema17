@@ -153,9 +153,6 @@ class PathFinder:
         return result
 
 def get_conturs(img):
-    # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    # flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
-
     distance = cv2.distanceTransform(img, cv2.DIST_C, 5)
     local_maxi = peak_local_max(distance, indices=False, footprint=np.ones((60, 60)), labels=img)
     markers = morphology.label(local_maxi)
