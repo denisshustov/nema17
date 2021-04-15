@@ -15,8 +15,8 @@ class PathFinder:
     
     def __init__(self, contours, src_image, \
         GRID_SIZE = 10, border_in = 5, neibor_distance = 8, \
-        contours_compensate=0,visualize=False,visualize_grid=False, \
-        start_point=None):
+        contours_compensate=0, \
+        start_point=None,debug_mode=False):
 
         if src_image.shape[0] == 0 or src_image.shape[1] == 0:
             raise Exception('src_image has 0 shape')
@@ -25,10 +25,13 @@ class PathFinder:
         if GRID_SIZE==0:
             raise Exception('GRID_SIZE is 0!')
         
+        self.debug_mode = debug_mode
         self.start_point = start_point
         self.neibor_distance = neibor_distance
-        self.visualize = visualize
-        self.visualize_grid = visualize_grid
+        self.grid_points = []
+        self.mounting_points = []
+        self.path_points = []
+
         self.contours_compensate = contours_compensate
         self.GRID_SIZE = GRID_SIZE
         self.border_in = border_in
@@ -76,8 +79,35 @@ class PathFinder:
                 result.append(n)
         return result
     
+    def show_grid(self, img):
+        if not self.debug_mode:
+            raise Exception('debug_mode should be true')
+
+        for g in self.grid_points:
+            cv2.line(img, g[0], g[1], (255, 0, 0), 1, 1)
+    
+    def show_mounting_point(self, img):
+        if not self.debug_mode:
+            raise Exception('debug_mode should be true')
+
+        for p in self.mounting_points:
+            cv2.circle(img, (p[0], p[1]),1, (0,0,255), -1)
+    
+    def show_path_point(self, img):
+        x=self.path_points[0][0]
+        y=self.path_points[0][1]
+
+        i=1
+        while i<len(self.path_points):
+            x_next=self.path_points[i][0]
+            y_next=self.path_points[i][1]        
+            cv2.line(img, (x,y), (x_next,y_next), (0, 50, 255), 1, 1)
+            x=x_next
+            y=y_next
+            i+=1
+
     def get_in_points(self):
-        int_points = []
+        mounting_points = []
         y_min = min(self.array_of_contours[:,1:])[0]
         y_max = max(self.array_of_contours[:,1:])[0]+self.GRID_SIZE
 
@@ -88,82 +118,77 @@ class PathFinder:
         height = self.src_image.shape[0]
         width  = self.src_image.shape[1]
         for x in range(x_min, x_max, self.GRID_SIZE):
-            if self.visualize_grid:
-                cv2.line(self.src_image, (x, 0), (x, height), (255, 0, 0), 1, 1)
+            if self.debug_mode:
+                self.grid_points.append(((x, 0), (x, height)))
+
             for y in range(y_min, y_max, self.GRID_SIZE):
-                if self.visualize_grid:
-                    cv2.line(self.src_image, (0, y), (width, y), (255, 0, 0), 1, 1)
-                vvv = self.line_intersection(((x, 0), (x, height)),((0, y), (width, y)))
-                if vvv:
+                if self.debug_mode:
+                    self.grid_points.append(((0, y), (width, y)))
+
+                intersect_point = self.line_intersection(((x, 0), (x, height)),((0, y), (width, y)))
+                if intersect_point:
                     for c in self.contours:
-                        is_in = cv2.pointPolygonTest(c, (vvv[0], vvv[1]), True)
+                        is_in = cv2.pointPolygonTest(c, (intersect_point[0], intersect_point[1]), True)
                         if is_in >= (self.border_in - self.contours_compensate):
-                            int_points.append((vvv[0], vvv[1]))
-                            if self.visualize:
-                                cv2.circle(self.src_image, (vvv[0], vvv[1]),1, (0,0,255), -1)
-        return int_points
+                            mounting_points.append((intersect_point[0], intersect_point[1]))
+        return mounting_points
+
+    def get_start_point(self, points):
+        if self.start_point == None:
+            return points[0]
+        else:
+            neibors = self.getNeibors(self.start_point, points, self.neibor_distance*100)
+            # return neibors[0]
+            return points[0]
 
     def get_route(self):
-        int_points = self.get_in_points()
+        self.mounting_points = self.get_in_points()
 
-        if len(int_points)==0:
+        if len(self.mounting_points)==0:
             return []
             #raise Exception('int_points is empty, something go wrong')
         #OK!!!!!!!!!!!!!!!!!!
-        x_grid_slice = np.unique(np.array(int_points)[:,:1], axis=0)
+        x_grid_slice = np.unique(np.array(self.mounting_points)[:,:1], axis=0)
         x_grid_ptr = 0
 
         k=0
-        result = []
-        if self.start_point == None:
-            xy = int_points[0]
-        else:
-            xy = self.start_point
-
+        xy = self.mounting_points[0] #self.get_start_point(int_points)
+        
         while True:
             x=xy[0]
             y=xy[1]
 
-            if self.visualize:
-                cv2.circle(self.src_image, (x,y),1, (255,255,255), -1)
-
-            neibors = self.getNeibors(xy,int_points,self.neibor_distance)
+            neibors = self.getNeibors(xy,self.mounting_points,self.neibor_distance)
             # if self.start_point==None:
-            relevant_points = self.get_relevant_points(neibors,x_grid_slice, result, x_grid_ptr)
+            relevant_points = self.get_relevant_points(neibors,x_grid_slice, self.path_points, x_grid_ptr)
             # else:
             #     relevant_points = self.get_relevant_points(neibors,x_grid_slice, result)
             #     self.start_point = None
             
             if len(relevant_points)>0:
                 relevant_points_fst = sorted(relevant_points, key=lambda s: s[2])[0]
-                if not relevant_points_fst in result:
-                    result.append((relevant_points_fst[0],relevant_points_fst[1]))
+                if not relevant_points_fst in self.path_points:
+                    self.path_points.append((relevant_points_fst[0],relevant_points_fst[1]))
                     xy = relevant_points_fst
-
-                    if self.visualize:
-                        cv2.line(self.src_image, (x,y), (relevant_points_fst[0],relevant_points_fst[1]), (0, 0, 0), 1, 1)
                 else:
                     x_grid_ptr+=1
                     if len(x_grid_slice)<=x_grid_ptr:
                         break
             else:
-                all_neibors = [n for n in self.getNeibors(xy,int_points,self.src_image.shape[0]+self.src_image.shape[1]) if not (n[0],n[1]) in result]
+                all_neibors = [n for n in self.getNeibors(xy,self.mounting_points,self.src_image.shape[0]+self.src_image.shape[1]) if not (n[0],n[1]) in self.path_points]
                 if len(all_neibors)>0 and all_neibors[0][2] > self.neibor_distance:
                     #just to first
-                    result.append((all_neibors[0][0],all_neibors[0][1]))
+                    self.path_points.append((all_neibors[0][0],all_neibors[0][1]))
                     xy = all_neibors[0]
-
-                    if self.visualize:
-                        cv2.line(self.src_image, (x,y), (all_neibors[0][0],all_neibors[0][1]), (0, 0, 0), 1, 1)
                 else:
                     x_grid_ptr+=1
                     if len(x_grid_slice)<=x_grid_ptr:
                         break
 
-            if k>1117111:
-                break
-            k+=1
-        return result
+            # if k>1117111:
+            #     break
+            # k+=1
+        return self.path_points
 
 def get_conturs(img):
     distance = cv2.distanceTransform(img, cv2.DIST_C, 5)
@@ -189,7 +214,7 @@ def get_conturs(img):
                 contours.append(val)
                 for idx1, val1 in enumerate(val):
                     for idx2, val2 in enumerate(val1):
-                        corrected_conturs.append((cnt[idx][idx1][idx2][0]*contur_correction,cnt[idx][idx1][idx2][1]*contur_correction))
+                        corrected_conturs.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
 
         result.append((contours,corrected_conturs))
 

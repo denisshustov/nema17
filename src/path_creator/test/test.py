@@ -31,14 +31,21 @@ flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
 cnts = get_conturs(image)
 i=0
 
-for cnt in cnts:
-    pth = PathFinder(cnt,image,7,2,visualize=True,visualize_grid=False)
-    qqq = pth.get_route()
+start_point = None
+for (cnt, corrected_contur) in cnts:
+    pth = PathFinder(cnt, image, 5, 2, start_point=start_point, debug_mode=True)
+    covered_points = pth.get_route()
+    start_point = covered_points[len(covered_points)-1]
+    pth.show_mounting_point(img)
+    pth.show_path_point(img)
+
     for c in cnt:
         if cv2.contourArea(c) > 100:
             cv2.drawContours(image, [c], -1, (0, 0, 255), 1, 1)
     i+=1
-
-cv2.imshow("drawCntsImg2.jpg", image)
+# pth.show_grid(image)
+# pth.show_mounting_point(image)
+# pth.show_path_point(image)
+cv2.imshow("drawCntsImg2.jpg", img)
 cv2.waitKey(0)
 
