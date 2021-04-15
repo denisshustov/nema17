@@ -32,7 +32,14 @@ else
 fi
 
 echo 'Installing packages'
-sudo apt-get install python-catkin-tools ros-melodic-rqt ros-melodic-rqt-multiplot ros-melodic-imu-tools ros-melodic-map-server ros-melodic-amcl ros-melodic-robot-localization ros-melodic-geographic-msgs ros-melodic-move-base ros-melodic-map-server ros-melodic-pointcloud-to-laserscan ros-melodic-global-planner ros-melodic-navigation ros-melodic-joint-state-publisher-gui ros-melodic-ros-control ros-melodic-joint-state-controller ros-melodic-effort-controllers ros-melodic-position-controllers ros-melodic-velocity-controllers ros-melodic-ros-controllers ros-melodic-gazebo-ros ros-melodic-gazebo-ros-control libqt5webkit5 libqt5webkit5-dev qt5-default ros-melodic-teleop-twist-keyboard ros-melodic-ros-control ros-melodic-ros-controllers ros-melodic-rosserial-arduino ros-melodic-rosserial qt4-default qt5-default libqt5xml5 ros-std-srvs -y
+#sudo apt-get install ros-melodic-rqt ros-melodic-rqt-multiplot ros-melodic-imu-tools ros-melodic-map-server ros-melodic-amcl ros-melodic-robot-localization ros-melodic-geographic-msgs ros-melodic-move-base ros-melodic-map-server ros-melodic-pointcloud-to-laserscan ros-melodic-global-planner ros-melodic-navigation ros-melodic-joint-state-publisher-gui ros-melodic-ros-control ros-melodic-joint-state-controller ros-melodic-effort-controllers ros-melodic-position-controllers ros-melodic-velocity-controllers ros-melodic-ros-controllers ros-melodic-gazebo-ros ros-melodic-gazebo-ros-control libqt5webkit5 libqt5webkit5-dev qt5-default ros-melodic-teleop-twist-keyboard ros-melodic-ros-control ros-melodic-ros-controllers ros-melodic-rosserial-arduino ros-melodic-rosserial qt5-default libqt5xml5 ros-std-srvs -y
+sudo apt-get install ros-noetic-rqt ros-noetic-rqt-multiplot ros-noetic-imu-tools ros-noetic-map-server ros-noetic-amcl ros-noetic-robot-localization ros-noetic-geographic-msgs ros-noetic-move-base ros-noetic-map-server ros-noetic-pointcloud-to-laserscan ros-noetic-global-planner ros-noetic-navigation ros-noetic-joint-state-publisher-gui ros-noetic-ros-control ros-noetic-joint-state-controller ros-noetic-effort-controllers ros-noetic-position-controllers ros-noetic-velocity-controllers ros-noetic-ros-controllers ros-noetic-gazebo-ros ros-noetic-gazebo-ros-control libqt5webkit5 libqt5webkit5-dev qt5-default ros-noetic-teleop-twist-keyboard ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-rosserial-arduino ros-noetic-rosserial qt5-default libqt5xml5 ros-std-srvs -y
+#-----------------------
+sudo add-apt-repository ppa:rock-core/qt4
+sudo apt-get update
+sudo apt-get install libqtcore4
+sudo apt-get install -y qt4-default
+#-----------------------
 
 # cd <sketchbook>/libraries
 # rm -rf ros_lib

@@ -13,7 +13,11 @@ from skimage.measure import regionprops
 
 class PathFinder:
     
-    def __init__(self, contours, src_image, GRID_SIZE = 10, border_in = 5, neibor_distance=8,contours_compensate=0,visualize=False,visualize_grid=False):
+    def __init__(self, contours, src_image, \
+        GRID_SIZE = 10, border_in = 5, neibor_distance = 8, \
+        contours_compensate=0,visualize=False,visualize_grid=False, \
+        start_point=None):
+
         if src_image.shape[0] == 0 or src_image.shape[1] == 0:
             raise Exception('src_image has 0 shape')
         if len(contours)==0:
@@ -21,6 +25,7 @@ class PathFinder:
         if GRID_SIZE==0:
             raise Exception('GRID_SIZE is 0!')
         
+        self.start_point = start_point
         self.neibor_distance = neibor_distance
         self.visualize = visualize
         self.visualize_grid = visualize_grid
@@ -52,21 +57,22 @@ class PathFinder:
     def dist(self, p1, p2):
         return math.hypot(p2[0] - p1[0], p2[1] - p1[1])
         
-    def getNeibors(self, p, arr, trd):
+    def getNeibors(self, point, array_fnd_in, threshold):
         result = []
 
-        for x, y in arr:
-            if p[0]!=x or p[1]!=y:
-                z = self.dist(p, (x, y))
-                if z>=0 and z<=trd and not (x, y, z) in result:
-                    result.append((x, y, z))
+        for x, y in array_fnd_in:
+            if point[0]!=x or point[1]!=y:
+                distance = self.dist(point, (x, y))
+                if distance>=0 and distance<=threshold and not (x, y, distance) in result:
+                    result.append((x, y, distance))
         result = sorted(result, key=lambda s: s[2])
         return result
 
-    def get_relevant_points(self, neibors,un_x, un_x_ptr,ok_arr):
+    def get_relevant_points(self, neibors,un_x, ok_arr,un_x_ptr=None):
         result = []
         for n in neibors:
-            if n[0] in un_x[:un_x_ptr] and not (n[0],n[1]) in ok_arr:
+            if ((un_x_ptr==None and n[0] in un_x) or (n[0] in un_x[:un_x_ptr])) and \
+            not (n[0],n[1]) in ok_arr:
                 result.append(n)
         return result
     
@@ -109,7 +115,11 @@ class PathFinder:
 
         k=0
         result = []
-        xy = int_points[0]
+        if self.start_point == None:
+            xy = int_points[0]
+        else:
+            xy = self.start_point
+
         while True:
             x=xy[0]
             y=xy[1]
@@ -118,9 +128,12 @@ class PathFinder:
                 cv2.circle(self.src_image, (x,y),1, (255,255,255), -1)
 
             neibors = self.getNeibors(xy,int_points,self.neibor_distance)
-            relevant_points = self.get_relevant_points(neibors,x_grid_slice, x_grid_ptr,result)
-
-
+            # if self.start_point==None:
+            relevant_points = self.get_relevant_points(neibors,x_grid_slice, result, x_grid_ptr)
+            # else:
+            #     relevant_points = self.get_relevant_points(neibors,x_grid_slice, result)
+            #     self.start_point = None
+            
             if len(relevant_points)>0:
                 relevant_points_fst = sorted(relevant_points, key=lambda s: s[2])[0]
                 if not relevant_points_fst in result:
@@ -166,7 +179,18 @@ def get_conturs(img):
         # draw label on the mask
         mask = np.zeros(img.shape, dtype="uint8")
         mask[labels_ws == label] = 255
-        contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        result.append(contours)
+        cnt, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        
+        contours=[]
+        corrected_conturs=[]
+        for idx, val in enumerate(cnt):
+            area = cv2.contourArea(val)
+            if area>10:
+                contours.append(val)
+                for idx1, val1 in enumerate(val):
+                    for idx2, val2 in enumerate(val1):
+                        corrected_conturs.append((cnt[idx][idx1][idx2][0]*contur_correction,cnt[idx][idx1][idx2][1]*contur_correction))
 
-    return result  
+        result.append((contours,corrected_conturs))
+
+    return result

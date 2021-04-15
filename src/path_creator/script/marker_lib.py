@@ -72,25 +72,27 @@ class Marker_lib():
 
     def init_markers(self):
         # index = 0
-        #     self.markerArray.markers.append(self.get_marker(index, p))
+        
         points=[]
         for p in self.points:
             points.append(Point(p[0],p[1],0))
         self.marker=self.get_marker2(1,points)
+        self.marker_pub.publish(self.marker)
+
         # for p in self.points:
-        #     self.markerArray.markers.append(self.get_marker(index, p))
-            # self.markerArray.markers.append(self.get_marker(index, True))
-            # index += 1
+        #     self.markerArray.markers.append(self.get_marker(index, p, True))
+        #     index += 1
         
         # self.marker_pub.publish(self.markerArray)
-        self.marker_pub.publish(self.marker)
 
     def publish(self):
         self.marker_pub.publish(self.marker)
+        # self.marker_pub.publish(self.markerArray)
 
     def __init__(self,points, topic_name):
         self.marker_pub = rospy.Publisher(topic_name, Marker, queue_size = 1)
-        #self.marker_pub = rospy.Publisher(topic_name, MarkerArray, queue_size = 1)
+        # self.marker_pub = rospy.Publisher(topic_name, MarkerArray, queue_size = 1)
         # self.markerArray = MarkerArray()
+
         self.points = points
         self.init_markers()
