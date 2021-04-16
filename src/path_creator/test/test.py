@@ -32,17 +32,20 @@ def get_next_contur2(current, go_from = None):
                 return [c]
 
         #all children processed
-        res = None
         for c in current.children:
             if go_from != None:
                 if go_from.id != c.id:
                     res = get_next_contur2(c, current)
+                    if res != None:
+                        res.append(c)
+                        res.append(current)
+                        return res
             else:
                 res = get_next_contur2(c, current)
-            if res != None:
-                res.append(c)
-                res.append(current)
-                return res
+                if res != None:
+                    res.append(c)
+                    res.append(current)
+                    return res
 
     return None
 #/home/pi/catkin_ws/src/path_creator/test/img/map.jpg
@@ -52,6 +55,13 @@ flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
 
 cnt_inst = Conturs(image)
 cnts = cnt_inst.get_conturs()
+xxx = cnt_inst.merge('4','6')
+xxx = cnt_inst.merge('4_','5')
+xxx = cnt_inst.merge('4__','2')
+xxx = cnt_inst.merge('4___','0')
+
+xxx = cnt_inst.merge('1','3')
+
 inter = cnt_inst.get_intersections()
 
 cnt_inst.show(img)
@@ -59,7 +69,7 @@ cnt_inst.show(img)
 i=1
 start_point = None
 current_contur = cnts[0]
-c_by_id = cnt_inst.get_contur_by_coord(756, 299)
+current_contur = cnt_inst.get_contur_by_coord(756, 299)
 #(x,y) 
 
 while True:

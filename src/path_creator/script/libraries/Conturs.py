@@ -13,11 +13,11 @@ from skimage.measure import regionprops
 
 
 class Contur:
-    def __init__(self, contur, corrected_contur, id, label):
+    def __init__(self, contur, corrected_contur, id, labels):
         self.contur = contur
         self.corrected_contur = corrected_contur
         self.id = id
-        self.label = label
+        self.labels = labels
         self.children = []
         self.parent = None
         self.is_processed = False
@@ -36,10 +36,42 @@ class Conturs:
                     result.append((a1,b1))
         return result
 
+    def merge(self, id1, id2):
+        c1=None
+        c2=None
+
+        for c in self.conturs:
+            if c.id == id1:
+                c1 = c
+            if c.id == id2:
+                c2 = c
+ 
+        mask = np.zeros(self.image.shape, dtype="uint8")
+        for l in c1.labels:
+            mask[self.labels == l] = 255
+        for l in c2.labels:
+            mask[self.labels == l] = 255
+            
+        cnt, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        corrected_conturs=[]
+        for idx, val in enumerate(cnt):
+            area = cv2.contourArea(val)
+            if area>10:
+                for idx1, val1 in enumerate(val):
+                    for idx2, val2 in enumerate(val1):
+                        corrected_conturs.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
+
+        self.conturs.remove(c1)
+        self.conturs.remove(c2)
+        new_c = Contur(cnt,corrected_conturs, str(id1)+"_",c1.labels + c2.labels)
+
+        self.conturs.append(new_c)
+
+        return self.conturs
+
     def get_contur_by_coord(self, x,y):
         for cnt in self.conturs:
-            #!!!!!!!!!!!!!!!!!!!!!!!!!1
-            is_in = cv2.pointPolygonTest([cnt.contur], (x,y), True)
+            is_in = cv2.pointPolygonTest(cnt.contur[0], (x,y), True)
             if is_in>0:
                 return cnt
         return None
@@ -48,11 +80,9 @@ class Conturs:
         for cnt in self.conturs:
             for cnt1 in self.conturs:
                 if cnt.id != cnt1.id:
-                    q = self.intersect2D(np.array(cnt.corrected_contur), \
+                    inters = self.intersect2D(np.array(cnt.corrected_contur), \
                         np.array(cnt1.corrected_contur), delta)
-                    if len(q)>0:
-                        # result.append([cnt.id,cnt1.id])
-                        # if cnt.parent != cnt1:
+                    if len(inters)>0:
                         cnt.children.append(cnt1)
                         cnt1.parent = cnt
         return self.conturs
@@ -68,6 +98,8 @@ class Conturs:
                 color=(255,0,255),thickness=2)
             i+=1
 
+    # def get_corrected_conturs(self, contur):
+
     def get_conturs(self):
         distance = cv2.distanceTransform(self.image, cv2.DIST_C, 5)
         local_maxi = peak_local_max(distance, indices=False, footprint=np.ones((60, 60)), labels=self.image)
@@ -79,7 +111,6 @@ class Conturs:
             if label == 0:
                 continue
 
-            # draw label on the mask
             mask = np.zeros(self.image.shape, dtype="uint8")
             mask[self.labels == label] = 255
             cnt, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
@@ -94,6 +125,6 @@ class Conturs:
                         for idx2, val2 in enumerate(val1):
                             corrected_conturs.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
 
-            self.conturs.append(Contur(contours,corrected_conturs, str(i),self.labels[label]))
+            self.conturs.append(Contur(contours,corrected_conturs, str(i),[label])) #self.labels[label]
             i+=1
         return self.conturs
