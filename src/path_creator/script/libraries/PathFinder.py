@@ -136,8 +136,8 @@ class PathFinder:
             return points[0]
         else:
             neibors = self.getNeibors(self.start_point, points, self.neibor_distance*100)
-            # return neibors[0]
-            return points[0]
+            return neibors[0]
+            # return points[0]
 
     def get_route(self):
         self.mounting_points = self.get_in_points()
@@ -150,18 +150,18 @@ class PathFinder:
         x_grid_ptr = 0
 
         k=0
-        xy = self.mounting_points[0] #self.get_start_point(int_points)
+        xy = self.get_start_point(self.mounting_points ) #self.mounting_points[0]
         
         while True:
             x=xy[0]
             y=xy[1]
 
             neibors = self.getNeibors(xy,self.mounting_points,self.neibor_distance)
-            # if self.start_point==None:
-            relevant_points = self.get_relevant_points(neibors,x_grid_slice, self.path_points, x_grid_ptr)
-            # else:
-            #     relevant_points = self.get_relevant_points(neibors,x_grid_slice, result)
-            #     self.start_point = None
+            if self.start_point==None:
+                relevant_points = self.get_relevant_points(neibors,x_grid_slice, self.path_points, x_grid_ptr)
+            else:
+                relevant_points = self.get_relevant_points(neibors,x_grid_slice, self.path_points)
+                self.start_point = None
             
             if len(relevant_points)>0:
                 relevant_points_fst = sorted(relevant_points, key=lambda s: s[2])[0]

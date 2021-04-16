@@ -37,19 +37,20 @@ def get_next_contur2(current, go_from = None):
     if len(current.children)>0:
         for c in current.children:
             if not c.is_processed:
-                return c
+                return [c]
 
         #all children processed
+        res = None
         for c in current.children:
             if go_from != None:
                 if go_from.id != c.id:
                     res = get_next_contur2(c, current)
-                    if res!=None:
-                        return res 
             else:
                 res = get_next_contur2(c, current)
-                if res!=None:
-                    return res
+            if res != None:
+                res.append(c)
+                res.append(current)
+                return res
 
     return None
 #/home/pi/catkin_ws/src/path_creator/test/img/map.jpg
@@ -63,20 +64,6 @@ inter = cnt_inst.get_intersections()
 
 cnt_inst.show(img)
 
-#------------------------------------------------
-
-# i=0
-
-# start_point = None
-# for cnt in cnts:
-#     pth = PathFinder(cnt.contur, image, 8, 2, start_point=start_point, debug_mode=True)
-#     covered_points = pth.get_route()
-#     start_point = covered_points[len(covered_points)-1]
-#     pth.show_mounting_point(img)
-#     pth.show_path_point(img)
-
-#     i+=1
-#------------------------------------------------
 i=1
 start_point = None
 current_contur = cnts[0]
@@ -94,9 +81,11 @@ while True:
         pth.show_mounting_point(img)
         pth.show_path_point(img)
 
-    current_contur = get_next_contur2(current_contur)
-    if current_contur==None or i==17:
+    current_conturs = get_next_contur2(current_contur)
+    if current_conturs == None:
         break
+    current_contur = current_conturs[0]
+
     i+=1
 
 # pth.show_grid(image)
