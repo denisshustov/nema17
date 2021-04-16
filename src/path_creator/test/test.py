@@ -25,18 +25,33 @@ sys.path.append(os.path.join(sys.path[0], '../script/libraries'))
 from PathFinder import *
 from Conturs import *
 
-def get_next_contur(current, conturs, intersects):
+def exisits_not_processed(conturs, intersects, ignore_without_relations = True):
+    result = True
     for i in intersects:
-        if i.id == current.id and i.children!=None and len(i.children)>0:
-            not_processed_child=[ch for ch in i.children if not ch.is_processed]
-            if not_processed_child!=None and len(not_processed_child)>0:
-                return not_processed_child[0]
+        if not i.is_processed:
+            return True
+    return False
+
+
+def get_next_contur2(current, go_from = None):
+    if len(current.children)>0:
+        for c in current.children:
+            if not c.is_processed:
+                return c
+
+        #all children processed
+        for c in current.children:
+            if go_from != None:
+                if go_from.id != c.id:
+                    res = get_next_contur2(c, current)
+                    if res!=None:
+                        return res 
             else:
-                processed_child=[ch for ch in i.children if ch.is_processed]
-                return processed_child[0]
+                res = get_next_contur2(c, current)
+                if res!=None:
+                    return res
 
     return None
-
 #/home/pi/catkin_ws/src/path_creator/test/img/map.jpg
 img = cv2.imread(os.path.join(sys.path[0], 'img')+'/mymap_22.jpg')
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -50,39 +65,39 @@ cnt_inst.show(img)
 
 #------------------------------------------------
 
-i=0
+# i=0
 
-start_point = None
-for cnt in cnts:
-    pth = PathFinder(cnt.contur, image, 8, 2, start_point=start_point, debug_mode=True)
-    covered_points = pth.get_route()
-    start_point = covered_points[len(covered_points)-1]
-    pth.show_mounting_point(img)
-    pth.show_path_point(img)
-
-    i+=1
-#------------------------------------------------
-# i=1
 # start_point = None
-# current_contur = cnts[0]
+# for cnt in cnts:
+#     pth = PathFinder(cnt.contur, image, 8, 2, start_point=start_point, debug_mode=True)
+#     covered_points = pth.get_route()
+#     start_point = covered_points[len(covered_points)-1]
+#     pth.show_mounting_point(img)
+#     pth.show_path_point(img)
 
-# while True:
-#     if not current_contur.is_processed:
-#         pth = PathFinder(current_contur.contur, image, 8, 2, start_point=start_point, debug_mode=True)
-#         covered_points = pth.get_route()
-#         if len(covered_points)>0:
-#             start_point = covered_points[len(covered_points)-1]
-#             current_contur.is_processed = True
-#         else:
-#             print('covered_points is empty, id={}!!!'.format(current_contur.id))
-
-#         pth.show_mounting_point(img)
-#         pth.show_path_point(img)
-
-#     current_contur = get_next_contur(current_contur, cnts, inter)
-#     if current_contur==None or i==17:
-#         break
 #     i+=1
+#------------------------------------------------
+i=1
+start_point = None
+current_contur = cnts[0]
+
+while True:
+    if not current_contur.is_processed:
+        pth = PathFinder(current_contur.contur, image, 8, 2, start_point=start_point, debug_mode=True)
+        covered_points = pth.get_route()
+        if len(covered_points)>0:
+            start_point = covered_points[len(covered_points)-1]
+            current_contur.is_processed = True
+        else:
+            print('covered_points is empty, id={}!!!'.format(current_contur.id))
+
+        pth.show_mounting_point(img)
+        pth.show_path_point(img)
+
+    current_contur = get_next_contur2(current_contur)
+    if current_contur==None or i==17:
+        break
+    i+=1
 
 # pth.show_grid(image)
 # pth.show_mounting_point(image)
