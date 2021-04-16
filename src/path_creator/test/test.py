@@ -25,14 +25,6 @@ sys.path.append(os.path.join(sys.path[0], '../script/libraries'))
 from PathFinder import *
 from Conturs import *
 
-def exisits_not_processed(conturs, intersects, ignore_without_relations = True):
-    result = True
-    for i in intersects:
-        if not i.is_processed:
-            return True
-    return False
-
-
 def get_next_contur2(current, go_from = None):
     if len(current.children)>0:
         for c in current.children:
@@ -67,10 +59,12 @@ cnt_inst.show(img)
 i=1
 start_point = None
 current_contur = cnts[0]
+c_by_id = cnt_inst.get_contur_by_coord(756, 299)
+#(x,y) 
 
 while True:
     if not current_contur.is_processed:
-        pth = PathFinder(current_contur.contur, image, 8, 2, start_point=start_point, debug_mode=True)
+        pth = PathFinder(current_contur.contur, image, 10, 1, start_point=start_point, debug_mode=True)
         covered_points = pth.get_route()
         if len(covered_points)>0:
             start_point = covered_points[len(covered_points)-1]

@@ -36,6 +36,14 @@ class Conturs:
                     result.append((a1,b1))
         return result
 
+    def get_contur_by_coord(self, x,y):
+        for cnt in self.conturs:
+            #!!!!!!!!!!!!!!!!!!!!!!!!!1
+            is_in = cv2.pointPolygonTest([cnt.contur], (x,y), True)
+            if is_in>0:
+                return cnt
+        return None
+
     def get_intersections(self, delta = 2):
         for cnt in self.conturs:
             for cnt1 in self.conturs:
