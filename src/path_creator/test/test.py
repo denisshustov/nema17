@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+#
 import roslib;
 import rospy
 from std_msgs.msg import String
@@ -32,15 +32,24 @@ flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
 
 cnt_inst = Conturs(image)
 cnts = cnt_inst.get_conturs()
+xxx = cnt_inst.merge('0','2')
+xxx = cnt_inst.merge('0','5')
 xxx = cnt_inst.merge('4','6')
-# xxx = cnt_inst.merge('4_','5')
-# xxx = cnt_inst.merge('4__','2')
-# xxx = cnt_inst.merge('4___','0')
+xxx = cnt_inst.merge('4','0')
 
 xxx = cnt_inst.merge('1','3')
+xxx = cnt_inst.merge('1','9')
+xxx = cnt_inst.merge('1','10')
+xxx = cnt_inst.merge('1','12')
+xxx = cnt_inst.merge('1','13')
 
-inter = cnt_inst.get_intersections()
-current_contur = cnt_inst.get_contur_by_coord(756, 299)
+xxx = cnt_inst.merge('11','14')
+xxx = cnt_inst.merge('11','8')
+
+inter = cnt_inst.get_intersections(5)
+x=756
+y=299
+current_contur = cnt_inst.get_contur_by_coord(x, y)
 
 cnt_inst.show(img)
 

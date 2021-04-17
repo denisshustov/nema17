@@ -45,7 +45,9 @@ class Conturs:
                 c1 = c
             if c.id == id2:
                 c2 = c
- 
+        if c1==None or c2==None:
+            raise Exception('id1 or id1 not foind in conturs')
+
         mask = np.zeros(self.image.shape, dtype="uint8")
         for l in c1.labels:
             mask[self.labels == l] = 255
@@ -63,7 +65,7 @@ class Conturs:
 
         self.conturs.remove(c1)
         self.conturs.remove(c2)
-        new_c = Contur(cnt,corrected_conturs, str(id1)+"_",c1.labels + c2.labels)
+        new_c = Contur(cnt,corrected_conturs, str(id1),c1.labels + c2.labels)
 
         self.conturs.append(new_c)
 
@@ -87,34 +89,30 @@ class Conturs:
                         cnt1.parent = cnt
         return self.conturs
 
+    def set_unvisited(self):
+        for c in self.conturs:
+            c.is_processed = False
+
     def show(self, img):
         i=0
         current_contur = self.conturs[0]
 
         while True:
+            current_contur.is_processed = True
             cv2.drawContours(img, current_contur.contur, -1, (0, 0, 255), 1, 1)
+            props = regionprops(self.labels)
             for cc in current_contur.labels:
-                #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                TODO FIX LABELS!!!!!!!!!!!
-            props = regionprops(self.labels)[i]
-            x = int(props.centroid[1])
-            y = int(props.centroid[0])
-            cv2.putText(img, cnt.id, (x,y), cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8, \
-                color=(255,0,255),thickness=2)
+                current_prop = [p for p in props if p.label == cc][0]
+                x = int(current_prop.centroid[1])
+                y = int(current_prop.centroid[0])
+                cv2.putText(img, current_contur.id, (x,y), cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8, \
+                    color=(255,0,255),thickness=2)
 
-            current_conturs = cnt_inst.get_contur_in_order(current_contur)
+            current_conturs = self.get_contur_in_order(current_contur)
             if current_conturs == None:
                 break
             current_contur = current_conturs[0]
-
-        # for cnt in self.conturs:
-        #     cv2.drawContours(img, cnt.contur, -1, (0, 0, 255), 1, 1)
-        #     props = regionprops(self.labels)[i]
-        #     x = int(props.centroid[1])
-        #     y = int(props.centroid[0])
-        #     cv2.putText(img, cnt.id, (x,y), cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8, \
-        #         color=(255,0,255),thickness=2)
-        #     i+=1
+        self.set_unvisited()
 
 
     def get_contur_in_order(self, current, go_from = None):
@@ -127,13 +125,13 @@ class Conturs:
             for c in current.children:
                 if go_from != None:
                     if go_from.id != c.id:
-                        res = get_next_contur2(c, current)
+                        res = self.get_contur_in_order(c, current)
                         if res != None:
                             res.append(c)
                             res.append(current)
                             return res
                 else:
-                    res = get_next_contur2(c, current)
+                    res = self.get_contur_in_order(c, current)
                     if res != None:
                         res.append(c)
                         res.append(current)
