@@ -78,7 +78,7 @@ class Conturs:
                 return cnt
         return None
 
-    def get_intersections(self, delta = 2):
+    def get_intersections(self, delta = 2, ignore_without_children = True):
         for cnt in self.conturs:
             for cnt1 in self.conturs:
                 if cnt.id != cnt1.id:
@@ -87,6 +87,11 @@ class Conturs:
                     if len(inters)>0:
                         cnt.children.append(cnt1)
                         cnt1.parent = cnt
+        i=0
+        while i<len(self.conturs):
+            if len(self.conturs[i].children)==0:
+                del self.conturs[i]
+            i+=1
         return self.conturs
 
     def set_unvisited(self):
@@ -139,7 +144,7 @@ class Conturs:
 
         return None
 
-    def get_conturs(self):
+    def get_conturs(self, multiplier = 1):
         distance = cv2.distanceTransform(self.image, cv2.DIST_C, 5)
         local_maxi = peak_local_max(distance, indices=False, footprint=np.ones((60, 60)), labels=self.image)
         markers = morphology.label(local_maxi)
@@ -162,7 +167,7 @@ class Conturs:
                     contours.append(val)
                     for idx1, val1 in enumerate(val):
                         for idx2, val2 in enumerate(val1):
-                            corrected_conturs.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
+                            corrected_conturs.append((cnt[idx][idx1][idx2][0]*multiplier,cnt[idx][idx1][idx2][1]*multiplier))
 
             self.conturs.append(Contur(contours,corrected_conturs, str(i),[label])) #self.labels[label]
             i+=1

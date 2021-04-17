@@ -47,30 +47,70 @@ class Path_Creator:
                 robot_in_pixels = self.robot_diametr / self.map.info.resolution #6x6
 
                 array_map = self.map_to_array()
+                # self.save_array_to_file(array_map)
 
-                conturs = get_conturs(array_map,self.map.info.resolution)
-                # zzz = cv2.convexHull([conturs[0][0],conturs[1][0]], False)
-                i=0
+                cnt_inst = Conturs(array_map)
+                cnts = cnt_inst.get_conturs(1)#self.map.info.resolution)
+
+                inter = cnt_inst.get_intersections(5)
+                current_contur = cnts[0]
+
+                i=1
                 start_point = None
-                for (contour, corrected_contur) in conturs:
-                    pth = PathFinder(contour,array_map,3,1,neibor_distance=8,start_point=start_point)
-                    covered_points = pth.get_route()
-                    start_point = covered_points[len(covered_points)-1]
 
-                    points = []
-                    for cp in covered_points:
-                        points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
-                
-                    way_point = WayPoint(corrected_contur, points, str(i))                    
-                    self.way_points.append(way_point)
+                while True:
+                    if not current_contur.is_processed:
+                        pth = PathFinder(current_contur.contur, array_map, 10, 1, start_point=start_point, debug_mode=False)
+                        covered_points = pth.get_route()
+                        if len(covered_points)>0:
+                            start_point = covered_points[len(covered_points)-1]
+                            current_contur.is_processed = True
+                        else:
+                            print('covered_points is empty, id={}!!!'.format(current_contur.id))
+
+                        points = []
+                        for cp in covered_points:
+                            points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
+                    
+                        way_point = WayPoint(current_contur.corrected_contur, points, str(i))                    
+                        self.way_points.append(way_point)
+
+                    current_conturs = cnt_inst.get_contur_in_order(current_contur)
+                    if current_conturs == None:
+                        break
+                    current_contur = current_conturs[0]
+
                     i+=1
+                # array_map = self.map_to_array()
+
+                # conturs = get_conturs(array_map,self.map.info.resolution)
+                # # zzz = cv2.convexHull([conturs[0][0],conturs[1][0]], False)
+                # i=0
+                # start_point = None
+                # for (contour, corrected_contur) in conturs:
+                #     pth = PathFinder(contour,array_map,3,1,neibor_distance=8,start_point=start_point)
+                #     covered_points = pth.get_route()
+                #     start_point = covered_points[len(covered_points)-1]
+
+                #     points = []
+                #     for cp in covered_points:
+                #         points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
+                
+                #     way_point = WayPoint(corrected_contur, points, str(i))                    
+                #     self.way_points.append(way_point)
+                #     i+=1
 
             if len(self.way_points)>0:
                 for w in self.way_points:
                     w.display()
             r.sleep()
         #rospy.spin()
-        
+    
+    def save_array_to_file(self, arr):
+        np.savetxt('/home/den/catkin_ws/src/path_creator/test/test1.txt', arr, fmt='%d')
+    def load_array_to_file(self):
+        return np.loadtxt('/home/den/catkin_ws/src/path_creator/test/test1.txt', dtype=int)
+
     def map_to_array(self):
         result = np.reshape(self.map.data, (-1, self.map.info.width))
 
