@@ -89,16 +89,57 @@ class Conturs:
 
     def show(self, img):
         i=0
-        for cnt in self.conturs:
-            cv2.drawContours(img, cnt.contur, -1, (0, 0, 255), 1, 1)
+        current_contur = self.conturs[0]
+
+        while True:
+            cv2.drawContours(img, current_contur.contur, -1, (0, 0, 255), 1, 1)
+            for cc in current_contur.labels:
+                #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                TODO FIX LABELS!!!!!!!!!!!
             props = regionprops(self.labels)[i]
             x = int(props.centroid[1])
             y = int(props.centroid[0])
             cv2.putText(img, cnt.id, (x,y), cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8, \
                 color=(255,0,255),thickness=2)
-            i+=1
 
-    # def get_corrected_conturs(self, contur):
+            current_conturs = cnt_inst.get_contur_in_order(current_contur)
+            if current_conturs == None:
+                break
+            current_contur = current_conturs[0]
+
+        # for cnt in self.conturs:
+        #     cv2.drawContours(img, cnt.contur, -1, (0, 0, 255), 1, 1)
+        #     props = regionprops(self.labels)[i]
+        #     x = int(props.centroid[1])
+        #     y = int(props.centroid[0])
+        #     cv2.putText(img, cnt.id, (x,y), cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8, \
+        #         color=(255,0,255),thickness=2)
+        #     i+=1
+
+
+    def get_contur_in_order(self, current, go_from = None):
+        if len(current.children)>0:
+            for c in current.children:
+                if not c.is_processed:
+                    return [c]
+
+            #all children processed
+            for c in current.children:
+                if go_from != None:
+                    if go_from.id != c.id:
+                        res = get_next_contur2(c, current)
+                        if res != None:
+                            res.append(c)
+                            res.append(current)
+                            return res
+                else:
+                    res = get_next_contur2(c, current)
+                    if res != None:
+                        res.append(c)
+                        res.append(current)
+                        return res
+
+        return None
 
     def get_conturs(self):
         distance = cv2.distanceTransform(self.image, cv2.DIST_C, 5)

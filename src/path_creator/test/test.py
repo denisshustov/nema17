@@ -25,29 +25,6 @@ sys.path.append(os.path.join(sys.path[0], '../script/libraries'))
 from PathFinder import *
 from Conturs import *
 
-def get_next_contur2(current, go_from = None):
-    if len(current.children)>0:
-        for c in current.children:
-            if not c.is_processed:
-                return [c]
-
-        #all children processed
-        for c in current.children:
-            if go_from != None:
-                if go_from.id != c.id:
-                    res = get_next_contur2(c, current)
-                    if res != None:
-                        res.append(c)
-                        res.append(current)
-                        return res
-            else:
-                res = get_next_contur2(c, current)
-                if res != None:
-                    res.append(c)
-                    res.append(current)
-                    return res
-
-    return None
 #/home/pi/catkin_ws/src/path_creator/test/img/map.jpg
 img = cv2.imread(os.path.join(sys.path[0], 'img')+'/mymap_22.jpg')
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -56,20 +33,19 @@ flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
 cnt_inst = Conturs(image)
 cnts = cnt_inst.get_conturs()
 xxx = cnt_inst.merge('4','6')
-xxx = cnt_inst.merge('4_','5')
-xxx = cnt_inst.merge('4__','2')
-xxx = cnt_inst.merge('4___','0')
+# xxx = cnt_inst.merge('4_','5')
+# xxx = cnt_inst.merge('4__','2')
+# xxx = cnt_inst.merge('4___','0')
 
 xxx = cnt_inst.merge('1','3')
 
 inter = cnt_inst.get_intersections()
+current_contur = cnt_inst.get_contur_by_coord(756, 299)
 
 cnt_inst.show(img)
 
 i=1
 start_point = None
-current_contur = cnts[0]
-current_contur = cnt_inst.get_contur_by_coord(756, 299)
 #(x,y) 
 
 while True:
@@ -85,7 +61,7 @@ while True:
         pth.show_mounting_point(img)
         pth.show_path_point(img)
 
-    current_conturs = get_next_contur2(current_contur)
+    current_conturs = cnt_inst.get_contur_in_order(current_contur)
     if current_conturs == None:
         break
     current_contur = current_conturs[0]
