@@ -50,7 +50,7 @@ class Path_Creator:
                 # self.save_array_to_file(array_map)
 
                 cnt_inst = Conturs(array_map)
-                cnts = cnt_inst.get_conturs(1)#self.map.info.resolution)
+                cnts = cnt_inst.get_conturs()
 
                 inter = cnt_inst.get_intersections(5)
                 current_contur = cnts[0]
@@ -60,7 +60,7 @@ class Path_Creator:
 
                 while True:
                     if not current_contur.is_processed:
-                        pth = PathFinder(current_contur.contur, array_map, 10, 1, start_point=start_point, debug_mode=False)
+                        pth = PathFinder(current_contur.contur, array_map, 5, 1, start_point=start_point, debug_mode=False)
                         covered_points = pth.get_route()
                         if len(covered_points)>0:
                             start_point = covered_points[len(covered_points)-1]
@@ -68,11 +68,21 @@ class Path_Creator:
                         else:
                             print('covered_points is empty, id={}!!!'.format(current_contur.id))
 
+                        #--- multiply to self.map.info.resolution, for correcting ---
+
                         points = []
                         for cp in covered_points:
                             points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
-                    
-                        way_point = WayPoint(current_contur.corrected_contur, points, str(i))                    
+
+                        i=0
+                        cor_con = []
+                        for cc in current_contur.corrected_contur:
+                            cor_con.append((cc[0]*self.map.info.resolution,cc[1]*self.map.info.resolution))
+                            i+=1
+
+                        #--- multiply to self.map.info.resolution, for correcting ---
+
+                        way_point = WayPoint(cor_con, points, str(i))                    
                         self.way_points.append(way_point)
 
                     current_conturs = cnt_inst.get_contur_in_order(current_contur)
@@ -81,25 +91,6 @@ class Path_Creator:
                     current_contur = current_conturs[0]
 
                     i+=1
-                # array_map = self.map_to_array()
-
-                # conturs = get_conturs(array_map,self.map.info.resolution)
-                # # zzz = cv2.convexHull([conturs[0][0],conturs[1][0]], False)
-                # i=0
-                # start_point = None
-                # for (contour, corrected_contur) in conturs:
-                #     pth = PathFinder(contour,array_map,3,1,neibor_distance=8,start_point=start_point)
-                #     covered_points = pth.get_route()
-                #     start_point = covered_points[len(covered_points)-1]
-
-                #     points = []
-                #     for cp in covered_points:
-                #         points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
-                
-                #     way_point = WayPoint(corrected_contur, points, str(i))                    
-                #     self.way_points.append(way_point)
-                #     i+=1
-
             if len(self.way_points)>0:
                 for w in self.way_points:
                     w.display()

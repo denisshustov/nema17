@@ -144,7 +144,7 @@ class Conturs:
 
         return None
 
-    def get_conturs(self, multiplier = 1):
+    def get_conturs(self):
         distance = cv2.distanceTransform(self.image, cv2.DIST_C, 5)
         local_maxi = peak_local_max(distance, indices=False, footprint=np.ones((60, 60)), labels=self.image)
         markers = morphology.label(local_maxi)
@@ -167,7 +167,7 @@ class Conturs:
                     contours.append(val)
                     for idx1, val1 in enumerate(val):
                         for idx2, val2 in enumerate(val1):
-                            corrected_conturs.append((cnt[idx][idx1][idx2][0]*multiplier,cnt[idx][idx1][idx2][1]*multiplier))
+                            corrected_conturs.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
 
             self.conturs.append(Contur(contours,corrected_conturs, str(i),[label])) #self.labels[label]
             i+=1
