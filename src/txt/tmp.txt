@@ -42,7 +42,7 @@ create map:
 
 rosrun tf tf_monitor
 
-ssh pi@192.168.77.236
+ssh pi@192.168.66.247
 
 roslaunch odom_publisher odom-pub.launch 
 rosrun hector_mapping hector_mapping

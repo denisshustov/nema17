@@ -47,7 +47,7 @@ class Path_Creator:
                 robot_in_pixels = self.robot_diametr / self.map.info.resolution #6x6
 
                 array_map = self.map_to_array()
-                # self.save_array_to_file(array_map)
+                self.save_array_to_file(array_map)
 
                 cnt_inst = Conturs(array_map)
                 cnts = cnt_inst.get_conturs()

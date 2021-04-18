@@ -111,7 +111,7 @@ class Conturs:
                 x = int(current_prop.centroid[1])
                 y = int(current_prop.centroid[0])
                 cv2.putText(img, current_contur.id, (x,y), cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8, \
-                    color=(255,0,255),thickness=2)
+                    color=(0,0,0),thickness=2)
 
             current_conturs = self.get_contur_in_order(current_contur)
             if current_conturs == None:
