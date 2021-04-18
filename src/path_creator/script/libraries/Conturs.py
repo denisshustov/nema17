@@ -110,7 +110,7 @@ class Conturs:
                 current_prop = [p for p in props if p.label == cc][0]
                 x = int(current_prop.centroid[1])
                 y = int(current_prop.centroid[0])
-                cv2.putText(img, current_contur.id, (x,y), cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8, \
+                cv2.putText(img, current_contur.id, (x,y), cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.3, \
                     color=(0,0,0),thickness=2)
 
             current_conturs = self.get_contur_in_order(current_contur)
@@ -119,8 +119,18 @@ class Conturs:
             current_contur = current_conturs[0]
         self.set_unvisited()
 
-
-    def get_contur_in_order(self, current, go_from = None):
+    def find_loop(self, seq, subseq):
+        n = len(seq)
+        m = len(subseq)
+        for i in range(n - m + 1):
+            found = True
+            for j in range(m):
+                if seq[i + j] != subseq[j]:
+                    found = False
+                    break
+            if found:
+                yield i
+    def get_contur_in_order(self, current, go_from = None, skip_sequence = []):
         if len(current.children)>0:
             for c in current.children:
                 if not c.is_processed:
@@ -130,13 +140,33 @@ class Conturs:
             for c in current.children:
                 if go_from != None:
                     if go_from.id != c.id:
-                        res = self.get_contur_in_order(c, current)
+
+                        is_break = False
+                        for _ in self.find_loop(skip_sequence,[c.id,current.id]):
+                            is_break=True
+                            break
+                        if is_break:
+                            return None
+
+                        skip_sequence.append(c.id)
+                        skip_sequence.append(current.id)
+                        res = self.get_contur_in_order(c, current,skip_sequence=skip_sequence)
                         if res != None:
                             res.append(c)
                             res.append(current)
                             return res
                 else:
-                    res = self.get_contur_in_order(c, current)
+
+                    is_break = False
+                    for _ in self.find_loop(skip_sequence,[c.id,current.id]):
+                        is_break=True
+                        break
+                    if is_break:
+                        return None
+                    
+                    skip_sequence.append(c.id)
+                    skip_sequence.append(current.id)
+                    res = self.get_contur_in_order(c, current,skip_sequence=skip_sequence)
                     if res != None:
                         res.append(c)
                         res.append(current)
@@ -144,7 +174,7 @@ class Conturs:
 
         return None
 
-    def get_conturs(self):
+    def get_conturs(self, skip_area_less_than = 10):
         distance = cv2.distanceTransform(self.image, cv2.DIST_C, 5)
         local_maxi = peak_local_max(distance, indices=False, footprint=np.ones((60, 60)), labels=self.image)
         markers = morphology.label(local_maxi)
@@ -163,12 +193,13 @@ class Conturs:
             corrected_conturs=[]
             for idx, val in enumerate(cnt):
                 area = cv2.contourArea(val)
-                if area>10:
+                if area>skip_area_less_than:
                     contours.append(val)
                     for idx1, val1 in enumerate(val):
                         for idx2, val2 in enumerate(val1):
                             corrected_conturs.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
-
-            self.conturs.append(Contur(contours,corrected_conturs, str(i),[label])) #self.labels[label]
-            i+=1
+            
+            if len(contours)>0:
+                self.conturs.append(Contur(contours,corrected_conturs, str(i),[label])) #self.labels[label]
+                i+=1
         return self.conturs
