@@ -30,11 +30,11 @@ def load_array_to_file():
 
 
 #/home/pi/catkin_ws/src/path_creator/test/img/map.jpg
-# img = cv2.imread(os.path.join(sys.path[0], 'img')+'/mymap_22.jpg')
-# gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-# flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
+img = cv2.imread(os.path.join(sys.path[0], 'img')+'/mymap_22.jpg')
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
 
-image = img = load_array_to_file()
+# image = img = load_array_to_file()
 cnt_inst = Conturs(image)
 cnts = cnt_inst.get_conturs(80)
 
@@ -52,7 +52,7 @@ cnts = cnt_inst.get_conturs(80)
 # xxx = cnt_inst.merge('11','14')
 # xxx = cnt_inst.merge('11','8')
 
-inter = cnt_inst.get_intersections(9)
+inter = cnt_inst.get_intersections(8)
 x=756
 y=299
 current_contur = cnts[0] #cnt_inst.get_contur_by_coord(x, y)
@@ -68,7 +68,7 @@ start_point = None
 
 while True:
     if not current_contur.is_processed:
-        pth = PathFinder(current_contur.contur, image, 3, 0, start_point=start_point, debug_mode=True)
+        pth = PathFinder(current_contur.contur, image, 10, 1, start_point=start_point, debug_mode=True)
         covered_points = pth.get_route()
         if len(covered_points)>0:
             start_point = covered_points[len(covered_points)-1]

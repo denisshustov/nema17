@@ -138,39 +138,30 @@ class Conturs:
 
             #all children processed
             for c in current.children:
-                if go_from != None:
-                    if go_from.id != c.id:
+                if go_from == None or (go_from != None and go_from.id != c.id):
+                        print("c={},current={}".format(c.id,current.id))
 
-                        is_break = False
-                        for _ in self.find_loop(skip_sequence,[c.id,current.id]):
-                            is_break=True
-                            break
-                        if is_break:
-                            return None
+                        # is_break = False
+                        # a=[c.id]#current.id
+                        # if go_from!=None:
+                        #     a.append(go_from.id)
+                        # if len(a)>1:
+                        #     for _ in self.find_loop(skip_sequence,a):
+                        #         is_break=True
+                        #         break
+                        #     if is_break:
+                        #         continue
+                        #         #return None
 
                         skip_sequence.append(c.id)
-                        skip_sequence.append(current.id)
-                        res = self.get_contur_in_order(c, current,skip_sequence=skip_sequence)
+                        # skip_sequence.append(current.id)
+                        if go_from!=None:
+                            skip_sequence.append(go_from.id)
+                        res = self.get_contur_in_order(c, current, skip_sequence=skip_sequence)
                         if res != None:
                             res.append(c)
                             res.append(current)
                             return res
-                else:
-
-                    is_break = False
-                    for _ in self.find_loop(skip_sequence,[c.id,current.id]):
-                        is_break=True
-                        break
-                    if is_break:
-                        return None
-                    
-                    skip_sequence.append(c.id)
-                    skip_sequence.append(current.id)
-                    res = self.get_contur_in_order(c, current,skip_sequence=skip_sequence)
-                    if res != None:
-                        res.append(c)
-                        res.append(current)
-                        return res
 
         return None
 
