@@ -114,7 +114,7 @@ class Conturs:
                     color=(0,0,0),thickness=2)
 
             current_conturs = self.get_contur_in_order(current_contur)
-            if current_conturs == None:
+            if current_conturs == None or current_conturs == []:
                 break
             current_contur = current_conturs[0]
         self.set_unvisited()
@@ -130,34 +130,42 @@ class Conturs:
                     break
             if found:
                 yield i
-    def get_contur_in_order(self, current, go_from = None, skip_sequence = []):
+
+    def get_contur_in_order(self, current, go_from = None, skip_sequence = [], \
+        skip_sequence2 = [], hops = 0):
+
         if len(current.children)>0:
             for c in current.children:
                 if not c.is_processed:
                     return [c]
 
-            #all children processed
             for c in current.children:
                 if go_from == None or (go_from != None and go_from.id != c.id):
-                        print("c={},current={}".format(c.id,current.id))
-
-                        # is_break = False
-                        # a=[c.id]#current.id
                         # if go_from!=None:
-                        #     a.append(go_from.id)
-                        # if len(a)>1:
-                        #     for _ in self.find_loop(skip_sequence,a):
-                        #         is_break=True
-                        #         break
-                        #     if is_break:
-                        #         continue
-                        #         #return None
+                        #     print("{}=>{}".format(go_from.id,current.id))
+                        # else:
+                        #     print("{}=>{}".format(current.id,c.id))
 
-                        skip_sequence.append(c.id)
-                        # skip_sequence.append(current.id)
                         if go_from!=None:
                             skip_sequence.append(go_from.id)
-                        res = self.get_contur_in_order(c, current, skip_sequence=skip_sequence)
+                            skip_sequence.append(current.id)
+                        if hops>15:
+                            skip_sequence2.append(go_from.id)
+                            skip_sequence2.append(current.id)
+                        is_break = False
+                        if hops>20:
+                            for _ in self.find_loop(skip_sequence,skip_sequence2):
+                                is_break=True
+                                break
+                            if is_break:
+                                return []
+                        hops+=1
+                        
+                        res = self.get_contur_in_order(c, current, \
+                            skip_sequence = skip_sequence, skip_sequence2 = skip_sequence2,\
+                            hops = hops)
+                        if res == []:
+                            return []
                         if res != None:
                             res.append(c)
                             res.append(current)
