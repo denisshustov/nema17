@@ -15,6 +15,8 @@ import numpy as np
 from nav_msgs.msg import OccupancyGrid
 from nav_msgs.msg import MapMetaData
 from std_msgs.msg import Header
+from geometry_msgs.msg import Vector3
+from vector_3_array.msg import Vector3DArray
 
 import cv2
 import os
@@ -39,7 +41,8 @@ class Path_Creator:
         self.map = None
         
         self.way_points = []
-
+    
+    def go(self):
         r = rospy.Rate(100)        
         while not rospy.is_shutdown():
             if self.map != None and self.way_points == []:
@@ -124,4 +127,4 @@ class Path_Creator:
 
 if __name__ == '__main__':
     c = Path_Creator()
-
+    c.go()
