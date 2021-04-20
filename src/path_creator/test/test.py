@@ -26,7 +26,7 @@ from PathFinder import *
 from Conturs import *
 
 def load_array_to_file():
-    return np.loadtxt('/home/den/catkin_ws/src/path_creator/test/test1.txt', dtype=np.uint8)
+    return np.loadtxt(sys.path[0]+'/test1.txt', dtype=np.uint8)
 
 
 #/home/pi/catkin_ws/src/path_creator/test/img/map.jpg
