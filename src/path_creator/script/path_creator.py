@@ -50,7 +50,7 @@ class Path_Creator:
                 self.save_array_to_file(array_map)
 
                 cnt_inst = Conturs(array_map)
-                cnts = cnt_inst.get_conturs()
+                cnts = cnt_inst.get_conturs(skip_area_less_than = 40)
 
                 inter = cnt_inst.get_intersections(5)
                 current_contur = cnts[0]
@@ -85,8 +85,10 @@ class Path_Creator:
                         way_point = WayPoint(cor_con, points, str(i))                    
                         self.way_points.append(way_point)
 
-                    current_conturs = cnt_inst.get_contur_in_order(current_contur)
+                    current_conturs = cnt_inst.get_contur_in_order(current_contur,None,[],[],0)
                     if current_conturs == None:
+                        break
+                    if len(current_conturs)==0:
                         break
                     current_contur = current_conturs[0]
 
