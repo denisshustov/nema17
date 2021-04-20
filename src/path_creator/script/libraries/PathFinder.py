@@ -153,17 +153,17 @@ class PathFinder:
         xy = self.get_start_point(self.mounting_points ) #self.mounting_points[0]
         
         while True:
-            x=xy[0]
-            y=xy[1]
+            x = xy[0]
+            y = xy[1]
 
             neibors = self.getNeibors(xy,self.mounting_points,self.neibor_distance)
-            if self.start_point==None:
+            if self.start_point == None:
                 relevant_points = self.get_relevant_points(neibors,x_grid_slice, self.path_points, x_grid_ptr)
             else:
                 relevant_points = self.get_relevant_points(neibors,x_grid_slice, self.path_points)
                 self.start_point = None
-            
-            if len(relevant_points)>0:
+
+            if len(relevant_points) > 0:
                 relevant_points_fst = sorted(relevant_points, key=lambda s: s[2])[0]
                 if not relevant_points_fst in self.path_points:
                     self.path_points.append((relevant_points_fst[0],relevant_points_fst[1]))

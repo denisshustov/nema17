@@ -28,13 +28,13 @@ class Conturs:
         self.image = image
         self.labels = []
 
-    def intersect2D(self, a, b, delta):
+    def intersect2D(self, a, b, delta): #long runing
         result = []
         for a1 in a:
             for b1 in b:
                 if abs(a1[0]-b1[0])<=delta and abs(a1[1]-b1[1])<=delta:
-                    result.append((a1,b1))
-        return result
+                    return True
+        return False
 
     def merge(self, id1, id2):
         c1=None
@@ -84,7 +84,7 @@ class Conturs:
                 if cnt.id != cnt1.id:
                     inters = self.intersect2D(np.array(cnt.corrected_contur), \
                         np.array(cnt1.corrected_contur), delta)
-                    if len(inters)>0:
+                    if inters:
                         cnt.children.append(cnt1)
                         cnt1.parent = cnt
         i=0
@@ -93,6 +93,30 @@ class Conturs:
                 del self.conturs[i]
             i+=1
         return self.conturs
+    
+    # TODO TEST THIS!!!
+    # def get_intersections(self, delta = 2, ignore_without_children = True):
+    #     i=0
+    #     while i<len(self.conturs):
+    #         cnt = self.conturs[i]
+    #         j = i + 1
+    #         while j<len(self.conturs):
+    #             cnt1 = self.conturs[j]
+    #             if cnt.id != cnt1.id:
+    #                 inters = self.intersect2D(np.array(cnt.corrected_contur), \
+    #                     np.array(cnt1.corrected_contur), delta)
+    #                 if inters:
+    #                     cnt.children.append(cnt1)
+    #                     cnt1.parent = cnt
+    #             j+=1
+    #         i+=1
+
+    #     i=0
+    #     while i<len(self.conturs):
+    #         if len(self.conturs[i].children)==0:
+    #             del self.conturs[i]
+    #         i+=1
+    #     return self.conturs
 
     def set_unvisited(self):
         for c in self.conturs:
@@ -141,10 +165,6 @@ class Conturs:
 
             for c in current.children:
                 if go_from == None or (go_from != None and go_from.id != c.id):
-                        # if go_from!=None:
-                        #     print("{}=>{}".format(go_from.id,current.id))
-                        # else:
-                        #     print("{}=>{}".format(current.id,c.id))
 
                         if go_from!=None:
                             skip_sequence.append(go_from.id)
