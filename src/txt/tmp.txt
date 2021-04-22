@@ -79,6 +79,9 @@ rosrun map_server map_saver -f new_mymap
   </node>
 
 ------------------------------------------------------------------------------
+rm -rf build/ devel/
+------------------------------------------------------------------------------
+
 
 # . ~/catkin_ws/devel/setup.bash
 # source devel/setup.sh

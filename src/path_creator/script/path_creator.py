@@ -23,7 +23,7 @@ from PathFinder import *
 
 from WayPoint import *
 
-from path_creator.srv import way_points_srv, reset_odom_srvResponse
+from path_creator.srv import way_points_srv, way_points_srvResponse
 
 
 class Path_Creator:
@@ -33,12 +33,23 @@ class Path_Creator:
         
         self.robot_diametr = 0.3
         self.robot_center_pixel_x = 10
-        self.robot_center_pixel_y = 10
-        
-        self.map = None
-        
+        self.robot_center_pixel_y = 10        
+        self.map = None        
         self.way_points = []
-    
+        self.covered_points = []
+        self.srv = rospy.Service('get_by_id', way_points_srv, self.get_by_id)
+        rospy.loginfo("path_creator Starting...")
+        self.rate = rospy.get_param('~rate',100.0)
+
+    def get_by_id(self, request):
+        if request.contur_id:
+            result = Point[]
+            result.append(Point(1,2,0))
+            result.append(Point(3,4,0))
+            
+            return way_points_srvResponse(result)
+        return way_points_srvResponse(Point[])
+
     def go(self):
         r = rospy.Rate(100)        
         while not rospy.is_shutdown():
@@ -61,9 +72,9 @@ class Path_Creator:
                 while True:
                     if not current_contur.is_processed:
                         pth = PathFinder(current_contur.contur, array_map, 5, 1, start_point=start_point, debug_mode=False)
-                        covered_points = pth.get_route()
-                        if len(covered_points)>0:
-                            start_point = covered_points[len(covered_points)-1]
+                        self.covered_points = pth.get_route()
+                        if len(self.covered_points)>0:
+                            start_point = self.covered_points[len(self.covered_points)-1]
                             current_contur.is_processed = True
                         else:
                             print('covered_points is empty, id={}!!!'.format(current_contur.id))
@@ -71,7 +82,7 @@ class Path_Creator:
                         #--- multiply to self.map.info.resolution, for correcting ---
 
                         points = []
-                        for cp in covered_points:
+                        for cp in self.covered_points:
                             points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
 
                         i=0
@@ -124,4 +135,4 @@ class Path_Creator:
 
 if __name__ == '__main__':
     c = Path_Creator()
-    c.go()
+    # c.go()
