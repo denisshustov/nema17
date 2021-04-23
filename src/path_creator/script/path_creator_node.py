@@ -23,7 +23,7 @@ from PathFinder import *
 
 from WayPoint import *
 
-from path_creator.srv import way_points_srv, way_points_srvResponse
+from path_creator.srv import * #way_points_srv, way_points_srvResponse
 
 
 class Path_Creator:
@@ -43,12 +43,12 @@ class Path_Creator:
 
     def get_by_id(self, request):
         if request.contur_id:
-            result = Point[]
+            result = []
             result.append(Point(1,2,0))
             result.append(Point(3,4,0))
             
             return way_points_srvResponse(result)
-        return way_points_srvResponse(Point[])
+        return way_points_srvResponse([])
 
     def go(self):
         r = rospy.Rate(100)        
