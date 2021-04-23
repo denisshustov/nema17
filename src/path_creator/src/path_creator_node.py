@@ -44,19 +44,20 @@ class Path_Creator:
 
         self.srv = rospy.Service('path_creator/get_by_id', way_points_srv, self.get_by_id)
         self.srv2 = rospy.Service('path_creator/get_all', way_points_srv, self.get_all)
+        self.srv2 = rospy.Service('path_creator/get_conturs', way_points_srv, self.get_conturs)
         rospy.loginfo("path_creator Starting...")
         self.rate = rospy.get_param('~rate',100.0)
         rospy.spin()
 
     def check_errors(self):
         if self.map == None:
-            return way_points_srvResponse(points=[],error_code="MAP_NOT_READY",error_description="")
+            return way_points_srvResponse(error_code="MAP_NOT_READY")
         if self.find_conutrs_in_progress:
-            return way_points_srvResponse(points=[],error_code="FIND_CONTURS_IN_PROGRESS",error_description="")
+            return way_points_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
         # if self.conutrs  == None:
-        #     return way_points_srvResponse(points=[],error_code="CONTURS_NOT_READY",error_description="")
+        #     return way_points_srvResponse(error_code="CONTURS_NOT_READY")
         # if self.way_points == None:
-        #     return way_points_srvResponse(points=[],error_code="WAY_POINTS_NOT_READY",error_description="")
+        #     return way_points_srvResponse(error_code="WAY_POINTS_NOT_READY")
         return None
 
     def get_all(self, request):
@@ -65,9 +66,9 @@ class Path_Creator:
             return error
         
         if len(self.conutrs) == 0:
-            self.get_conturs()
+            self._get_conturs()
         if len(self.conutrs) == 0:
-            return way_points_srvResponse(points=[],error_code="CONTURS_NOT_FOUND",error_description="")
+            return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
 
         result = []
         result.append(Point(1,2,0))
@@ -79,14 +80,14 @@ class Path_Creator:
         if error != None:
             return error
         if len(request.contur_id)==0:
-            return way_points_srvResponse(points=[],error_code="contur_id_IS_EMPTY",error_description="")
-        if self.find_path_in_progress != None:
-            return way_points_srvResponse(points=[],error_code="FIND_PATH_FOR_ID_IN_PROGRESS",error_description="")
+            return way_points_srvResponse(error_code="contur_id_IS_EMPTY")
+        if self.find_path_in_progress == request.contur_id:
+            return way_points_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
 
         if len(self.conutrs) == 0:
-            self.get_conturs()
+            self._get_conturs()
         if len(self.conutrs) == 0:
-            return way_points_srvResponse(points=[],error_code="CONTURS_NOT_FOUND",error_description="")
+            return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
         
         contur = None
         for c in self.conutrs:
@@ -94,12 +95,27 @@ class Path_Creator:
                contur = c
                break
         if contur == None:
-            return way_points_srvResponse(points=[],error_code="contur_id_NOT_FOUND",error_description="")
+            return way_points_srvResponse(error_code="contur_id_NOT_FOUND")
 
-        result = self.get_path(contur)            
-        return way_points_srvResponse(points=result)
+        result = self._get_path(contur)            
+        return way_points_srvResponse(points=result,contur_id=request.contur_id)
     
-    def get_path(self, contur):
+    def get_conturs(self):
+        error = self.check_errors()
+        if error != None:
+            return error
+        if len(self.conutrs) == 0:
+            self._get_conturs()
+        if len(self.conutrs) == 0:
+            return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
+        cor_con = []
+        for cc in current_contur.corrected_contur:
+            cor_con.append(Point(cc[0]*self.map.info.resolution,cc[1]*self.map.info.resolution,0))
+        #TEST THIS!!!!!!!!!!!!!!!!!!!!
+        return way_points_srvResponse(cor_con)
+
+
+    def _get_path(self, contur):
         self.find_path_in_progress = contur.id
         pth = PathFinder(contur.contur, self.array_map, 5, 1, start_point=None, debug_mode=False)
         self.covered_points = pth.get_route()
@@ -109,7 +125,7 @@ class Path_Creator:
         self.find_path_in_progress = None
         return points
 
-    def get_conturs(self):
+    def _get_conturs(self):
         if self.map != None and self.conutrs == [] and not self.find_conutrs_in_progress:
             self.find_conutrs_in_progress = True
             self.array_map = self.map_to_array()
