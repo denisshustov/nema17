@@ -4,7 +4,7 @@
             "name": "ROS: Launch",
             "type": "ros",
             "request": "launch",
-            "target": "/home/pi/catkin_ws/nema17/src/path_creator/launch/path_creator.launch"
+            "target": "/home/pi/catkin_ws/src/path_creator/launch/path_creator.launch"
         },
         {
             "name": "ROS: Attach",
