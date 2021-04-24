@@ -25,7 +25,6 @@ from WayPoint import *
 
 from path_creator.srv import * #way_points_srv, way_points_srvResponse
 
-
 class Path_Creator:
     def __init__(self):
         rospy.init_node("path_creator")
@@ -44,7 +43,7 @@ class Path_Creator:
 
         self.srv = rospy.Service('path_creator/get_by_id', way_points_srv, self.get_by_id)
         self.srv2 = rospy.Service('path_creator/get_all', way_points_srv, self.get_all)
-        self.srv2 = rospy.Service('path_creator/get_conturs', way_points_srv, self.get_conturs)
+        self.srv2 = rospy.Service('path_creator/get_conturs', conturs_srv, self.get_conturs)
         rospy.loginfo("path_creator Starting...")
         self.rate = rospy.get_param('~rate',100.0)
         rospy.spin()
@@ -100,7 +99,7 @@ class Path_Creator:
         result = self._get_path(contur)            
         return way_points_srvResponse(points=result,contur_id=request.contur_id)
     
-    def get_conturs(self):
+    def get_conturs(self, request):
         error = self.check_errors()
         if error != None:
             return error
@@ -108,11 +107,15 @@ class Path_Creator:
             self._get_conturs()
         if len(self.conutrs) == 0:
             return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
-        cor_con = []
-        for cc in current_contur.corrected_contur:
-            cor_con.append(Point(cc[0]*self.map.info.resolution,cc[1]*self.map.info.resolution,0))
+        
+        qqq=[]
+        for cc in self.conutrs:
+            cor_con = []
+            for c in cc.corrected_contur:
+                cor_con.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
+            qqq.append(contur_srvResponse(contur_id = cc.id, points = cor_con))
         #TEST THIS!!!!!!!!!!!!!!!!!!!!
-        return way_points_srvResponse(cor_con)
+        return conturs_srvResponse(cor_con)
 
 
     def _get_path(self, contur):

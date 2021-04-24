@@ -59,6 +59,8 @@ find_package(catkin REQUIRED COMPONENTS
 add_service_files(
   FILES
   way_points_srv.srv
+  contur_srv.srv
+  conturs_srv.srv
 )
 
 ## Generate actions in the 'action' folder
