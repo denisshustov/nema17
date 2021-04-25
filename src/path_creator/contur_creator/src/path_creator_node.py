@@ -24,7 +24,7 @@ from PathFinder import *
 from WayPoint import *
 
 from path_creator.srv import way_points_srv, way_points_srvResponse
-# from path_creator.srv import contur_srvResponse
+from path_creator.srv import conturs_srvResponse
 from map_contur_msg.msg import map_contur_msg
 
 class Path_Creator:
@@ -115,9 +115,9 @@ class Path_Creator:
             cor_con = []
             for c in cc.corrected_contur:
                 cor_con.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
-            qqq.append(contur_srvResponse(contur_id = cc.id, points = cor_con))
+            qqq.append(map_contur_msg(contur_id = cc.id, points = cor_con))
         #TEST THIS!!!!!!!!!!!!!!!!!!!!
-        return conturs_srvResponse(cor_con)
+        return conturs_srvResponse(conturs = cor_con)
 
 
     def _get_path(self, contur):
