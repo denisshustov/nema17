@@ -8,6 +8,7 @@ project(path_creator)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  map_contur_msg
   geometry_msgs
   nav_msgs
   rospy
@@ -38,7 +39,7 @@ add_service_files(
 
 generate_messages(
   DEPENDENCIES
-  std_msgs geometry_msgs
+  std_msgs geometry_msgs map_contur_msg
 )
 catkin_package(
 #  INCLUDE_DIRS include
@@ -51,3 +52,4 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
 )
+link_directories(${catkin_LIBRARY_DIRS})

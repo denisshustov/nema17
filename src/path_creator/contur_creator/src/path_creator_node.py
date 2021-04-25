@@ -23,7 +23,7 @@ from PathFinder import *
 
 from WayPoint import *
 
-from path_creator.srv import * #way_points_srv, way_points_srvResponse
+from path_creator.srv import way_points_srv, way_points_srvResponse
 # from path_creator.srv import contur_srvResponse
 from map_contur_msg.msg import contur
 
