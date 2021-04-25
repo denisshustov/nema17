@@ -1,0 +1,4 @@
+---
+# path_creator.srv/contur_srvResponse[] conturs
+# map_contur_msg.msg/contur conturs
+geometry_msgs/Point[] points

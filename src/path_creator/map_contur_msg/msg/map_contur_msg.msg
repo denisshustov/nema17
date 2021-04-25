@@ -1,3 +1,2 @@
----
 string contur_id
 geometry_msgs/Point[] points

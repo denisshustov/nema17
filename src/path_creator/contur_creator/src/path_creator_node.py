@@ -16,7 +16,7 @@ import math
 import random
 import numpy as np
 
-sys.path.append(os.path.join(sys.path[0], 'libraries'))
+sys.path.append(os.path.join(sys.path[0], '../../libraries'))
 from Conturs import *
 
 from PathFinder import *
@@ -24,6 +24,8 @@ from PathFinder import *
 from WayPoint import *
 
 from path_creator.srv import * #way_points_srv, way_points_srvResponse
+# from path_creator.srv import contur_srvResponse
+from map_contur_msg.msg import contur
 
 class Path_Creator:
     def __init__(self):
