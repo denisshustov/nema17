@@ -42,7 +42,7 @@ class Contur_Creator:
         self.find_path_in_progress = None
 
         self.srv = rospy.Service('contur_creator/get_conturs', conturs_srv, self.get_conturs)
-
+        self.srv1 = rospy.Service('contur_creator/get_by_id', conturs_srv, self.get_by_id)
         rospy.loginfo("contur_creator Starting...")
         self.rate = rospy.get_param('~rate',100.0)
         rospy.spin()
@@ -58,6 +58,29 @@ class Contur_Creator:
         #     return way_points_srvResponse(error_code="WAY_POINTS_NOT_READY")
         return None
 
+    def get_by_id(self, request):
+        error = self.check_errors()
+        if error != None:
+            return error
+        if len(request.contur_id)==0:
+            return way_points_srvResponse(error_code="contur_id_IS_EMPTY")
+        if self.find_path_in_progress == request.contur_id:
+            return way_points_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
+
+        if len(self.conutrs) == 0:
+            self._get_conturs()
+        if len(self.conutrs) == 0:
+            return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
+        
+        contur = None
+        for c in self.conutrs:
+            if c.id == request.contur_id:
+               contur = c
+               break
+        if contur == None:
+            return way_points_srvResponse(error_code="contur_id_NOT_FOUND")
+           
+        return conturs_srvResponse(conturs = [contur])
 
     def get_conturs(self, request):
         error = self.check_errors()
