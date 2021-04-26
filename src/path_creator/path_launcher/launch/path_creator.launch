@@ -1,0 +1,4 @@
+<launch>
+        <include file="$(find contur_creator)/launch/contur_creator.launch"/>
+        <include file="$(find path_creator)/launch/path_creator.launch"/>
+</launch>
