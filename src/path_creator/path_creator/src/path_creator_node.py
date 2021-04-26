@@ -17,15 +17,15 @@ import random
 import numpy as np
 
 sys.path.append(os.path.join(sys.path[0], '../../libraries'))
-from Conturs import *
+# from Conturs import *
 
-from PathFinder import *
+# from PathFinder import *
 
-from WayPoint import *
+# from WayPoint import *
 
 from path_creator.srv import way_points_srv, way_points_srvResponse
 from path_creator.srv import conturs_srvResponse, conturs_srv
-from map_contur_msg.msg import map_contur_msg
+# from map_contur_msg.msg import map_contur_msg
 
 class Path_Creator:
     def __init__(self):
@@ -44,8 +44,6 @@ class Path_Creator:
         self.find_path_in_progress = None
 
         self.srv = rospy.Service('path_creator/get_by_id', way_points_srv, self.get_by_id_path)
-        self.srv2 = rospy.Service('path_creator/get_all', way_points_srv, self.get_all)
-        self.srv3 = rospy.Service('contur_creator/get_conturs', conturs_srv, self.get_conturs)
         rospy.loginfo("path_creator Starting...")
         self.rate = rospy.get_param('~rate',100.0)
         rospy.spin()
@@ -60,21 +58,6 @@ class Path_Creator:
         # if self.way_points == None:
         #     return way_points_srvResponse(error_code="WAY_POINTS_NOT_READY")
         return None
-
-    def get_all(self, request):
-        error = self.check_errors()
-        if error != None:
-            return error
-        
-        if len(self.conutrs) == 0:
-            self._get_conturs()
-        if len(self.conutrs) == 0:
-            return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
-
-        result = []
-        result.append(Point(1,2,0))
-        result.append(Point(3,4,0))
-        return way_points_srvResponse(result)
 
     def get_by_id_path(self, request):
         error = self.check_errors()
@@ -101,24 +84,6 @@ class Path_Creator:
         result = self._get_path(contur)            
         return way_points_srvResponse(points=result,contur_id=request.contur_id)
     
-    def get_conturs(self, request):
-        error = self.check_errors()
-        if error != None:
-            return error
-        if len(self.conutrs) == 0:
-            self._get_conturs()
-        if len(self.conutrs) == 0:
-            return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
-        
-        all_conturs = []
-        for cc in self.conutrs:
-            cor_con = []
-            for c in cc.corrected_contur:
-                cor_con.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
-            all_conturs.append(map_contur_msg(contur_id = cc.id, points = cor_con))
-        return conturs_srvResponse(conturs = all_conturs)
-
-
     def _get_path(self, contur):
         self.find_path_in_progress = contur.id
         pth = PathFinder(contur.contur, self.array_map, 5, 1, start_point=None, debug_mode=False)
@@ -128,19 +93,6 @@ class Path_Creator:
             points.append(Point(cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,0))
         self.find_path_in_progress = None
         return points
-
-    def _get_conturs(self):
-        if self.map != None and self.conutrs == [] and not self.find_conutrs_in_progress:
-            self.find_conutrs_in_progress = True
-            self.array_map = self.map_to_array()
-            # self.save_array_to_file(self.array_map)
-
-            cnt_inst = Conturs(self.array_map)
-            self.conutrs = cnt_inst.get_conturs(skip_area_less_than = 40)
-            inter = cnt_inst.get_intersections(5)
-            self.find_conutrs_in_progress = False
-            return self.conutrs
-        return []
 
     def go(self):
         r = rospy.Rate(100)        

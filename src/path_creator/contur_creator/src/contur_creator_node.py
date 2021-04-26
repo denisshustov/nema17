@@ -17,11 +17,11 @@ import random
 import numpy as np
 
 sys.path.append(os.path.join(sys.path[0], '../../libraries'))
-from Conturs import *
+# from Conturs import *
 
-from PathFinder import *
+# from PathFinder import *
 
-from WayPoint import *
+# from WayPoint import *
 
 from path_creator.srv import way_points_srv, way_points_srvResponse
 from path_creator.srv import conturs_srvResponse, conturs_srv
@@ -41,8 +41,7 @@ class Contur_Creator:
         self.find_conutrs_in_progress = False
         self.find_path_in_progress = None
 
-        self.srv = rospy.Service('contur_creator/get_by_id', way_points_srv, self.get_by_id_path)
-        self.srv1 = rospy.Service('contur_creator/get_conturs', conturs_srv, self.get_conturs)
+        self.srv = rospy.Service('contur_creator/get_conturs', conturs_srv, self.get_conturs)
 
         rospy.loginfo("contur_creator Starting...")
         self.rate = rospy.get_param('~rate',100.0)
@@ -76,31 +75,6 @@ class Contur_Creator:
                 cor_con.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
             all_conturs.append(map_contur_msg(contur_id = cc.id, points = cor_con))
         return conturs_srvResponse(conturs = all_conturs)
-
-    def get_by_id_path(self, request):
-        error = self.check_errors()
-        if error != None:
-            return error
-        if len(request.contur_id)==0:
-            return way_points_srvResponse(error_code="contur_id_IS_EMPTY")
-        if self.find_path_in_progress == request.contur_id:
-            return way_points_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
-
-        if len(self.conutrs) == 0:
-            self._get_conturs()
-        if len(self.conutrs) == 0:
-            return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
-        
-        contur = None
-        for c in self.conutrs:
-            if c.id == request.contur_id:
-               contur = c
-               break
-        if contur == None:
-            return way_points_srvResponse(error_code="contur_id_NOT_FOUND")
-
-        result = self._get_path(contur)            
-        return way_points_srvResponse(points=result,contur_id=request.contur_id)
 
     def _get_conturs(self):
         if self.map != None and self.conutrs == [] and not self.find_conutrs_in_progress:
