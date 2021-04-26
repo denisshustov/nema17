@@ -17,7 +17,7 @@ import random
 import numpy as np
 
 sys.path.append(os.path.join(sys.path[0], '../../libraries'))
-# from Conturs import *
+from Conturs import *
 
 # from PathFinder import *
 

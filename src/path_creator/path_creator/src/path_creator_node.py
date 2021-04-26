@@ -43,7 +43,7 @@ class Path_Creator:
         self.find_conutrs_in_progress = False
         self.find_path_in_progress = None
 
-        self.srv = rospy.Service('path_creator/get_by_id', way_points_srv, self.get_by_id_path)
+        self.srv = rospy.Service('path_creator/get_by_id', way_points_srv, self.get_by_id)
         rospy.loginfo("path_creator Starting...")
         self.rate = rospy.get_param('~rate',100.0)
         rospy.spin()
@@ -59,7 +59,7 @@ class Path_Creator:
         #     return way_points_srvResponse(error_code="WAY_POINTS_NOT_READY")
         return None
 
-    def get_by_id_path(self, request):
+    def get_by_id(self, request):
         error = self.check_errors()
         if error != None:
             return error
