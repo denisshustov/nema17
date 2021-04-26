@@ -43,9 +43,9 @@ class Path_Creator:
         self.find_conutrs_in_progress = False
         self.find_path_in_progress = None
 
-        self.srv = rospy.Service('path_creator/get_by_id', way_points_srv, self.get_by_id)
+        self.srv = rospy.Service('path_creator/get_by_id', way_points_srv, self.get_by_id_path)
         self.srv2 = rospy.Service('path_creator/get_all', way_points_srv, self.get_all)
-        self.srv2 = rospy.Service('path_creator/get_conturs', conturs_srv, self.get_conturs)
+        self.srv3 = rospy.Service('contur_creator/get_conturs', conturs_srv, self.get_conturs)
         rospy.loginfo("path_creator Starting...")
         self.rate = rospy.get_param('~rate',100.0)
         rospy.spin()
@@ -76,7 +76,7 @@ class Path_Creator:
         result.append(Point(3,4,0))
         return way_points_srvResponse(result)
 
-    def get_by_id(self, request):
+    def get_by_id_path(self, request):
         error = self.check_errors()
         if error != None:
             return error

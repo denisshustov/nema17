@@ -1,0 +1,4 @@
+<launch>
+        <node name="path_creator" pkg="path_creator" output="screen" type="path_creator_node.py">
+        </node>
+</launch>

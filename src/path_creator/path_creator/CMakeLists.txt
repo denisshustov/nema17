@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(contur_creator)
+project(path_creator)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -43,7 +43,7 @@ generate_messages(
 )
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES contur_creator
+#  LIBRARIES path_creator
   CATKIN_DEPENDS geometry_msgs nav_msgs rospy std_msgs message_runtime map_contur_msg
 #  DEPENDS system_lib
 )
