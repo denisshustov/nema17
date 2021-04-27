@@ -1,6 +1,0 @@
-string contur_id
----
-string contur_id
-string error_code
-string error_description
-geometry_msgs/Point[] points

@@ -63,7 +63,8 @@ class Path_Creator:
         rospy.wait_for_service('contur_creator/get_by_id')
         try:
             get_contur_get_by_id = rospy.ServiceProxy('contur_creator/get_by_id', conturs_srv)
-            response = get_contur_get_by_id(conturs_srvRequest(id))
+            rqt = conturs_srvRequest()
+            response = get_contur_get_by_id(rqt)
             return response
         except rospy.ServiceException as e:
             rospy.loginfo("Service call failed: {}".format(e))
