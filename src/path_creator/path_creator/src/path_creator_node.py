@@ -24,7 +24,7 @@ sys.path.append(os.path.join(sys.path[0], '../../libraries'))
 # from WayPoint import *
 
 from path_creator.srv import way_points_srv, way_points_srvResponse
-from path_creator.srv import conturs_srvResponse, conturs_srv
+from path_creator.srv import conturs_srvResponse, conturs_srv, conturs_srvRequest
 # from map_contur_msg.msg import map_contur_msg
 
 class Path_Creator:
@@ -59,6 +59,20 @@ class Path_Creator:
         #     return way_points_srvResponse(error_code="WAY_POINTS_NOT_READY")
         return None
 
+    def get_contur(self, id):
+        rospy.wait_for_service('contur_creator/get_by_id')
+        try:
+            get_contur_get_by_id = rospy.ServiceProxy('contur_creator/get_by_id', conturs_srv)
+            response = get_contur_get_by_id([])
+            !!!!!!!!!!!!!!!!!!!!!!
+            !!!!!!!!!!!!!!!!!!!!!!
+            !!!!!!!!!!!!!!!!!!!!!!
+            !!!!!!!!!!!!!!!!!!!!!!
+            return response
+        except rospy.ServiceException as e:
+            rospy.loginfo("Service call failed: {}".format(e))
+            return None
+
     def get_by_id(self, request):
         error = self.check_errors()
         if error != None:
@@ -68,8 +82,7 @@ class Path_Creator:
         if self.find_path_in_progress == request.contur_id:
             return way_points_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
 
-        if len(self.conutrs) == 0:
-            self._get_conturs()
+        self.conutrs = self.get_contur(request.contur_id)
         if len(self.conutrs) == 0:
             return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
         
