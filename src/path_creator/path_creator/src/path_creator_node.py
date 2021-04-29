@@ -30,7 +30,6 @@ from contur_creator.srv import conturs_srvResponse, conturs_srv, conturs_srvRequ
 class Path_Creator:
     def __init__(self):
         rospy.init_node("path_creator")
-        rospy.Subscriber("/map", OccupancyGrid, self.callback)
         
         self.robot_diametr = 0.3
         self.robot_center_pixel_x = 10
@@ -65,8 +64,9 @@ class Path_Creator:
             #"error processing request: name 'way_points_srvResponse' is not defined"
             get_contur_get_by_id = rospy.ServiceProxy('contur_creator/get_by_id', conturs_srv)
             rqt = conturs_srvRequest()
+            rqt.contur_id = id
             response = get_contur_get_by_id(rqt)
-            return response
+            return response.conturs
         except rospy.ServiceException as e:
             rospy.loginfo("Service call failed: {}".format(e))
             return None
@@ -86,13 +86,13 @@ class Path_Creator:
         
         contur = None
         for c in self.conutrs:
-            if c.id == request.contur_id:
+            if c.contur_id == request.contur_id:
                contur = c
                break
         if contur == None:
             return way_points_srvResponse(error_code="contur_id_NOT_FOUND")
 
-        result = self._get_path(contur)            
+        result = self._get_path(contur, image_hw)            
         return way_points_srvResponse(points=result,contur_id=request.contur_id)
     
     def _get_path(self, contur):
@@ -169,23 +169,6 @@ class Path_Creator:
         np.savetxt('/home/den/catkin_ws/src/path_creator/test/test1.txt', arr, fmt='%d')
     def load_array_to_file(self):
         return np.loadtxt('/home/den/catkin_ws/src/path_creator/test/test1.txt', dtype=int)
-
-    def map_to_array(self):
-        result = np.reshape(self.map.data, (-1, self.map.info.width))
-
-        np.place(result, result ==255, -100500)
-        np.place(result, result ==0, 255)
-        np.place(result, result ==-1, 0)
-        np.place(result, result ==100, 0)
-        np.place(result, result ==-100500, 0)
-        result = np.uint8(result)
-        #array_2d_rgb = backtorgb = cv2.cvtColor(result,cv2.COLOR_GRAY2RGB)
-        return result
-
-    def callback(self, data):
-        self.map = data
-        #rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
-        
 
 
 if __name__ == '__main__':

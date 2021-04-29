@@ -13,12 +13,12 @@ from skimage.measure import regionprops
 
 class PathFinder:
     
-    def __init__(self, contours, src_image, \
+    def __init__(self, contours, image_hw, \
         GRID_SIZE = 10, border_in = 5, neibor_distance = 8, \
         start_point=None,debug_mode=False):
 
-        if src_image.shape[0] == 0 or src_image.shape[1] == 0:
-            raise Exception('src_image has 0 shape')
+        if len(image_hw) == 0:
+            raise Exception('image_hw has 0 shape')
         if len(contours)==0:
             raise Exception('contours len is 0')
         if GRID_SIZE==0:
@@ -33,7 +33,7 @@ class PathFinder:
 
         self.GRID_SIZE = GRID_SIZE
         self.border_in = border_in
-        self.src_image = src_image
+        self.image_hw = image_hw
         self.contours = contours
         self.array_of_contours = np.empty(shape=[0, 2],dtype=int)
         for c in contours:
@@ -113,8 +113,8 @@ class PathFinder:
         x_max = max(self.array_of_contours[:,:1])[0]+self.GRID_SIZE
         prev = (None,None)
 
-        height = self.src_image.shape[0]
-        width  = self.src_image.shape[1]
+        height = self.image_hw[0]
+        width  = self.image_hw[1]
         for x in range(x_min, x_max, self.GRID_SIZE):
             if self.debug_mode:
                 self.grid_points.append(((x, 0), (x, height)))

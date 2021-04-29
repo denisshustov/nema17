@@ -2,3 +2,5 @@ string contur_id
 ---
 string error_code
 map_contur_msg/map_contur_msg[] conturs
+int32 image_h
+int32 image_w

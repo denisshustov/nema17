@@ -81,7 +81,7 @@ class Contur_Creator:
         if len(cor_con)==0:
             return conturs_srvResponse(error_code="contur_id_NOT_FOUND")
            
-        return conturs_srvResponse(conturs = [map_contur_msg(contur_id = request.contur_id, points = cor_con)])
+        return conturs_srvResponse(conturs = [map_contur_msg(contur_id = request.contur_id, points = cor_con)], image_h = self.array_map.shape[0],image_w = self.array_map.shape[1])
 
     def get_conturs(self, request):
         error = self.check_errors()
@@ -98,7 +98,7 @@ class Contur_Creator:
             for c in cc.corrected_contur:
                 cor_con.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
             all_conturs.append(map_contur_msg(contur_id = cc.id, points = cor_con))
-        return conturs_srvResponse(conturs = all_conturs)
+        return conturs_srvResponse(conturs = all_conturs, image_h = self.array_map.shape[0],image_w = self.array_map.shape[1])
 
     def _get_conturs(self):
         if self.map != None and self.conutrs == [] and not self.find_conutrs_in_progress:
