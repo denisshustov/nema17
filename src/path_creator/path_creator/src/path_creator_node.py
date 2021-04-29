@@ -34,10 +34,8 @@ class Path_Creator:
         self.robot_diametr = 0.3
         self.robot_center_pixel_x = 10
         self.robot_center_pixel_y = 10        
-        self.map = None        
         self.way_points = []
         self.covered_points = []
-        self.array_map = []
         self.conutrs = []
         self.find_conutrs_in_progress = False
         self.find_path_in_progress = None
@@ -48,8 +46,6 @@ class Path_Creator:
         rospy.spin()
 
     def check_errors(self):
-        if self.map == None:
-            return way_points_srvResponse(error_code="MAP_NOT_READY")
         if self.find_conutrs_in_progress:
             return way_points_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
         # if self.conutrs  == None:
@@ -61,12 +57,11 @@ class Path_Creator:
     def get_contur(self, id):
         rospy.wait_for_service('contur_creator/get_by_id')
         try:
-            #"error processing request: name 'way_points_srvResponse' is not defined"
             get_contur_get_by_id = rospy.ServiceProxy('contur_creator/get_by_id', conturs_srv)
             rqt = conturs_srvRequest()
             rqt.contur_id = id
             response = get_contur_get_by_id(rqt)
-            return response.conturs
+            return (response.conturs, response.image_h, response.image_w, response.resolution)
         except rospy.ServiceException as e:
             rospy.loginfo("Service call failed: {}".format(e))
             return None
@@ -80,7 +75,7 @@ class Path_Creator:
         if self.find_path_in_progress == request.contur_id:
             return way_points_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
 
-        self.conutrs = self.get_contur(request.contur_id)
+        (self.conutrs, h, w, resolution) = self.get_contur(request.contur_id)
         if len(self.conutrs) == 0:
             return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
         
@@ -92,16 +87,16 @@ class Path_Creator:
         if contur == None:
             return way_points_srvResponse(error_code="contur_id_NOT_FOUND")
 
-        result = self._get_path(contur, image_hw)            
-        return way_points_srvResponse(points=result,contur_id=request.contur_id)
+        result = self._get_path(contur, [h, w], resolution)            
+        return way_points_srvResponse(points = result, contur_id = request.contur_id)
     
-    def _get_path(self, contur):
+    def _get_path(self, contur, map_hw, resolution):
         self.find_path_in_progress = contur.id
-        pth = PathFinder(contur.contur, self.array_map, 5, 1, start_point=None, debug_mode=False)
+        pth = PathFinder(contur.contur, map_hw, 5, 1, start_point=None, debug_mode=False)
         self.covered_points = pth.get_route()
         points = []
         for cp in self.covered_points:
-            points.append(Point(cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,0))
+            points.append(Point(cp[0]*resolution,cp[1]*resolution,0))
         self.find_path_in_progress = None
         return points
 
