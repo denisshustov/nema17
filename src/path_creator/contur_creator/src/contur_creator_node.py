@@ -23,7 +23,7 @@ from Conturs import *
 
 # from WayPoint import *
 
-from contur_creator.srv import way_points_srv, way_points_srvResponse
+# from contur_creator.srv import way_points_srv, way_points_srvResponse
 from contur_creator.srv import conturs_srvResponse, conturs_srv
 from map_contur_msg.msg import map_contur_msg
 

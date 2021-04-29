@@ -1,3 +1,4 @@
 string contur_id
 ---
+string error_code
 map_contur_msg/map_contur_msg[] conturs
