@@ -76,7 +76,7 @@ class Contur_Creator:
         for contur in self.conutrs:
             if contur.id == request.contur_id:
                 for c in contur.corrected_contur:
-                    cor_con.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
+                    cor_con.append(Point(c[0],c[1],0)) #*self.map.info.resolution
                 break
         if len(cor_con)==0:
             return conturs_srvResponse(error_code="contur_id_NOT_FOUND")
@@ -96,7 +96,7 @@ class Contur_Creator:
         for cc in self.conutrs:
             cor_con = []
             for c in cc.corrected_contur:
-                cor_con.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
+                cor_con.append(Point(c[0],c[1],0))  #*self.map.info.resolution
             all_conturs.append(map_contur_msg(contur_id = cc.id, points = cor_con))
         return conturs_srvResponse(conturs = all_conturs, image_h = self.array_map.shape[0], image_w = self.array_map.shape[1], resolution = self.map.info.resolution)
 

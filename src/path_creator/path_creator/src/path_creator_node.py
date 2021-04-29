@@ -19,7 +19,7 @@ import numpy as np
 sys.path.append(os.path.join(sys.path[0], '../../libraries'))
 # from Conturs import *
 
-# from PathFinder import *
+from PathFinder import *
 
 # from WayPoint import *
 
@@ -91,8 +91,9 @@ class Path_Creator:
         return way_points_srvResponse(points = result, contur_id = request.contur_id)
     
     def _get_path(self, contur, map_hw, resolution):
-        self.find_path_in_progress = contur.id
-        pth = PathFinder(contur.contur, map_hw, 5, 1, start_point=None, debug_mode=False)
+        self.find_path_in_progress = contur.contur_id
+        cnts = [[int(i.x),int(i.y)] for i in contur.points]
+        pth = PathFinder(cnts, map_hw, 5, 1, start_point=None, debug_mode=False)
         self.covered_points = pth.get_route()
         points = []
         for cp in self.covered_points:
