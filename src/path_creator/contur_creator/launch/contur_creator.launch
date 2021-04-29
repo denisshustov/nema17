@@ -1,4 +1,0 @@
-<launch>
-        <node name="contur_creator" pkg="contur_creator" output="screen" type="contur_creator_node.py">
-        </node>
-</launch>

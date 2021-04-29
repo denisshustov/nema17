@@ -17,20 +17,23 @@ import random
 import numpy as np
 
 sys.path.append(os.path.join(sys.path[0], '../../libraries'))
-# from Conturs import *
+from Conturs import *
 
 from PathFinder import *
 
 # from WayPoint import *
 
-from path_creator.srv import way_points_srv, way_points_srvResponse
-from contur_creator.srv import conturs_srvResponse, conturs_srv, conturs_srvRequest
-# from map_contur_msg.msg import map_contur_msg
+from path_creator.srv import way_points_srv, way_points_srvResponse, conturs_srvResponse, conturs_srv, conturs_srvRequest
+#from contur_creator.srv import conturs_srvResponse, conturs_srv, conturs_srvRequest
+from map_contur_msg.msg import map_contur_msg
 
 class Path_Creator:
     def __init__(self):
         rospy.init_node("path_creator")
-        
+        rospy.Subscriber("/map", OccupancyGrid, self.callback)
+        self.map = None
+        self.array_map = []
+
         self.robot_diametr = 0.3
         self.robot_center_pixel_x = 10
         self.robot_center_pixel_y = 10        
@@ -40,133 +43,185 @@ class Path_Creator:
         self.find_conutrs_in_progress = False
         self.find_path_in_progress = None
 
-        self.srv = rospy.Service('path_creator/get_by_id', way_points_srv, self.get_by_id)
+        self.srv = rospy.Service('path_creator/get_by_id', way_points_srv, self.path_get_by_id)
+        self.srv1 = rospy.Service('contur_creator/get_conturs', conturs_srv, self.get_conturs)
+        self.srv2 = rospy.Service('contur_creator/get_by_id', conturs_srv, self.contur_get_by_id)
+
         rospy.loginfo("path_creator Starting...")
         self.rate = rospy.get_param('~rate',100.0)
         rospy.spin()
 
-    def check_errors(self):
-        if self.find_conutrs_in_progress:
-            return way_points_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
-        # if self.conutrs  == None:
-        #     return way_points_srvResponse(error_code="CONTURS_NOT_READY")
-        # if self.way_points == None:
-        #     return way_points_srvResponse(error_code="WAY_POINTS_NOT_READY")
-        return None
-
-    def get_contur(self, id):
-        rospy.wait_for_service('contur_creator/get_by_id')
-        try:
-            get_contur_get_by_id = rospy.ServiceProxy('contur_creator/get_by_id', conturs_srv)
-            rqt = conturs_srvRequest()
-            rqt.contur_id = id
-            response = get_contur_get_by_id(rqt)
-            return (response.conturs, response.image_h, response.image_w, response.resolution)
-        except rospy.ServiceException as e:
-            rospy.loginfo("Service call failed: {}".format(e))
-            return None
-
-    def get_by_id(self, request):
-        error = self.check_errors()
-        if error != None:
-            return error
+    def callback(self, data):
+        self.map = data
+#--------------path-----------
+    def path_get_by_id(self, request):
         if len(request.contur_id)==0:
             return way_points_srvResponse(error_code="contur_id_IS_EMPTY")
         if self.find_path_in_progress == request.contur_id:
             return way_points_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
 
-        (self.conutrs, h, w, resolution) = self.get_contur(request.contur_id)
         if len(self.conutrs) == 0:
-            return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
+            self._get_conturs()
+        if len(self.conutrs) == 0:
+            return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
         
         contur = None
         for c in self.conutrs:
-            if c.contur_id == request.contur_id:
+            if c.id == request.contur_id:
                contur = c
                break
         if contur == None:
             return way_points_srvResponse(error_code="contur_id_NOT_FOUND")
 
-        result = self._get_path(contur, [h, w], resolution)            
+        result = self._get_path(contur)            
         return way_points_srvResponse(points = result, contur_id = request.contur_id)
     
-    def _get_path(self, contur, map_hw, resolution):
-        self.find_path_in_progress = contur.contur_id
-        cnts = [[int(i.x),int(i.y)] for i in contur.points]
-        pth = PathFinder(cnts, map_hw, 5, 1, start_point=None, debug_mode=False)
+    def _get_path(self, contur):
+        self.find_path_in_progress = contur.id
+        pth = PathFinder(contur.contur, self.array_map.shape, 5, 1, start_point=None, debug_mode=False)
         self.covered_points = pth.get_route()
         points = []
         for cp in self.covered_points:
-            points.append(Point(cp[0]*resolution,cp[1]*resolution,0))
+            points.append(Point(cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,0))
         self.find_path_in_progress = None
         return points
-
-    def go(self):
-        r = rospy.Rate(100)        
-        while not rospy.is_shutdown():
-            if self.map != None and self.way_points == []:
-                #z = self.map.info.resolution #meters / pixel 
-                robot_in_pixels = self.robot_diametr / self.map.info.resolution #6x6
-
-                array_map = self.map_to_array()
-                self.save_array_to_file(array_map)
-
-                cnt_inst = Conturs(array_map)
-                self.conutrs = cnt_inst.get_conturs(skip_area_less_than = 40)
-
-                inter = cnt_inst.get_intersections(5)
-                current_contur = self.conutrs[0]
-
-                i=1
-                start_point = None
-
-                while True:
-                    if not current_contur.is_processed:
-                        pth = PathFinder(current_contur.contur, array_map, 5, 1, start_point=start_point, debug_mode=False)
-                        self.covered_points = pth.get_route()
-                        if len(self.covered_points)>0:
-                            start_point = self.covered_points[len(self.covered_points)-1]
-                            current_contur.is_processed = True
-                        else:
-                            print('covered_points is empty, id={}!!!'.format(current_contur.id))
-
-                        #--- multiply to self.map.info.resolution, for correcting ---
-
-                        points = []
-                        for cp in self.covered_points:
-                            points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
-
-                        i=0
-                        cor_con = []
-                        for cc in current_contur.corrected_contur:
-                            cor_con.append((cc[0]*self.map.info.resolution,cc[1]*self.map.info.resolution))
-                            i+=1
-
-                        #--- multiply to self.map.info.resolution, for correcting ---
-
-                        way_point = WayPoint(cor_con, points, str(i))                    
-                        self.way_points.append(way_point)
-
-                    current_conturs = cnt_inst.get_contur_in_order(current_contur,None,[],[],0)
-                    if current_conturs == None:
-                        break
-                    if len(current_conturs)==0:
-                        break
-                    current_contur = current_conturs[0]
-
-                    i+=1
-            if len(self.way_points)>0:
-                for w in self.way_points:
-                    w.display()
-            r.sleep()
-        #rospy.spin()
+#--------------path-----------
     
     def save_array_to_file(self, arr):
         np.savetxt('/home/den/catkin_ws/src/path_creator/test/test1.txt', arr, fmt='%d')
     def load_array_to_file(self):
         return np.loadtxt('/home/den/catkin_ws/src/path_creator/test/test1.txt', dtype=int)
 
+    def map_to_array(self):
+        result = np.reshape(self.map.data, (-1, self.map.info.width))
+
+        np.place(result, result ==255, -100500)
+        np.place(result, result ==0, 255)
+        np.place(result, result ==-1, 0)
+        np.place(result, result ==100, 0)
+        np.place(result, result ==-100500, 0)
+        result = np.uint8(result)
+        #array_2d_rgb = backtorgb = cv2.cvtColor(result,cv2.COLOR_GRAY2RGB)
+        return result
+
+#-------------contur------------------
+    def contur_get_by_id(self, request):
+        if self.find_conutrs_in_progress:
+            return way_points_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
+        if len(request.contur_id)==0:
+            return conturs_srvResponse(error_code="contur_id_IS_EMPTY")
+        if self.find_path_in_progress == request.contur_id:
+            return conturs_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
+
+        if len(self.conutrs) == 0:
+            self._get_conturs()
+        if len(self.conutrs) == 0:
+            return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
+        
+        cor_con = []
+        for contur in self.conutrs:
+            if contur.id == request.contur_id:
+                for c in contur.corrected_contur:
+                    cor_con.append(Point(c[0],c[1],0)) #*self.map.info.resolution
+                break
+        if len(cor_con)==0:
+            return conturs_srvResponse(error_code="contur_id_NOT_FOUND")
+           
+        return conturs_srvResponse(conturs = [map_contur_msg(contur_id = request.contur_id, points = cor_con)])
+
+    def get_conturs(self, request):
+        if self.find_conutrs_in_progress:
+            return way_points_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
+        if len(self.conutrs) == 0:
+            self._get_conturs()
+        if len(self.conutrs) == 0:
+            return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
+        
+        all_conturs = []
+        for cc in self.conutrs:
+            cor_con = []
+            for c in cc.corrected_contur:
+                cor_con.append(Point(c[0],c[1],0))  #*self.map.info.resolution
+            all_conturs.append(map_contur_msg(contur_id = cc.id, points = cor_con))
+        return conturs_srvResponse(conturs = all_conturs)
+
+    def _get_conturs(self):
+        if self.map != None and self.conutrs == [] and not self.find_conutrs_in_progress:
+            self.find_conutrs_in_progress = True
+            self.array_map = self.map_to_array()
+            # self.save_array_to_file(self.array_map)
+
+            cnt_inst = Conturs(self.array_map)
+            self.conutrs = cnt_inst.get_conturs(skip_area_less_than = 40)
+            inter = cnt_inst.get_intersections(5)
+            self.find_conutrs_in_progress = False
+            return self.conutrs
+        return []
+
+#-------------contur------------------
 
 if __name__ == '__main__':
     c = Path_Creator()
     # c.go()
+
+
+# def go(self):
+#         r = rospy.Rate(100)        
+#         while not rospy.is_shutdown():
+#             if self.map != None and self.way_points == []:
+#                 #z = self.map.info.resolution #meters / pixel 
+#                 robot_in_pixels = self.robot_diametr / self.map.info.resolution #6x6
+
+#                 array_map = self.map_to_array()
+#                 self.save_array_to_file(array_map)
+
+#                 cnt_inst = Conturs(array_map)
+#                 self.conutrs = cnt_inst.get_conturs(skip_area_less_than = 40)
+
+#                 inter = cnt_inst.get_intersections(5)
+#                 current_contur = self.conutrs[0]
+
+#                 i=1
+#                 start_point = None
+
+#                 while True:
+#                     if not current_contur.is_processed:
+#                         pth = PathFinder(current_contur.contur, array_map, 5, 1, start_point=start_point, debug_mode=False)
+#                         self.covered_points = pth.get_route()
+#                         if len(self.covered_points)>0:
+#                             start_point = self.covered_points[len(self.covered_points)-1]
+#                             current_contur.is_processed = True
+#                         else:
+#                             print('covered_points is empty, id={}!!!'.format(current_contur.id))
+
+#                         #--- multiply to self.map.info.resolution, for correcting ---
+
+#                         points = []
+#                         for cp in self.covered_points:
+#                             points.append([cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,math.pi/2])
+
+#                         i=0
+#                         cor_con = []
+#                         for cc in current_contur.corrected_contur:
+#                             cor_con.append((cc[0]*self.map.info.resolution,cc[1]*self.map.info.resolution))
+#                             i+=1
+
+#                         #--- multiply to self.map.info.resolution, for correcting ---
+
+#                         way_point = WayPoint(cor_con, points, str(i))                    
+#                         self.way_points.append(way_point)
+
+#                     current_conturs = cnt_inst.get_contur_in_order(current_contur,None,[],[],0)
+#                     if current_conturs == None:
+#                         break
+#                     if len(current_conturs)==0:
+#                         break
+#                     current_contur = current_conturs[0]
+
+#                     i+=1
+#             if len(self.way_points)>0:
+#                 for w in self.way_points:
+#                     w.display()
+#             r.sleep()
+#         #rospy.spin()
+    
