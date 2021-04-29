@@ -27,7 +27,7 @@ class Conturs:
         self.conturs = []
         self.image = image
         self.labels = []
-
+        
     def intersect2D(self, a, b, delta): #long runing
         result = []
         for a1 in a:

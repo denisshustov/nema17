@@ -27,6 +27,7 @@ add_service_files(
   FILES
   way_points_srv.srv
   conturs_srv.srv
+  conturs_by_point_srv.srv
 )
 
 ## Generate actions in the 'action' folder
