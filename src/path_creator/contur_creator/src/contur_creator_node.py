@@ -49,13 +49,13 @@ class Contur_Creator:
 
     def check_errors(self):
         if self.map == None:
-            return way_points_srvResponse(error_code="MAP_NOT_READY")
+            return conturs_srvResponse(error_code="MAP_NOT_READY")
         if self.find_conutrs_in_progress:
-            return way_points_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
+            return conturs_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
         # if self.conutrs  == None:
-        #     return way_points_srvResponse(error_code="CONTURS_NOT_READY")
+        #     return conturs_srvResponse(error_code="CONTURS_NOT_READY")
         # if self.way_points == None:
-        #     return way_points_srvResponse(error_code="WAY_POINTS_NOT_READY")
+        #     return conturs_srvResponse(error_code="WAY_POINTS_NOT_READY")
         return None
 
     def get_by_id(self, request):
@@ -63,14 +63,14 @@ class Contur_Creator:
         if error != None:
             return error
         if len(request.contur_id)==0:
-            return way_points_srvResponse(error_code="contur_id_IS_EMPTY")
+            return conturs_srvResponse(error_code="contur_id_IS_EMPTY")
         if self.find_path_in_progress == request.contur_id:
-            return way_points_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
+            return conturs_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
 
         if len(self.conutrs) == 0:
             self._get_conturs()
         if len(self.conutrs) == 0:
-            return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
+            return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
         
         cor_con = []
         for contur in self.conutrs:
@@ -79,7 +79,7 @@ class Contur_Creator:
                     cor_con.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
                 break
         if len(cor_con)==0:
-            return way_points_srvResponse(error_code="contur_id_NOT_FOUND")
+            return conturs_srvResponse(error_code="contur_id_NOT_FOUND")
            
         return conturs_srvResponse(conturs = [map_contur_msg(contur_id = request.contur_id, points = cor_con)])
 
@@ -90,7 +90,7 @@ class Contur_Creator:
         if len(self.conutrs) == 0:
             self._get_conturs()
         if len(self.conutrs) == 0:
-            return way_points_srvResponse(error_code="CONTURS_NOT_FOUND")
+            return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
         
         all_conturs = []
         for cc in self.conutrs:

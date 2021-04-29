@@ -24,7 +24,7 @@ sys.path.append(os.path.join(sys.path[0], '../../libraries'))
 # from WayPoint import *
 
 from path_creator.srv import way_points_srv, way_points_srvResponse
-from path_creator.srv import conturs_srvResponse, conturs_srv, conturs_srvRequest
+from contur_creator.srv import conturs_srvResponse, conturs_srv, conturs_srvRequest
 # from map_contur_msg.msg import map_contur_msg
 
 class Path_Creator:
@@ -62,6 +62,7 @@ class Path_Creator:
     def get_contur(self, id):
         rospy.wait_for_service('contur_creator/get_by_id')
         try:
+            #"error processing request: name 'way_points_srvResponse' is not defined"
             get_contur_get_by_id = rospy.ServiceProxy('contur_creator/get_by_id', conturs_srv)
             rqt = conturs_srvRequest()
             response = get_contur_get_by_id(rqt)
