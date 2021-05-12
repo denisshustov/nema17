@@ -111,6 +111,9 @@ class Path_Creator:
 #-------------contur------------------
 
     def get_contur_by_xy(self, request):
+        if self.map == None:
+            return conturs_by_point_srvResponse(error_code="MAP_NOT_FOUND")
+
         if request.point == None:
             return conturs_by_point_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
         
@@ -120,10 +123,13 @@ class Path_Creator:
             return conturs_by_point_srvResponse(error_code="CONTURS_NOT_FOUND")
         
         contur_by_point = self.cnt_inst.get_contur_by_coord(request.point.x,request.point.y)
-        cor_con = self.contur_to_point(contur_by_point)
-        return conturs_by_point_srvResponse(contur_id=contur_by_point.id,conturs=[cor_con])
+        if contur_by_point == None:
+            return conturs_by_point_srvResponse(error_code="CONTURS_NOT_FOUND_BY_POSITION")
 
-    def contur_to_point(contur):
+        cor_con = self.contur_to_point(contur_by_point)
+        return conturs_by_point_srvResponse(contur_id = contur_by_point.id, conturs = [map_contur_msg(points = cor_con)])
+
+    def contur_to_point(self, contur):
         result = []
         for c in contur.corrected_contur:
             result.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
