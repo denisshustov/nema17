@@ -36,7 +36,7 @@ class Goal_move():
         rospy.init_node('path_creator_goal_mover')
         rospy.on_shutdown(self.shutdown)
         
-        self.goal_list = []
+        # self.goal_list = []
         self.current_goal_index = 0        
         self.pose = None
 
@@ -95,14 +95,14 @@ class Goal_move():
         self.cmd_vel_pub.publish(Twist())
         rospy.sleep(1)
     
-    def choose_next_goal(self):
-        if self.current_goal_index + 1 < len(self.goal_list):
-            rospy.loginfo("Go to next goal {}".format(self.current_goal_index))
-            self.current_goal_index += 1
-            self.go_to_goal()
-        else:
-            rospy.loginfo("Goals finished")
-            rospy.signal_shutdown("Shutting down...")
+    # def choose_next_goal(self):
+    #     if self.current_goal_index + 1 < len(self.goal_list):
+    #         rospy.loginfo("Go to next goal {}".format(self.current_goal_index))
+    #         self.current_goal_index += 1
+    #         self.go_to_goal()
+    #     else:
+    #         rospy.loginfo("Goals finished")
+    #         rospy.signal_shutdown("Shutting down...")
 
     def clean(self, is_turn_on):
         bma = ByteMultiArray()
@@ -115,38 +115,43 @@ class Goal_move():
     def go_to_goal(self, goals):
         self.clean(True)
 
-        pose = geometry_msgs.msg.Pose()
-        pose.position.x = self.goal_list[self.current_goal_index][0]
-        pose.position.y = self.goal_list[self.current_goal_index][1]
-        pose.position.z = 0.0
+        i=0
+        for g in goals:
+            pose = geometry_msgs.msg.Pose()
+            pose.position.x = g[0]
+            pose.position.y = g[1]
+            # pose.position.x = self.goal_list[self.current_goal_index][0]
+            # pose.position.y = self.goal_list[self.current_goal_index][1]
+            pose.position.z = 0.0
 
-        q = tf.transformations.quaternion_from_euler(0, 0, self.goal_list[self.current_goal_index][2])
-        pose.orientation = geometry_msgs.msg.Quaternion(*q)
+            q = tf.transformations.quaternion_from_euler(0, 0, g[2])
+            # q = tf.transformations.quaternion_from_euler(0, 0, self.goal_list[self.current_goal_index][2])
+            pose.orientation = geometry_msgs.msg.Quaternion(*q)
 
-        goal = MoveBaseGoal()
-        goal.target_pose.pose = pose
-        goal.target_pose.header.frame_id = 'map'
-        goal.target_pose.header.stamp = rospy.Time.now()
+            goal = MoveBaseGoal()
+            goal.target_pose.pose = pose
+            goal.target_pose.header.frame_id = 'map'
+            goal.target_pose.header.stamp = rospy.Time.now()
 
-        rospy.loginfo('Sending goal to action server: %s' % goal)
-        self.client.send_goal(goal)
+            rospy.loginfo('Sending goal to action server: %s' % goal)
+            self.client.send_goal(goal)
 
-        finished_within_time = self.client.wait_for_result(rospy.Duration(10)) 
+            finished_within_time = self.client.wait_for_result(rospy.Duration(10)) 
 
-        if not finished_within_time:
-            self.client.cancel_goal()
-            rospy.loginfo("Timed out achieving goal {}".format(self.current_goal_index))
-            rospy.loginfo('Result received. Action state is %s' % self.client.get_state())
-            rospy.loginfo('Goal status message is: {}'.format(self.client.get_goal_status_text()))
-
-            self.choose_next_goal()
-        else:
-            state = self.client.get_state()
-            if state == GoalStatus.SUCCEEDED:
-                rospy.loginfo("Goal succeeded!")
+            if not finished_within_time:
+                self.client.cancel_goal()
+                rospy.loginfo("Timed out achieving goal {}".format(self.current_goal_index))
                 rospy.loginfo('Result received. Action state is %s' % self.client.get_state())
-                rospy.loginfo('Goal status message is %s' % self.client.get_goal_status_text())
-                self.choose_next_goal()
+                rospy.loginfo('Goal status message is: {}'.format(self.client.get_goal_status_text()))
+
+                # self.choose_next_goal()
+            else:
+                state = self.client.get_state()
+                if state == GoalStatus.SUCCEEDED:
+                    rospy.loginfo("Goal succeeded!")
+                    rospy.loginfo('Result received. Action state is %s' % self.client.get_state())
+                    rospy.loginfo('Goal status message is %s' % self.client.get_goal_status_text())
+                    # self.choose_next_goal()
 
 if __name__ == '__main__':
     try:
