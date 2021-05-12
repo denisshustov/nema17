@@ -32,7 +32,7 @@ class Path_Creator:
         self.robot_diametr = 0.3
         self.robot_center_pixel_x = 10
         self.robot_center_pixel_y = 10        
-        self.way_points = []
+        # self.way_points = []
         self.covered_points = []
         self.conutrs = []
         self.find_conutrs_in_progress = False
@@ -190,7 +190,7 @@ if __name__ == '__main__':
 
 
 # def go(self):
-#         r = rospy.Rate(100)        
+#         r = rospy.Rate(100)
 #         while not rospy.is_shutdown():
 #             if self.map != None and self.way_points == []:
 #                 #z = self.map.info.resolution #meters / pixel 

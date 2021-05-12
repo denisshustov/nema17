@@ -1,17 +1,9 @@
 #!/usr/bin/env python3
 
-import roslib 
 import rospy
-import actionlib
 import geometry_msgs
-from geometry_msgs.msg import Pose, Point, Quaternion, Twist
 import tf.transformations
-import time
-from math import radians, pi
-from visualization_msgs.msg import Marker, MarkerArray
-from actionlib_msgs.msg import GoalStatus
-
-from std_msgs.msg import ByteMultiArray
+from visualization_msgs.msg import Marker
 
 class Marker_lib():
 
@@ -73,9 +65,9 @@ class Marker_lib():
     def init_markers(self):
         # index = 0
         
-        points=[]
-        for p in self.points:
-            points.append(Point(p[0],p[1],0))
+        points=self.points
+        # for p in self.points:
+        #     points.append(Point(p[0],p[1],0))
         self.marker=self.get_marker2(1,points)
         self.marker_pub.publish(self.marker)
 
