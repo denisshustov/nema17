@@ -1,0 +1,4 @@
+<launch>
+        <node name="path_visualizer" pkg="path_visualizer" output="screen" type="path_visualizer_node.py">
+        </node>
+</launch>

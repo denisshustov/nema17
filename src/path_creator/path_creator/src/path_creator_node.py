@@ -1,19 +1,12 @@
 #!/usr/bin/env python3
 
-import roslib;
 import rospy
-from std_msgs.msg import String, Header
-from sensor_msgs.msg import LaserScan
-from geometry_msgs.msg import Twist, Quaternion, Point
+from geometry_msgs.msg import Point
 
-from tf.transformations import euler_from_quaternion, quaternion_from_euler
-from nav_msgs.msg import OccupancyGrid, MapMetaData, Odometry
+from nav_msgs.msg import OccupancyGrid
 
-import cv2
 import os
 import sys
-import math
-import random
 import numpy as np
 
 sys.path.append(os.path.join(sys.path[0], '../../libraries'))
@@ -23,8 +16,8 @@ from PathFinder import *
 
 # from WayPoint import *
 
-from path_creator.srv import way_points_srv, way_points_srvResponse, conturs_srvResponse, conturs_srv, conturs_srvRequest
-from path_creator.srv import conturs_by_point_srv, conturs_by_point_srvResponse, conturs_by_point_srvRequest
+from path_creator.srv import way_points_srv, way_points_srvResponse, conturs_srvResponse, conturs_srv
+from path_creator.srv import conturs_by_point_srv, conturs_by_point_srvResponse
 
 from map_contur_msg.msg import map_contur_msg
 
