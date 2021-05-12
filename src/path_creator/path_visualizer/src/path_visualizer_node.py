@@ -76,6 +76,3 @@ class Path_Visualizer:
 if __name__ == '__main__':
     v = Path_Visualizer()
     v.process()
-
-    q=123
-    z=123

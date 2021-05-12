@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(path_visualizer)
-
+project(path_creator_goal_mover)
 find_package(catkin REQUIRED COMPONENTS
   map_contur_msg
   geometry_msgs

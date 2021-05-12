@@ -1,0 +1,4 @@
+<launch>
+        <node name="path_creator_goal_mover" pkg="path_creator_goal_mover" output="screen" type="path_creator_goal_mover_node.py">
+        </node>
+</launch>
