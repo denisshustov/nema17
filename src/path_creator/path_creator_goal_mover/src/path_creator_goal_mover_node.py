@@ -60,7 +60,7 @@ class Goal_move():
             rospy.loginfo("try call service /contur_creator/get_by_xy")
 
             get_by_xy = rospy.ServiceProxy('/contur_creator/get_by_xy', conturs_by_point_srv)
-            rqt = conturs_by_point_srvRequest(x,y)
+            rqt = conturs_by_point_srvRequest(Point(x,y,0))
             #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -155,20 +155,24 @@ class Goal_move():
 
 if __name__ == '__main__':
     try:
-        # positions = [
-        #         [8.77073478699, 4.06972980499, pi/2],
-        #         [8.7332868576, 3.58700752258, pi/2],
-        #         [8.39705371857, 3.49016475677, pi/2],
-        #         [8.46412658691, 4.09582805634, pi/2],
-        #         [8.42993354797, 4.06738042831, pi/2],
-        #         [8.25302028656, 3.49167132378, pi/2],
-        #         [5.10396099091, 3.40945029259, pi/2],
-        #         [4.82347631454, 4.47493648529, pi/2],
-        #         [5.62562417984, 4.33915901184, pi/2],
-        #         [7.40439224243, 4.45074224472, pi/2]
-        #     ]
+        
         g = Goal_move()
-        current_contur = g.get_conturs_by_xy(455,420)
+        contur_error = True
+
+        while contur_error:
+            if g.pose == None:
+                rospy.loginfo("Pose not found")
+                rospy.sleep(5)
+
+            current_contur = g.get_conturs_by_xy(g.pose.position. x,g.pose.position.y)
+            
+            contur_error = current_contur.error_code != '' or current_contur.error_code != None
+            if contur_error:
+                rospy.loginfo(current_contur.error_code)
+                rospy.sleep(5)
+            else:
+                break
+
         goals = g.get_path(current_contur.id)
         g.process(goals)
 
