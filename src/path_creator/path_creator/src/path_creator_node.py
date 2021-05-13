@@ -77,11 +77,10 @@ class Path_Creator:
         self.find_path_in_progress = contur.id
         pth = PathFinder(contur.contur, self.array_map.shape, 5, 1, start_point=None, debug_mode=False)
         self.covered_points = pth.get_route()
-        points = []
-        for cp in self.covered_points:
-            points.append(Point(cp[0]*self.map.info.resolution,cp[1]*self.map.info.resolution,0))
+        points = self.correct_points(self.covered_points)        
         self.find_path_in_progress = None
         return points
+
 #--------------path-----------
     
     def save_array_to_file(self, arr):
@@ -115,17 +114,19 @@ class Path_Creator:
         if len(self.conutrs) == 0:
             return conturs_by_point_srvResponse(error_code="CONTURS_NOT_FOUND")
         
-        contur_by_point = self.cnt_inst.get_contur_by_coord(request.point.x,request.point.y)
+        contur_by_point = self.cnt_inst.get_contur_by_coord(request.point.x,request.point.y, \
+                          self.map.info.resolution, self.map.info.origin.position.x, self.map.info.origin.position.y)
         if contur_by_point == None:
             return conturs_by_point_srvResponse(error_code="CONTURS_NOT_FOUND_BY_POSITION")
 
-        cor_con = self.contur_to_point(contur_by_point)
+        cor_con = self.correct_points(contur_by_point.corrected_contur)
         return conturs_by_point_srvResponse(contur_id = contur_by_point.id, conturs = [map_contur_msg(points = cor_con)])
 
-    def contur_to_point(self, contur):
+    def correct_points(self, points):
         result = []
-        for c in contur.corrected_contur:
-            result.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
+        for p in points:
+            result.append(Point((p[0]*self.map.info.resolution)+self.map.info.origin.position.x, \
+                (p[1]*self.map.info.resolution)+self.map.info.origin.position.y,0))
         return result
 
     def get_contur_by_id(self, request):
@@ -144,9 +145,7 @@ class Path_Creator:
         cor_con = []
         for contur in self.conutrs:
             if contur.id == request.contur_id:
-                cor_con = self.contur_to_point(contur)
-                # for c in contur.corrected_contur:
-                #     cor_con.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
+                cor_con = self.correct_points(contur.corrected_contur)
                 break
         if len(cor_con)==0:
             return conturs_srvResponse(error_code="contur_id_NOT_FOUND")
@@ -163,9 +162,7 @@ class Path_Creator:
         
         all_conturs = []
         for cc in self.conutrs:
-            cor_con = self.contur_to_point(cc)
-            # for c in cc.corrected_contur:
-            #     cor_con.append(Point(c[0]*self.map.info.resolution,c[1]*self.map.info.resolution,0))
+            cor_con = self.correct_points(cc.corrected_contur)
             all_conturs.append(map_contur_msg(contur_id = cc.id, points = cor_con))
         return conturs_srvResponse(conturs = all_conturs)
 

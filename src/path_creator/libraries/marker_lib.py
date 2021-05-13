@@ -9,7 +9,7 @@ class Marker_lib():
 
     def get_marker(self, index, point, is_text=False):
         marker = Marker()
-        marker.header.frame_id = "world"
+        marker.header.frame_id = "map"
         marker.id = index+1000
         marker.ns = "hz_namespace"
         if not is_text:
@@ -37,7 +37,7 @@ class Marker_lib():
 
     def get_marker2(self, index, points):
         marker = Marker()
-        marker.header.frame_id = "world"
+        marker.header.frame_id = "map"
         marker.id = index+1000
         marker.ns = "hz_namespace"
         marker.type = marker.LINE_STRIP

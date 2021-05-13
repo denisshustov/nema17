@@ -23,7 +23,7 @@ class Path_Visualizer:
         rospy.wait_for_service('path_creator/get_by_id')
 
         rospy.loginfo("path_visualizer_node Starting...")
-        self.rate = rospy.get_param('~rate',1.0)
+        self.rate = rospy.get_param('~rate',10.0)
                 
         self.conturs = []
         self.contur_to_path = {}

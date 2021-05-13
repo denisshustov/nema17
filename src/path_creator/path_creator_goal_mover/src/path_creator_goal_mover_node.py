@@ -162,14 +162,14 @@ if __name__ == '__main__':
         while contur_error:
             if g.pose == None:
                 rospy.loginfo("Pose not found")
-                rospy.sleep(5)
+                rospy.sleep(1)
 
-            current_contur = g.get_conturs_by_xy(g.pose.position. x,g.pose.position.y)
+            current_contur = g.get_conturs_by_xy(g.pose.position.x, g.pose.position.y)
             
-            contur_error = current_contur.error_code != '' or current_contur.error_code != None
+            contur_error = current_contur == None or current_contur.error_code != '' or current_contur.error_code != None
             if contur_error:
                 rospy.loginfo(current_contur.error_code)
-                rospy.sleep(5)
+                rospy.sleep(1)
             else:
                 break
 

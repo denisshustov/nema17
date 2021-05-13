@@ -1,3 +1,4 @@
 <launch>
         <include file="$(find path_creator)/launch/path_creator.launch"/>
+        <include file="$(find path_visualizer)/launch/path_visualizer.launch"/>
 </launch>

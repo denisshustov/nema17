@@ -21,7 +21,7 @@ class Ploygon_lib():
 
     def publish(self):
         header = Header()
-        header.frame_id = "world"
+        header.frame_id = "map"
         header.stamp = rospy.Time.now()
 
         polygon = self.SquarePolygon(header,self.points)

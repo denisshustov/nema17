@@ -67,10 +67,13 @@ class Conturs:
 
         return self.conturs
 
-    def get_contur_by_coord(self, x,y):
+    def get_contur_by_coord(self, x, y, map_multipier, shift_x,shift_y):
         for cnt in self.conturs:
-            is_in = cv2.pointPolygonTest(cnt.contur[0], (x,y), True)
-            if is_in>0:
+            #TODO add new var corrected_conturs2
+            #TODO add new var corrected_conturs2
+            #TODO add new var corrected_conturs2
+            is_in = cv2.pointPolygonTest(((cnt.contur[0]*map_multipier)+[shift_x,shift_y]).astype(int), (x,y), True)
+            if is_in>=0:
                 return cnt
         return None
 
