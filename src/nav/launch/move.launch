@@ -12,8 +12,8 @@
         <rosparam file="$(find nav)/config/move_base_params.yaml" command="load" />
         <rosparam file="$(find nav)/config/dwa_local_planner_params.yaml" command="load" />
         <remap from="cmd_vel" to="/ppp/cmd_vel"/>
-        <remap from="odom" to="/odometry/filtered"/>
-        <!-- <remap from="odom" to="odom"/> -->
+        <!-- <remap from="odom" to="/odometry/filtered"/> -->
+        <remap from="odom" to="/odom"/>
         <remap from="map" to="/map"/>
         
         <!-- TODO test this!!!!!!!!!!!-->

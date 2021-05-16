@@ -15,7 +15,7 @@ local_costmap:
   plugins:
     - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
     - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
-    - {name: ultrasonic_layer,   type: "range_sensor_layer::RangeSensorLayer"}  
+    # - {name: ultrasonic_layer,   type: "range_sensor_layer::RangeSensorLayer"}  
 
 ultrasonic_layer:
     topics: ["/ppp/range_sensor1","/ppp/range_sensor2","/ppp/range_sensor3"]
