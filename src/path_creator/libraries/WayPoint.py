@@ -7,7 +7,7 @@ class WayPoint:
         self.points = points
         self.name = name
         self.polygon = Ploygon_lib('viz_' + name + '_poligons', contours)
-        self.markers = Marker_lib(self.points,'viz_' + name + '_markers')
+        self.markers = Marker_lib('viz_' + name + '_markers', self.points)
         
     def display(self, contur=True, points=True):
         if contur:

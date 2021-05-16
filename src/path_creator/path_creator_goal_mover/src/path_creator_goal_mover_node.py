@@ -13,7 +13,12 @@ from std_msgs.msg import ByteMultiArray
 
 from path_creator.srv import way_points_srv, way_points_srvRequest
 from path_creator.srv import conturs_by_point_srv, conturs_by_point_srvRequest
+import threading
 
+import os
+import sys
+sys.path.append(os.path.join(sys.path[0], '../../libraries'))
+from marker_lib import *
 
 class Goal_move():
 
@@ -86,10 +91,40 @@ class Goal_move():
             goal.target_pose.header.frame_id = 'map'
             goal.target_pose.header.stamp = rospy.Time.now()
 
+            self.markers = Marker_lib('viz_current_goal_markers', [[g.x,g.y,g.z]])
+
             rospy.loginfo('Sending goal to action server: %s' % goal)
             self.client.send_goal(goal)
 
-            finished_within_time = self.client.wait_for_result(rospy.Duration(10)) 
+    # PENDING = 0
+    # ACTIVE = 1
+    # DONE = 2
+
+
+            done_condition = threading.Condition()
+
+            #-----------------------------------------
+            finished_within_time = False
+            timeout = rospy.Duration(1)
+            timeout_time = rospy.get_rostime() + timeout
+            loop_period = rospy.Duration(0.1)
+            with done_condition:
+                while not rospy.is_shutdown():
+                    time_left = timeout_time - rospy.get_rostime()
+                    if timeout > rospy.Duration(0.0) and time_left <= rospy.Duration(0.0):
+                        break
+
+                    if self.client.simple_state == 2:
+                        break
+
+                    if time_left > loop_period or timeout == rospy.Duration():
+                        time_left = loop_period
+
+                    self.markers.publish()
+
+                    done_condition.wait(time_left.to_sec())
+            finished_within_time = self.client.simple_state == 2
+            #-----------------------------------------
 
             if not finished_within_time:
                 self.client.cancel_goal()

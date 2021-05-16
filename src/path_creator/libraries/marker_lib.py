@@ -63,28 +63,18 @@ class Marker_lib():
         return marker
 
     def init_markers(self):
-        # index = 0
-        
-        points=self.points
-        # for p in self.points:
-        #     points.append(Point(p[0],p[1],0))
-        self.marker=self.get_marker2(1,points)
+        if len(self.points)>1:
+            self.marker = self.get_marker2(1,self.points)
+        else:
+            self.marker = self.get_marker(1,self.points[0], True)
         self.marker_pub.publish(self.marker)
 
-        # for p in self.points:
-        #     self.markerArray.markers.append(self.get_marker(index, p, True))
-        #     index += 1
-        
-        # self.marker_pub.publish(self.markerArray)
 
     def publish(self):
         self.marker_pub.publish(self.marker)
-        # self.marker_pub.publish(self.markerArray)
 
-    def __init__(self,points, topic_name):
+    def __init__(self, topic_name, points):
         self.marker_pub = rospy.Publisher(topic_name, Marker, queue_size = 1)
-        # self.marker_pub = rospy.Publisher(topic_name, MarkerArray, queue_size = 1)
-        # self.markerArray = MarkerArray()
 
         self.points = points
         self.init_markers()
