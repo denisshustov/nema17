@@ -43,7 +43,7 @@ class Path_Creator:
         self.srv2 = rospy.Service('contur_creator/get_by_id', conturs_srv, self.get_contur_by_id)
         self.srv2 = rospy.Service('contur_creator/get_by_xy', conturs_by_point_srv, self.get_contur_by_xy)
 
-        self.tf_listener = tf.TransformListener()
+        # self.tf_listener = tf.TransformListener()
         rospy.loginfo("path_creator Starting...")
         self.rate = rospy.get_param('~rate',100.0)
         rospy.spin()
@@ -115,10 +115,8 @@ class Path_Creator:
         if len(self.conutrs) == 0:
             return conturs_by_point_srvResponse(error_code="CONTURS_NOT_FOUND")
         
-        (trans,rot) = self.tf_listener.lookupTransform('/map', '/base_link', rospy.Time(0))
+        # (trans,rot) = self.tf_listener.lookupTransform('/map', '/base_link', rospy.Time(0))
 
-        x_shift = trans[0] + self.map.info.origin.position.x
-        y_shift = trans[1] + self.map.info.origin.position.y
         xx = int((request.point.x/self.map.info.resolution)+(self.map.info.width/2))
         yy = int((request.point.y/self.map.info.resolution)+(self.map.info.height/2))
         

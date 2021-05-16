@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 
-import roslib 
 import rospy
 import actionlib
-import geometry_msgs
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
-from geometry_msgs.msg import Pose, Point, Quaternion, Twist
+from geometry_msgs.msg import Point, Twist
 import tf.transformations
-import time
-from math import radians, pi
+import tf
+
 from actionlib_msgs.msg import GoalStatus
-from nav_msgs.msg import Odometry
 
 from std_msgs.msg import ByteMultiArray
 
@@ -19,28 +16,11 @@ from path_creator.srv import conturs_by_point_srv, conturs_by_point_srvRequest
 
 
 class Goal_move():
-    STATUSES = {
-        0:'The goal has yet to be processed by the action server',
-        1:'The goal is currently being processed by the action server',
-        2:'The goal received a cancel request after it started executing and has since completed its execution (Terminal State)',
-        3:'The goal was achieved successfully by the action server (Terminal State)',
-        4:'The goal was aborted during execution by the action server due to some failure (Terminal State)',
-        5:'The goal was rejected by the action server without being processed, because the goal was unattainable or invalid (Terminal State)',
-        6:'The goal received a cancel request after it started executing and has not yet completed execution',
-        7:'The goal received a cancel request before it started executing, but the action server has not yet confirmed that the goal is canceled',
-        8:'The goal received a cancel request before it started executing and was successfully cancelled (Terminal State)',
-        9:'An action client can determine that a goal is LOST. This should not be sent over the wire by an action server'
-    }
 
     def __init__(self):
         rospy.init_node('path_creator_goal_mover')
         rospy.on_shutdown(self.shutdown)
         
-        # self.goal_list = []
-        self.current_goal_index = 0        
-        self.pose = None
-
-        odom_sub = rospy.Subscriber('/odom', Odometry, self.get_odometry)
         self.client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
         self.cmd_vel_pub = rospy.Publisher('/ppp/cmd_vel', Twist, queue_size = 50)
 
@@ -52,19 +32,12 @@ class Goal_move():
         rospy.wait_for_service('contur_creator/get_by_xy')
         rospy.wait_for_service('path_creator/get_by_id')
         
-    def get_odometry(self, msg):
-        self.pose = msg.pose.pose
-
     def get_conturs_by_xy(self,x,y):
         try:
             rospy.loginfo("try call service /contur_creator/get_by_xy")
 
             get_by_xy = rospy.ServiceProxy('/contur_creator/get_by_xy', conturs_by_point_srv)
             rqt = conturs_by_point_srvRequest(Point(x,y,0))
-            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             resp = get_by_xy(rqt)
             
             rospy.loginfo("call service /contur_creator/get_by_xy success")
@@ -94,15 +67,6 @@ class Goal_move():
         rospy.sleep(2)
         self.cmd_vel_pub.publish(Twist())
         rospy.sleep(1)
-    
-    # def choose_next_goal(self):
-    #     if self.current_goal_index + 1 < len(self.goal_list):
-    #         rospy.loginfo("Go to next goal {}".format(self.current_goal_index))
-    #         self.current_goal_index += 1
-    #         self.go_to_goal()
-    #     else:
-    #         rospy.loginfo("Goals finished")
-    #         rospy.signal_shutdown("Shutting down...")
 
     def clean(self, is_turn_on):
         bma = ByteMultiArray()
@@ -112,24 +76,13 @@ class Goal_move():
             bma.data = [0,0,0]
         self.funAndBrushes_pub.publish(bma)
 
-    def go_to_goal(self, goals):
+    def process(self, goals):
         self.clean(True)
 
         i=0
         for g in goals:
-            pose = geometry_msgs.msg.Pose()
-            pose.position.x = g[0]
-            pose.position.y = g[1]
-            # pose.position.x = self.goal_list[self.current_goal_index][0]
-            # pose.position.y = self.goal_list[self.current_goal_index][1]
-            pose.position.z = 0.0
-
-            q = tf.transformations.quaternion_from_euler(0, 0, g[2])
-            # q = tf.transformations.quaternion_from_euler(0, 0, self.goal_list[self.current_goal_index][2])
-            pose.orientation = geometry_msgs.msg.Quaternion(*q)
-
             goal = MoveBaseGoal()
-            goal.target_pose.pose = pose
+            goal.target_pose.pose = g
             goal.target_pose.header.frame_id = 'map'
             goal.target_pose.header.stamp = rospy.Time.now()
 
@@ -140,43 +93,44 @@ class Goal_move():
 
             if not finished_within_time:
                 self.client.cancel_goal()
-                rospy.loginfo("Timed out achieving goal {}".format(self.current_goal_index))
+                rospy.loginfo("Timed out achieving goal {}. x ={} y={}".format(i, g.x, g.y))
                 rospy.loginfo('Result received. Action state is %s' % self.client.get_state())
                 rospy.loginfo('Goal status message is: {}'.format(self.client.get_goal_status_text()))
-
-                # self.choose_next_goal()
             else:
                 state = self.client.get_state()
                 if state == GoalStatus.SUCCEEDED:
                     rospy.loginfo("Goal succeeded!")
                     rospy.loginfo('Result received. Action state is %s' % self.client.get_state())
                     rospy.loginfo('Goal status message is %s' % self.client.get_goal_status_text())
-                    # self.choose_next_goal()
+            i+=1
 
 if __name__ == '__main__':
     try:
         
         g = Goal_move()
         contur_error = True
+        tf_listener = tf.TransformListener()
 
         while contur_error:
-            if g.pose == None:
-                rospy.loginfo("Pose not found")
+            try:
+                (trans,rot) = tf_listener.lookupTransform('/map', '/base_link', rospy.Time(0))
+            except Exception as ex:
+                rospy.loginfo("Transform map => base_link NOT FOUND!!! ERROR:{}".format(ex))
                 rospy.sleep(1)
+                continue
 
-            current_contur = g.get_conturs_by_xy(g.pose.position.x, g.pose.position.y)
+            current_contur = g.get_conturs_by_xy(trans[0], trans[1])
             
-            contur_error = current_contur == None or current_contur.error_code != '' or current_contur.error_code != None
+            contur_error = current_contur == None or current_contur.error_code != ''
             if contur_error:
                 rospy.loginfo(current_contur.error_code)
                 rospy.sleep(1)
             else:
                 break
 
-        goals = g.get_path(current_contur.id)
-        g.process(goals)
+        goals = g.get_path(current_contur.contur_id)
+        g.process(goals.points)
 
-        g.go_to_goal()
         rospy.spin()
 
     except rospy.ROSInterruptException:
