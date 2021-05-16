@@ -2,8 +2,9 @@
 
 import rospy
 import actionlib
+import geometry_msgs
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
-from geometry_msgs.msg import Point, Twist
+from geometry_msgs.msg import Pose, Point, Quaternion, Twist
 import tf.transformations
 import tf
 
@@ -86,8 +87,21 @@ class Goal_move():
 
         i=0
         for g in goals:
+
+            pose = geometry_msgs.msg.Pose()
+            pose.position.x = g.x
+            pose.position.y = g.y
+            # pose.position.x = self.goal_list[self.current_goal_index][0]
+            # pose.position.y = self.goal_list[self.current_goal_index][1]
+            pose.position.z = 0.0
+
+            q = tf.transformations.quaternion_from_euler(0, 0, g.z)
+            # q = tf.transformations.quaternion_from_euler(0, 0, self.goal_list[self.current_goal_index][2])
+            pose.orientation = geometry_msgs.msg.Quaternion(*q)
+
+
             goal = MoveBaseGoal()
-            goal.target_pose.pose = g
+            goal.target_pose.pose = pose
             goal.target_pose.header.frame_id = 'map'
             goal.target_pose.header.stamp = rospy.Time.now()
 
