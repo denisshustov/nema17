@@ -1,3 +1,15 @@
+rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
+  dim:
+  - label: ''
+    size: 0
+    stride: 0
+  data_offset: 0
+data:
+- 0
+- 0
+- 0" 
+---------------------------------------------------------------
+
 ping 192.168.77.236
 ssh pi@192.168.77.236
 

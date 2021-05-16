@@ -82,7 +82,7 @@ class Goal_move():
         self.funAndBrushes_pub.publish(bma)
 
     def process(self, goals):
-        self.clean(True)
+        self.clean(False)
 
         i=0
         for g in goals:
@@ -105,7 +105,7 @@ class Goal_move():
 
             #-----------------------------------------
             finished_within_time = False
-            timeout = rospy.Duration(1)
+            timeout = rospy.Duration(10)
             timeout_time = rospy.get_rostime() + timeout
             loop_period = rospy.Duration(0.1)
             with done_condition:

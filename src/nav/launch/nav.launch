@@ -2,7 +2,6 @@
   <!-- <param name="/use_sim_time" value="true"/> -->
   
   <include file="$(find odom_publisher)/launch/odom-pub.launch"/>
-  <!-- <node pkg="rosservice" type="rosservice" name="reset_odom_service" args="/reset_odom_service 'reset: true'" /> -->
   <node name="map_server" pkg="map_server" output="screen"  type="map_server" args="$(find nav)/map/new_mymap.yaml"/>
 
   <node name="reset_odometry" pkg="nav" output="screen" type="reset_odometry.py">
