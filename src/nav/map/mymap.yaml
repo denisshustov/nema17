@@ -1,4 +1,5 @@
-image: mymap_3.pgm
+#mymap_3.pgm
+image: new_mymap_c.pgm
 resolution: 0.050000
 origin: [0.0, 0.0, 0.0] #[-51.224998, -51.224998, 0.000000]
 negate: 0
