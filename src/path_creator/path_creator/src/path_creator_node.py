@@ -76,7 +76,7 @@ class Path_Creator:
     
     def _get_path(self, contur):
         self.find_path_in_progress = contur.id
-        pth = PathFinder(contur.contur, self.array_map.shape, 5, 1, start_point=None, debug_mode=False)
+        pth = PathFinder(contur.contur, self.array_map.shape, 5, 3, start_point=None, debug_mode=False)
         self.covered_points = pth.get_route()
         points = self.correct_points(self.covered_points)        
         self.find_path_in_progress = None
