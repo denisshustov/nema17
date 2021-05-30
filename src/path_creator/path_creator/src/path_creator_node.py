@@ -46,6 +46,16 @@ class Path_Creator:
         # self.tf_listener = tf.TransformListener()
         rospy.loginfo("path_creator Starting...")
         self.rate = rospy.get_param('~rate',100.0)
+        
+        self.merge = []
+        self.is_merged = False
+        for i in range(0, 10):
+            try:
+                m = eval(rospy.get_param('~merge_{}'.format(i),'[]'))
+                if len(m)>0:
+                    self.merge.append(m)
+            except Exception: pass
+
         rospy.spin()
 
     def callback(self, data):
@@ -75,11 +85,13 @@ class Path_Creator:
         return way_points_srvResponse(points = result, contur_id = request.contur_id)
     
     def _get_path(self, contur):
-        self.find_path_in_progress = contur.id
-        pth = PathFinder(contur.contur, self.array_map.shape, 5, 3, start_point=None, debug_mode=False)
-        self.covered_points = pth.get_route()
-        points = self.correct_points(self.covered_points)        
-        self.find_path_in_progress = None
+        try:
+            self.find_path_in_progress = contur.id
+            pth = PathFinder(contur.contur, self.array_map.shape, 5, 3, start_point=None, debug_mode=False)
+            self.covered_points = pth.get_route()
+            points = self.correct_points(self.covered_points)
+        finally:
+            self.find_path_in_progress = None
         return points
 
 #--------------path-----------
@@ -180,6 +192,12 @@ class Path_Creator:
             self.cnt_inst = Conturs(self.array_map)
             self.conutrs = self.cnt_inst.get_conturs(skip_area_less_than = 40)
             inter = self.cnt_inst.get_intersections(5)
+            
+            if not self.is_merged and len(self.merge)>0:
+                for m in self.merge:
+                    new_contur = self.cnt_inst.merge2(m)
+                self.is_merged = True
+
             self.find_conutrs_in_progress = False
             return self.conutrs
         return []

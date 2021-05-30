@@ -65,7 +65,49 @@ class Conturs:
 
         self.conturs.append(new_c)
 
-        return self.conturs
+        return (new_c, self.conturs)
+
+
+    def merge2(self, ids):
+        fnd_conturs = []
+        new_id = ''
+        new_labels = []
+
+        for c in self.conturs:
+            if c.id in ids:
+                fnd_conturs.append(c)
+                new_id+='_{}'.format(c.id)
+                new_labels.append(c.labels)
+        new_labels = np.asarray(np.array(new_labels).flatten())
+
+        if len(fnd_conturs)==0:
+            raise Exception('{} not foind in conturs'.format(ids))
+
+        mask = np.zeros(self.image.shape, dtype="uint8")
+        for l in fnd_conturs:
+            mask[self.labels == l] = 255
+            
+        cnt, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        if len(cnt)==0:
+            raise Exception('{} can`t merge in one contur'.format(ids))
+
+        corrected_conturs=[]
+        for idx, val in enumerate(cnt):
+            area = cv2.contourArea(val)
+            if area>10:
+                for idx1, val1 in enumerate(val):
+                    for idx2, val2 in enumerate(val1):
+                        corrected_conturs.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
+
+        for l in fnd_conturs:
+            self.conturs.remove(l)
+
+        new_c = Contur(cnt,corrected_conturs, str(new_id),new_labels)
+
+        self.conturs.append(new_c)
+
+        return (new_c, self.conturs)
+
 
     def get_contur_by_coord(self, x, y):
         for cnt in self.conturs:

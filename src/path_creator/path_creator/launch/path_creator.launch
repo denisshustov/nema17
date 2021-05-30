@@ -1,4 +1,5 @@
 <launch>
         <node name="path_creator" pkg="path_creator" output="screen" type="path_creator_node.py">
+                <param name="merge_0" value="['0','1']" />
         </node>
 </launch>

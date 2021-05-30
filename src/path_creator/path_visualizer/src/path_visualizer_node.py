@@ -62,12 +62,19 @@ class Path_Visualizer:
             p = v.get_path(c.contur_id)
             self.contur_to_path[c.contur_id] = p
 
-            if len(c.points)==0:
-                rospy.loginfo("Conturs is empty for contur {}".format(c.contur_id))
-            if len(p.points)==0:
-                rospy.loginfo("Points is empty for contur {}".format(c.contur_id))
+            current_conturs = []
+            current_points = []
 
-            way_point = WayPoint(c.points, p.points, str(i))                    
+            if c == None or len(c.points)==0:
+                rospy.loginfo("Conturs is empty for contur {}".format(c.contur_id))
+            else:
+                current_conturs = c.points
+            if p == None or len(p.points)==0:
+                rospy.loginfo("Points is empty for contur {}".format(c.contur_id))
+            else:
+                current_points = p.points
+
+            way_point = WayPoint(current_conturs, current_points, str(i))
             self.way_points.append(way_point)
             i+=1
 
