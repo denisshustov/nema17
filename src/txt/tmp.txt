@@ -21,7 +21,14 @@ export ROS_MASTER_URI=http://192.168.77.243:11311
 
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=ppp/cmd_vel
 
+-----------------------------------------------------------
 rosservice call /global_localization
+rosservice call /reset_odom_service "reset: true" 
+
+rosservice call /stop_motor
+rosservice call /start_motor
+-----------------------------------------------------------
+ssh pi@192.168.66.247
 
 rosrun tf view_frames
 

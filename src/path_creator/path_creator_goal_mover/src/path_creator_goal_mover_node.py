@@ -83,7 +83,7 @@ class Goal_move():
         self.funAndBrushes_pub.publish(bma)
 
     def process(self, goals):
-        self.clean(False)
+        self.clean(True)
 
         i=0
         for g in goals:
@@ -119,14 +119,29 @@ class Goal_move():
 
             #-----------------------------------------
             finished_within_time = False
-            timeout = rospy.Duration(10)
+            timeout = rospy.Duration(20)
             timeout_time = rospy.get_rostime() + timeout
             loop_period = rospy.Duration(0.1)
+            lost_count = 0
             with done_condition:
                 while not rospy.is_shutdown():
                     time_left = timeout_time - rospy.get_rostime()
                     if timeout > rospy.Duration(0.0) and time_left <= rospy.Duration(0.0):
                         break
+                    
+                    #--------------------------------------------------
+                    # client_state = self.client.get_state()
+                    # # PENDING = 0, ACTIVE = 1, PREEMPTED = 2, SUCCEEDED = 3, ABORTED = 4
+                    # # REJECTED = 5, PREEMPTING = 6, RECALLING = 7, RECALLED = 8, LOST = 9
+                    # if client_state==2 or client_state==4 or client_state==5 or \
+                    #     client_state==6 or client_state==8:
+                    #     break
+                    # if client_state == 9 and lost_count < 5:
+                    #     timeout_time = rospy.get_rostime() + timeout
+                    #     lost_count += 1
+                    # if lost_count>=5:
+                    #     break
+                    #--------------------------------------------------
 
                     if self.client.simple_state == 2:
                         break
@@ -139,7 +154,7 @@ class Goal_move():
                     done_condition.wait(time_left.to_sec())
             finished_within_time = self.client.simple_state == 2
             #-----------------------------------------
-
+            
             if not finished_within_time:
                 self.client.cancel_goal()
                 rospy.loginfo("Timed out achieving goal {}. x ={} y={}".format(i, g.x, g.y))
@@ -155,7 +170,13 @@ class Goal_move():
 
 if __name__ == '__main__':
     try:
+        #add localize robot!!!
+        #add localize robot!!!
+        #add localize robot!!!
         
+        #VOLTAGE!!!
+
+
         g = Goal_move()
         contur_error = True
         tf_listener = tf.TransformListener()
@@ -179,6 +200,7 @@ if __name__ == '__main__':
 
         goals = g.get_path(current_contur.contur_id)
         g.process(goals.points)
+        g.clean(False)
 
         rospy.spin()
 
