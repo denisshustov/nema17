@@ -39,9 +39,11 @@ class Path_Creator:
         self.find_path_in_progress = None
 
         self.srv = rospy.Service('path_creator/get_by_id', way_points_srv, self.get_path_by_id)
+
         self.srv1 = rospy.Service('contur_creator/get_conturs', conturs_srv, self.get_conturs)
         self.srv2 = rospy.Service('contur_creator/get_by_id', conturs_srv, self.get_contur_by_id)
         self.srv2 = rospy.Service('contur_creator/get_by_xy', conturs_by_point_srv, self.get_contur_by_xy)
+        self.srv3 = rospy.Service('contur_creator/get_by_next_by_id', conturs_srv, self.get_by_next_by_id)
 
         # self.tf_listener = tf.TransformListener()
         rospy.loginfo("path_creator Starting...")
@@ -146,13 +148,37 @@ class Path_Creator:
                 (p[1]*self.map.info.resolution)+self.map.info.origin.position.y,0))
         return result
 
+
+    def get_by_next_by_id(self, request):
+        if self.find_conutrs_in_progress:
+            return way_points_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
+        if len(request.contur_id)==0:
+            return conturs_srvResponse(error_code="contur_id_IS_EMPTY")
+
+        if len(self.conutrs) == 0:
+            self._get_conturs()
+        if len(self.conutrs) == 0:
+            return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
+
+        if len(self.conutrs) == 0:
+            self._get_conturs()
+        if len(self.conutrs) == 0:
+            return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
+        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
+        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
+        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
+        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
+        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
+        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
+        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
+        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
+        return conturs_srvResponse()
+
     def get_contur_by_id(self, request):
         if self.find_conutrs_in_progress:
             return way_points_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
         if len(request.contur_id)==0:
             return conturs_srvResponse(error_code="contur_id_IS_EMPTY")
-        if self.find_path_in_progress == request.contur_id:
-            return conturs_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
 
         if len(self.conutrs) == 0:
             self._get_conturs()
@@ -191,12 +217,13 @@ class Path_Creator:
 
             self.cnt_inst = Conturs(self.array_map)
             self.conutrs = self.cnt_inst.get_conturs(skip_area_less_than = 40)
-            inter = self.cnt_inst.get_intersections(5)
             
             if not self.is_merged and len(self.merge)>0:
                 for m in self.merge:
                     new_contur = self.cnt_inst.merge(m)
                 self.is_merged = True
+
+            inter = self.cnt_inst.get_intersections(5)
 
             self.find_conutrs_in_progress = False
             return self.conutrs
