@@ -1,15 +1,7 @@
 import cv2
 import numpy as np
-# import os
-# import random
-# import sys
 import math
 
-# from skimage.morphology import watershed
-# from skimage.feature import peak_local_max
-# from skimage import morphology
-# from scipy import ndimage
-# from skimage.measure import regionprops
 
 class PathFinder:
     

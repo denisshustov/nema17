@@ -195,7 +195,7 @@ class Path_Creator:
             
             if not self.is_merged and len(self.merge)>0:
                 for m in self.merge:
-                    new_contur = self.cnt_inst.merge2(m)
+                    new_contur = self.cnt_inst.merge(m)
                 self.is_merged = True
 
             self.find_conutrs_in_progress = False
