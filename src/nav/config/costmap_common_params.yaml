@@ -1,3 +1,6 @@
+#http://zdome.net/wiki/index.php/Navigation_Tuning
+#loop missed its desired rate
+
 global_frame: map
 robot_base_frame: base_footprint
 update_frequency: 40.0
