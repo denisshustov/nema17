@@ -74,7 +74,7 @@ class Path_Visualizer:
             else:
                 current_points = p.points
 
-            way_point = WayPoint(current_conturs, current_points, str(i))
+            way_point = WayPoint(current_conturs, current_points, c.contur_id)
             self.way_points.append(way_point)
             i+=1
 

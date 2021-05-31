@@ -1,5 +1,6 @@
 <launch>
         <node name="path_creator" pkg="path_creator" output="screen" type="path_creator_node.py">
                 <param name="merge_0" value="['0','1']" />
+                <param name="merge_1" value="['2','3','4','5','6','7','8']" />
         </node>
 </launch>

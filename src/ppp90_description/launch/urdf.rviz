@@ -10,10 +10,8 @@ Panels:
         - /Areas1
         - /Areas1/Polygon1
         - /Areas1/Polygon2
-        - /Markers1
         - /Markers1/Marker5
         - /Markers1/Marker6
-        - /Marker1
       Splitter Ratio: 0.4806201457977295
     Tree Height: 475
   - Class: rviz/Selection
@@ -663,7 +661,7 @@ Visualization Manager:
           Enabled: true
           Name: Polygon
           Queue Size: 11
-          Topic: /viz_0_poligons
+          Topic: /viz__2_3_4_5_6_7_8_poligons
           Unreliable: false
           Value: true
         - Alpha: 1
@@ -672,36 +670,54 @@ Visualization Manager:
           Enabled: true
           Name: Polygon
           Queue Size: 10
-          Topic: /viz_1_poligons
+          Topic: /viz__0_1_poligons
           Unreliable: false
           Value: true
         - Alpha: 1
           Class: rviz/Polygon
           Color: 255; 25; 50
-          Enabled: false
+          Enabled: true
+          Name: Polygon
+          Queue Size: 10
+          Topic: /viz_3_poligons
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Class: rviz/Polygon
+          Color: 25; 255; 0
+          Enabled: true
           Name: Polygon
           Queue Size: 10
           Topic: /viz_2_poligons
           Unreliable: false
-          Value: false
+          Value: true
         - Alpha: 1
           Class: rviz/Polygon
           Color: 25; 255; 0
-          Enabled: false
+          Enabled: true
           Name: Polygon
           Queue Size: 10
-          Topic: /viz_9_poligons
+          Topic: /viz_6_poligons
           Unreliable: false
-          Value: false
+          Value: true
         - Alpha: 1
           Class: rviz/Polygon
           Color: 25; 255; 0
-          Enabled: false
+          Enabled: true
+          Name: Polygon
+          Queue Size: 10
+          Topic: /viz_7_poligons
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Class: rviz/Polygon
+          Color: 25; 255; 0
+          Enabled: true
           Name: Polygon
           Queue Size: 10
           Topic: /viz_8_poligons
           Unreliable: false
-          Value: false
+          Value: true
       Enabled: true
       Name: Areas
     - Class: rviz/Group

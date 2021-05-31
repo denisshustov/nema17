@@ -69,7 +69,10 @@ class Conturs:
 
 
     def merge2(self, ids):
-        fnd_conturs = []
+        if ids==None or len(ids)==0:
+            raise Exception('ids is empty')
+
+        fnd_conturs = []#LABELS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         new_id = ''
         new_labels = []
 
@@ -85,7 +88,7 @@ class Conturs:
 
         mask = np.zeros(self.image.shape, dtype="uint8")
         for l in fnd_conturs:
-            mask[self.labels == l] = 255
+            mask[self.labels == l.labels] = 255
             
         cnt, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         if len(cnt)==0:
