@@ -32,47 +32,11 @@ class Conturs:
                     return True
         return False
 
-    def merge(self, id1, id2):
-        c1=None
-        c2=None
-
-        for c in self.conturs:
-            if c.id == id1:
-                c1 = c
-            if c.id == id2:
-                c2 = c
-        if c1==None or c2==None:
-            raise Exception('id1 or id1 not foind in conturs')
-
-        mask = np.zeros(self.image.shape, dtype="uint8")
-        for l in c1.labels:
-            mask[self.labels == l] = 255
-        for l in c2.labels:
-            mask[self.labels == l] = 255
-            
-        cnt, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        corrected_conturs=[]
-        for idx, val in enumerate(cnt):
-            area = cv2.contourArea(val)
-            if area>10:
-                for idx1, val1 in enumerate(val):
-                    for idx2, val2 in enumerate(val1):
-                        corrected_conturs.append((cnt[idx][idx1][idx2][0],cnt[idx][idx1][idx2][1]))
-
-        self.conturs.remove(c1)
-        self.conturs.remove(c2)
-        new_c = Contur(cnt,corrected_conturs, str(id1),c1.labels + c2.labels)
-
-        self.conturs.append(new_c)
-
-        return (new_c, self.conturs)
-
-
-    def merge2(self, ids):
+    def merge(self, ids):
         if ids==None or len(ids)==0:
             raise Exception('ids is empty')
 
-        fnd_conturs = []#LABELS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        fnd_conturs = []
         new_id = ''
         new_labels = []
 

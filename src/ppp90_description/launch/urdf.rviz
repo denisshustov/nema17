@@ -7,11 +7,15 @@ Panels:
         - /Global Options1
         - /Status1
         - /ROBOT1/TF1
-        - /Areas1
-        - /Areas1/Polygon1
-        - /Areas1/Polygon2
+        - /Areas1/Polygon4
+        - /Areas1/Polygon5
+        - /Areas1/Polygon6
+        - /Markers1
+        - /Markers1/Marker3
+        - /Markers1/Marker4
         - /Markers1/Marker5
         - /Markers1/Marker6
+        - /Markers1/GOAL1
       Splitter Ratio: 0.4806201457977295
     Tree Height: 475
   - Class: rviz/Selection
@@ -679,7 +683,7 @@ Visualization Manager:
           Enabled: true
           Name: Polygon
           Queue Size: 10
-          Topic: /viz_3_poligons
+          Topic: /viz_10_poligons
           Unreliable: false
           Value: true
         - Alpha: 1
@@ -688,7 +692,7 @@ Visualization Manager:
           Enabled: true
           Name: Polygon
           Queue Size: 10
-          Topic: /viz_2_poligons
+          Topic: /viz_11_poligons
           Unreliable: false
           Value: true
         - Alpha: 1
@@ -697,7 +701,7 @@ Visualization Manager:
           Enabled: true
           Name: Polygon
           Queue Size: 10
-          Topic: /viz_6_poligons
+          Topic: /viz_12_poligons
           Unreliable: false
           Value: true
         - Alpha: 1
@@ -706,7 +710,7 @@ Visualization Manager:
           Enabled: true
           Name: Polygon
           Queue Size: 10
-          Topic: /viz_7_poligons
+          Topic: /viz_9_poligons
           Unreliable: false
           Value: true
         - Alpha: 1
@@ -723,63 +727,63 @@ Visualization Manager:
     - Class: rviz/Group
       Displays:
         - Class: rviz/Marker
-          Enabled: false
-          Marker Topic: /viz_0_markers
-          Name: Marker
-          Namespaces:
-            {}
-          Queue Size: 100
-          Value: false
-        - Class: rviz/Marker
-          Enabled: false
-          Marker Topic: /viz_1_markers
-          Name: Marker
-          Namespaces:
-            {}
-          Queue Size: 100
-          Value: false
-        - Class: rviz/Marker
-          Enabled: false
-          Marker Topic: /viz_2_markers
-          Name: Marker
-          Namespaces:
-            {}
-          Queue Size: 100
-          Value: false
-        - Class: rviz/Marker
-          Enabled: false
-          Marker Topic: /viz_3_markers
-          Name: Marker
-          Namespaces:
-            {}
-          Queue Size: 100
-          Value: false
-        - Class: rviz/Marker
           Enabled: true
-          Marker Topic: /viz_9_markers
+          Marker Topic: /viz__2_3_4_5_6_7_8_markers
           Name: Marker
           Namespaces:
             hz_namespace: true
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
-          Enabled: false
-          Marker Topic: /viz_8_markers
+          Enabled: true
+          Marker Topic: /viz__0_1_markers
+          Name: Marker
+          Namespaces:
+            hz_namespace: true
+          Queue Size: 100
+          Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /viz_10_markers
           Name: Marker
           Namespaces:
             {}
           Queue Size: 100
-          Value: false
+          Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /viz_11_markers
+          Name: Marker
+          Namespaces:
+            {}
+          Queue Size: 100
+          Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /viz_12_markers
+          Name: Marker
+          Namespaces:
+            {}
+          Queue Size: 100
+          Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /viz_9_markers
+          Name: Marker
+          Namespaces:
+            {}
+          Queue Size: 100
+          Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /viz_current_goal_markers
+          Name: GOAL
+          Namespaces:
+            {}
+          Queue Size: 100
+          Value: true
       Enabled: true
       Name: Markers
-    - Class: rviz/Marker
-      Enabled: true
-      Marker Topic: /viz_current_goal_markers
-      Name: Marker
-      Namespaces:
-        {}
-      Queue Size: 100
-      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -808,7 +812,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10.100561141967773
+      Distance: 9.531213760375977
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -816,17 +820,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 1.7897098064422607
-        Y: 0.7481895089149475
-        Z: -0.740023672580719
+        X: 2.9480814933776855
+        Y: 1.7139145135879517
+        Z: -0.7063578367233276
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 1.5347963571548462
       Target Frame: <Fixed Frame>
-      Yaw: 4.733829021453857
+      Yaw: 4.738829612731934
     Saved: ~
 Window Geometry:
   Displays:
