@@ -83,13 +83,17 @@ class Path_Creator:
         if contur == None:
             return way_points_srvResponse(error_code="contur_id_NOT_FOUND")
 
-        result = self._get_path(contur)            
+        result = self._get_path(contur, request.x, request.y)            
         return way_points_srvResponse(points = result, contur_id = request.contur_id)
     
-    def _get_path(self, contur):
+    def _get_path(self, contur, current_position_x = None, current_position_y = None):
+        start_point = None
+
         try:
+            if current_position_x != None and current_position_y != None:
+                start_point = { 0 : current_position_x, 1 : current_position_y }
             self.find_path_in_progress = contur.id
-            pth = PathFinder(contur.contur, self.array_map.shape, 5, 3, start_point=None, debug_mode=False)
+            pth = PathFinder(contur.contur, self.array_map.shape, 5, 3, start_point=start_point, debug_mode=False)
             self.covered_points = pth.get_route()
             points = self.correct_points(self.covered_points)
         finally:

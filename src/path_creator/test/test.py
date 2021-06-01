@@ -20,7 +20,7 @@ import cv2
 import os
 import sys
 
-sys.path.append(os.path.join(sys.path[0], '../script/libraries'))
+sys.path.append(os.path.join(sys.path[0], '../libraries'))
 
 from PathFinder import *
 from Conturs import *
@@ -34,7 +34,7 @@ img = cv2.imread(os.path.join(sys.path[0], 'img')+'/mymap_22.jpg')
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 flag, image = cv2.threshold(gray, 205, 255, cv2.THRESH_BINARY)
 
-image = img = load_array_to_file()
+#image = img = load_array_to_file()
 cnt_inst = Conturs(image)
 cnts = cnt_inst.get_conturs(40)
 
@@ -64,11 +64,12 @@ image = cv2.cvtColor(image,cv2.COLOR_GRAY2RGB)
 cnt_inst.show(image)
 
 i=1
-start_point = None
+start_point = {0:500,1:150}
+cv2.circle(image, (start_point[0], start_point[1]),10, (0,0,255), -1)
 
 while True:
     if not current_contur.is_processed:
-        pth = PathFinder(current_contur.contur, image, 5, 1, start_point=start_point, debug_mode=True)
+        pth = PathFinder(current_contur.contur, image.shape, 5, 1, start_point=start_point, debug_mode=True)
         covered_points = pth.get_route()
         if len(covered_points)>0:
             start_point = covered_points[len(covered_points)-1]

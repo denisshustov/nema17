@@ -1,4 +1,6 @@
 string contur_id
+int8 x
+int8 y
 ---
 string contur_id
 string error_code

@@ -4,7 +4,7 @@
             "name": "ROS: Launch",
             "type": "ros",
             "request": "launch",
-            "target": "/home/den/catkin_ws/src/path_creator/path_creator/launch/path_creator.launch"
+            "target": "/home/den/catkin_ws/src/path_creator/path_visualizer/launch/path_visualizer.launch"
         },
         {
             "name": "ROS: Attach",

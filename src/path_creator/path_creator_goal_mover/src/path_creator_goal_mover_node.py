@@ -56,7 +56,7 @@ class Goal_move():
             rospy.loginfo("try call service /path_creator/get_by_id {}".format(contur_id))
 
             get_path = rospy.ServiceProxy('/path_creator/get_by_id', way_points_srv)
-            rqt = way_points_srvRequest(contur_id)
+            rqt = way_points_srvRequest(contur_id, None, None)# check this!!!!!!!!!!!!!!!
             resp = get_path(rqt)
             rospy.loginfo("call service /path_creator/get_by_id {} success".format(contur_id))
 
