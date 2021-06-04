@@ -65,12 +65,14 @@ cnt_inst.show(image)
 
 i=1
 start_point = {0:500,1:150}
-cv2.circle(image, (start_point[0], start_point[1]),10, (0,0,255), -1)
+#cv2.circle(image, (start_point[0], start_point[1]),10, (0,0,255), -1)
 
 while True:
     if not current_contur.is_processed:
         pth = PathFinder(current_contur.contur, image.shape, 5, 1, start_point=start_point, debug_mode=True)
-        covered_points = pth.get_route()
+        covered_points = pth.get_route2()
+        if covered_points==None:
+            break
         if len(covered_points)>0:
             start_point = covered_points[len(covered_points)-1]
             current_contur.is_processed = True
@@ -91,7 +93,7 @@ while True:
     i+=1
 
 # pth.show_grid(image)
-# pth.show_mounting_point(image)
+pth.show_mounting_point(image)
 pth.show_path_point(image)
 cv2.imshow("drawCntsImg2.jpg", image)
 cv2.waitKey(0)

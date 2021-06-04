@@ -84,6 +84,8 @@ class PathFinder:
             cv2.circle(img, (p[0], p[1]),1, (0,0,255), -1)
     
     def show_path_point(self, img):
+        if len(self.path_points)==0:
+            return
         x=self.path_points[0][0]
         y=self.path_points[0][1]
 
@@ -130,6 +132,35 @@ class PathFinder:
             neibors = self.getNeibors(self.start_point, points, self.neibor_distance*100)
             return neibors[0]
             # return points[0]
+
+    def get_route2(self):
+        self.mounting_points = self.get_in_points()
+
+        if len(self.mounting_points)==0:
+            return []
+
+        goto_to_wall = False
+        xy = self.get_start_point(self.mounting_points ) #self.mounting_points[0]
+        
+        #if not goto_to_wall:
+        while True:
+            neibors = self.getNeibors(xy,self.mounting_points,self.neibor_distance)
+            x_grid_slice = np.unique(np.array(self.mounting_points)[:,:1], axis=0)
+            relevant_points = self.get_relevant_points(neibors,x_grid_slice, self.path_points)
+            min_distance = np.min(np.unique(np.array(relevant_points)[:,2:3], axis=0).flatten())    
+            round_neibors = [r for r in relevant_points if r[2]==min_distance]
+            relative_round_neibors = round_neibors-np.array(xy)
+            index_left = [i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]==0]
+            index_top = [i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]>0]
+            index_right = [i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]==0]
+            index_bottom = [i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]<0]
+
+            if len(index_bottom)>0:
+                self.path_points.append(round_neibors[index_bottom[0]])
+                xy = round_neibors[index_bottom[0]]
+            else:
+                break
+        return None
 
     def get_route(self):
         self.mounting_points = self.get_in_points()
