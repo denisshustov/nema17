@@ -19,6 +19,7 @@ from WayPoint import *
 from path_creator.srv import way_points_srv, conturs_srv, way_points_srvRequest, conturs_srvRequest
 from path_creator.srv import way_points_srv, way_points_srvRequest
 from path_creator.srv import conturs_by_point_srv, conturs_by_point_srvRequest
+from path_helper import *
 
 class Path_Visualizer:
     def __init__(self):
@@ -48,66 +49,61 @@ class Path_Visualizer:
         except rospy.ServiceException as e:
             rospy.loginfo("Service call failed: %s"%e)
 
-    def get_path(self, contur_id, current_position_x = None, current_position_y = None):
-        try:
-            rospy.loginfo("try call service /path_creator/get_by_id {}".format(contur_id))
+    # def get_path(self, contur_id, current_position_x = None, current_position_y = None):
+    #     try:
+    #         rospy.loginfo("try call service /path_creator/get_by_id {}".format(contur_id))
 
-            get_path = rospy.ServiceProxy('/path_creator/get_by_id', way_points_srv)
-            rqt = way_points_srvRequest(contur_id, None, None)
-            resp = get_path(rqt)
-            rospy.loginfo("call service /path_creator/get_by_id {} success".format(contur_id))
+    #         get_path = rospy.ServiceProxy('/path_creator/get_by_id', way_points_srv)
+    #         rqt = way_points_srvRequest(contur_id, None, None)
+    #         resp = get_path(rqt)
+    #         rospy.loginfo("call service /path_creator/get_by_id {} success".format(contur_id))
 
-            return resp
-        except rospy.ServiceException as e:
-            rospy.loginfo("Service call failed: %s"%e)
+    #         return resp
+    #     except rospy.ServiceException as e:
+    #         rospy.loginfo("Service call failed: %s"%e)
 
-    def get_conturs_by_xy(self,x,y):
-        try:
-            rospy.loginfo("try call service /contur_creator/get_by_xy")
+    # def get_conturs_by_xy(self,x,y):
+    #     try:
+    #         rospy.loginfo("try call service /contur_creator/get_by_xy")
 
-            get_by_xy = rospy.ServiceProxy('/contur_creator/get_by_xy', conturs_by_point_srv)
-            rqt = conturs_by_point_srvRequest(Point(x,y,0))
-            resp = get_by_xy(rqt)
+    #         get_by_xy = rospy.ServiceProxy('/contur_creator/get_by_xy', conturs_by_point_srv)
+    #         rqt = conturs_by_point_srvRequest(Point(x,y,0))
+    #         resp = get_by_xy(rqt)
             
-            rospy.loginfo("call service /contur_creator/get_by_xy success")
-            return resp
-        except rospy.ServiceException as e:
-            rospy.loginfo("Service call failed: %s"%e)
+    #         rospy.loginfo("call service /contur_creator/get_by_xy success")
+    #         return resp
+    #     except rospy.ServiceException as e:
+    #         rospy.loginfo("Service call failed: %s"%e)
 
     #TODO TEST THIS!!!!
     def process2(self):
-        i=0
-        tf_listener = tf.TransformListener()
-        trans = None
+        my_coordinated = position_by_transorm(5)#path_helper
+        if my_coordinated == None:
+            rospy.loginfo("Contur position not found by transform map=>base_link")
+            return
 
-        while True:
-            try:
-                (trans,rot) = tf_listener.lookupTransform('/map', '/base_link', rospy.Time(0))
-            except Exception as ex:
-                rospy.loginfo("Transform map => base_link NOT FOUND!!! ERROR:{}".format(ex))
-            
-            if trans != None or i>100:
-                break
-            rospy.sleep(1)
-            i+=1
+        current_countur = get_conturs_by_xy(my_coordinated[0], my_coordinated[1])# path_helper
+        if current_countur == None or len(current_countur.contur_id) == 0:
+            rospy.loginfo("Contur not by position x={},y={}".format(my_coordinated[0],my_coordinated[1]))
+            return
 
-        c = self.get_conturs_by_xy(trans[0], trans[1])
-        p = v.get_path(c.contur_id)
-        self.contur_to_path[c.contur_id] = p
+        path = get_path(current_countur.contur_id)#path_helper
+
+        self.contur_to_path[current_countur.contur_id] = path
 
         current_conturs = []
         current_points = []
 
-        if c == None or len(c.points)==0:
-            rospy.loginfo("Conturs is empty for contur {}".format(c.contur_id))
+        if current_countur == None or len(current_countur.points)==0:
+            rospy.loginfo("Conturs is empty for contur {}".format(current_countur.contur_id))
         else:
-            current_conturs = c.points
-        if p == None or len(p.points)==0:
-            rospy.loginfo("Points is empty for contur {}".format(c.contur_id))
+            current_conturs = current_countur.points
+        if path == None or len(path.points)==0:
+            rospy.loginfo("Points is empty for contur {}".format(current_countur.contur_id))
         else:
-            current_points = p.points
+            current_points = path.points
 
-        way_point = WayPoint(current_conturs, current_points, c.contur_id)
+        way_point = WayPoint(current_conturs, current_points, current_countur.contur_id)
         self.way_points.append(way_point)
         r = rospy.Rate(self.rate)
         while not rospy.is_shutdown():
@@ -149,4 +145,4 @@ class Path_Visualizer:
 
 if __name__ == '__main__':
     v = Path_Visualizer()
-    v.process()
+    v.process2()

@@ -37,7 +37,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -98,8 +98,6 @@ Visualization Manager:
               Value: false
             forward_top_1_Mirror__1:
               Value: false
-            map:
-              Value: true
             nema17_1:
               Value: false
             nema17_Mirror__1:
@@ -125,8 +123,6 @@ Visualization Manager:
           Show Axes: true
           Show Names: true
           Tree:
-            map:
-              {}
             odom:
               base_footprint:
                 base_link:
@@ -732,7 +728,7 @@ Visualization Manager:
           Marker Topic: /viz__2_3_4_5_6_7_8_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -740,7 +736,7 @@ Visualization Manager:
           Marker Topic: /viz__0_1_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -748,7 +744,7 @@ Visualization Manager:
           Marker Topic: /viz_10_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -756,7 +752,7 @@ Visualization Manager:
           Marker Topic: /viz_11_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -764,7 +760,7 @@ Visualization Manager:
           Marker Topic: /viz_12_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -772,7 +768,7 @@ Visualization Manager:
           Marker Topic: /viz_9_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -780,7 +776,7 @@ Visualization Manager:
           Marker Topic: /viz_current_goal_markers
           Name: GOAL
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
       Enabled: true

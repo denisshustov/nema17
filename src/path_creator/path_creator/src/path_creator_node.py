@@ -71,7 +71,7 @@ class Path_Creator:
             return way_points_srvResponse(error_code="FIND_PATH_FOR_CURRENT_ID_IN_PROGRESS")
 
         if len(self.conutrs) == 0:
-            self._get_conturs()
+            self.conutrs = self._get_conturs()
         if len(self.conutrs) == 0:
             return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
         
@@ -129,7 +129,7 @@ class Path_Creator:
             return conturs_by_point_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
         
         if len(self.conutrs) == 0:
-            self._get_conturs()
+            self.conutrs = self._get_conturs()
         if len(self.conutrs) == 0:
             return conturs_by_point_srvResponse(error_code="CONTURS_NOT_FOUND")
         
