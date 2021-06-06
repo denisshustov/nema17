@@ -160,23 +160,31 @@ class Path_Creator:
             return conturs_srvResponse(error_code="contur_id_IS_EMPTY")
 
         if len(self.conutrs) == 0:
-            self._get_conturs()
+            self.conutrs = self._get_conturs()
         if len(self.conutrs) == 0:
             return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
 
-        if len(self.conutrs) == 0:
-            self._get_conturs()
-        if len(self.conutrs) == 0:
-            return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
-        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
-        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
-        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
-        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
-        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
-        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
-        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
-        #!!!!!!!!!!!!!!!!!!FINISH_ME!!!!!!!!!!!!!!!!!!!!!!!
-        return conturs_srvResponse()
+        cor_con = self._get_contur_by_id_with_points(request.contur_id)
+        if cor_con == None:
+            return conturs_srvResponse(error_code="contur_id_NOT_FOUND")
+        if len(cor_con.children)==0:
+            return conturs_srvResponse(error_code="children_by_id_NOT_FOUND")
+
+        result = []
+        for r in cor_con.children:
+            result.append(map_contur_msg(r.id,[]))
+
+        return conturs_srvResponse(conturs = result)
+
+    def _get_contur_by_id(self, id):
+        contur = self._get_contur_by_id(id)
+        return self.correct_points(contur.corrected_contur)
+
+    def _get_contur_by_id_with_points(self, id):
+        for contur in self.conutrs:
+            if contur.id == id:
+                return contur
+        return None
 
     def get_contur_by_id(self, request):
         if self.find_conutrs_in_progress:
@@ -185,16 +193,12 @@ class Path_Creator:
             return conturs_srvResponse(error_code="contur_id_IS_EMPTY")
 
         if len(self.conutrs) == 0:
-            self._get_conturs()
+            self.conutrs = self._get_conturs()
         if len(self.conutrs) == 0:
             return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
         
-        cor_con = []
-        for contur in self.conutrs:
-            if contur.id == request.contur_id:
-                cor_con = self.correct_points(contur.corrected_contur)
-                break
-        if len(cor_con)==0:
+        cor_con = self._get_contur_by_id(request.contur_id)
+        if cor_con == None:
             return conturs_srvResponse(error_code="contur_id_NOT_FOUND")
            
         return conturs_srvResponse(conturs = [map_contur_msg(contur_id = request.contur_id, points = cor_con)])
@@ -203,7 +207,7 @@ class Path_Creator:
         if self.find_conutrs_in_progress:
             return way_points_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
         if len(self.conutrs) == 0:
-            self._get_conturs()
+            self.conutrs = self._get_conturs()
         if len(self.conutrs) == 0:
             return conturs_srvResponse(error_code="CONTURS_NOT_FOUND")
         
@@ -214,14 +218,23 @@ class Path_Creator:
         return conturs_srvResponse(conturs = all_conturs)
 
     def _get_conturs(self):
-        if self.map != None and self.conutrs == [] and not self.find_conutrs_in_progress:
+        conutrs = []
+        if self.map != None and not self.find_conutrs_in_progress:
+            if len(self.conutrs)>0:
+                self.find_conutrs_in_progress = False
+                return self.conutrs
+
             self.find_conutrs_in_progress = True
             self.array_map = self.map_to_array()
             # self.save_array_to_file(self.array_map)
 
             self.cnt_inst = Conturs(self.array_map)
-            self.conutrs = self.cnt_inst.get_conturs(skip_area_less_than = 40)
+            conutrs = self.cnt_inst.get_conturs(skip_area_less_than = 40)
             
+            if len(conutrs)==0:
+                self.find_conutrs_in_progress = False
+                return []
+
             if not self.is_merged and len(self.merge)>0:
                 for m in self.merge:
                     new_contur = self.cnt_inst.merge(m)
@@ -230,7 +243,7 @@ class Path_Creator:
             inter = self.cnt_inst.get_intersections(5)
 
             self.find_conutrs_in_progress = False
-            return self.conutrs
+            return conutrs
         return []
 
 #-------------contur------------------
