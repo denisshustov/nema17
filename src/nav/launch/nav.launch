@@ -1,7 +1,7 @@
 <launch>
   <!-- <param name="/use_sim_time" value="true"/> -->
   
-  <!-- <include file="$(find odom_publisher)/launch/odom-pub.launch"/> -->
+  <include file="$(find odom_publisher)/launch/odom-pub.launch"/>
   <!-- <include file="$(find ppp90_description)/launch/display.launch"/> -->
 
   <!-- <include file="$(find path_creator)/path_launcher/launch/path_creator.launch"/> -->

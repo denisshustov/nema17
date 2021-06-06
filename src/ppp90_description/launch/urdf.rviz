@@ -7,7 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /ROBOT1/TF1
-        - /LaserScan1
+        - /ROBOT1/TF1/Frames1
         - /Areas1/Polygon4
         - /Areas1/Polygon5
         - /Areas1/Polygon6
@@ -17,7 +17,7 @@ Panels:
         - /Markers1/Marker5
         - /Markers1/Marker6
         - /Markers1/GOAL1
-      Splitter Ratio: 0.4806201457977295
+      Splitter Ratio: 0.6823529601097107
     Tree Height: 475
   - Class: rviz/Selection
     Name: Selection
@@ -37,7 +37,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -69,11 +69,55 @@ Visualization Manager:
           Enabled: true
           Frame Timeout: 15
           Frames:
+            12GAN20__1__1:
+              Value: false
+            12GAN20__1__Mirror__1:
+              Value: false
             All Enabled: false
+            Lidar_1:
+              Value: false
+            Lidar_Box:
+              Value: false
+            back_top2_1:
+              Value: false
+            back_top_1:
+              Value: false
+            ball:
+              Value: false
             base_footprint:
+              Value: false
+            base_imu_link:
+              Value: false
+            base_link:
               Value: true
+            brush_1:
+              Value: false
+            brush_Mirror__1:
+              Value: false
+            forward_top_1_1:
+              Value: false
+            forward_top_1_Mirror__1:
+              Value: false
+            map:
+              Value: true
+            nema17_1:
+              Value: false
+            nema17_Mirror__1:
+              Value: false
             odom:
               Value: true
+            roll_celinder:
+              Value: false
+            sonyc_1:
+              Value: false
+            sonyc_Mirror__1:
+              Value: false
+            sonyc__1__1:
+              Value: false
+            wheel_1:
+              Value: false
+            wheel_Mirror__1:
+              Value: false
           Marker Alpha: 1
           Marker Scale: 1
           Name: TF
@@ -81,9 +125,44 @@ Visualization Manager:
           Show Axes: true
           Show Names: true
           Tree:
+            map:
+              {}
             odom:
               base_footprint:
-                {}
+                base_link:
+                  12GAN20__1__1:
+                    brush_1:
+                      {}
+                  12GAN20__1__Mirror__1:
+                    brush_Mirror__1:
+                      {}
+                  back_top2_1:
+                    {}
+                  back_top_1:
+                    {}
+                  base_imu_link:
+                    {}
+                  forward_top_1_1:
+                    {}
+                  forward_top_1_Mirror__1:
+                    Lidar_Box:
+                      Lidar_1:
+                        {}
+                  nema17_1:
+                    wheel_1:
+                      {}
+                  nema17_Mirror__1:
+                    wheel_Mirror__1:
+                      {}
+                  roll_celinder:
+                    ball:
+                      {}
+                  sonyc_1:
+                    {}
+                  sonyc_Mirror__1:
+                    {}
+                  sonyc__1__1:
+                    {}
           Update Interval: 0
           Value: true
         - Alpha: 1
@@ -480,7 +559,7 @@ Visualization Manager:
       Axes Radius: 0.009999999776482582
       Class: rviz/PoseArray
       Color: 255; 25; 0
-      Enabled: true
+      Enabled: false
       Head Length: 0.07000000029802322
       Head Radius: 0.029999999329447746
       Name: PoseArray
@@ -490,7 +569,7 @@ Visualization Manager:
       Shape: Arrow (Flat)
       Topic: /particlecloud
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz_plugin_tutorials/Imu
       Color: 204; 51; 204
@@ -577,7 +656,7 @@ Visualization Manager:
           Topic: /ppp/range_sensor3
           Unreliable: false
           Value: true
-      Enabled: true
+      Enabled: false
       Name: Range
     - Class: rviz/Group
       Displays:
@@ -653,7 +732,7 @@ Visualization Manager:
           Marker Topic: /viz__2_3_4_5_6_7_8_markers
           Name: Marker
           Namespaces:
-            {}
+            hz_namespace: true
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -661,7 +740,7 @@ Visualization Manager:
           Marker Topic: /viz__0_1_markers
           Name: Marker
           Namespaces:
-            {}
+            hz_namespace: true
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -669,7 +748,7 @@ Visualization Manager:
           Marker Topic: /viz_10_markers
           Name: Marker
           Namespaces:
-            {}
+            hz_namespace: true
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -677,7 +756,7 @@ Visualization Manager:
           Marker Topic: /viz_11_markers
           Name: Marker
           Namespaces:
-            {}
+            hz_namespace: true
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -685,7 +764,7 @@ Visualization Manager:
           Marker Topic: /viz_12_markers
           Name: Marker
           Namespaces:
-            {}
+            hz_namespace: true
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -693,7 +772,7 @@ Visualization Manager:
           Marker Topic: /viz_9_markers
           Name: Marker
           Namespaces:
-            {}
+            hz_namespace: true
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -701,7 +780,7 @@ Visualization Manager:
           Marker Topic: /viz_current_goal_markers
           Name: GOAL
           Namespaces:
-            {}
+            hz_namespace: true
           Queue Size: 100
           Value: true
       Enabled: true
@@ -734,7 +813,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 5.393637657165527
+      Distance: 8.317273139953613
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -742,9 +821,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -0.06929422169923782
-        Y: -0.4485511779785156
-        Z: -0.781339704990387
+        X: 1.1728754043579102
+        Y: 0.33554327487945557
+        Z: -0.7542927861213684
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false

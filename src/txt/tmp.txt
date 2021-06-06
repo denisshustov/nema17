@@ -1,3 +1,8 @@
+TOTO:
+if cmd_vel not move disable frush
+
+-------------------------------------------------
+
 rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
   dim:
   - label: ''

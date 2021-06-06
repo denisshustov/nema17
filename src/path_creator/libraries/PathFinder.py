@@ -126,7 +126,7 @@ class PathFinder:
         return mounting_points
 
     def get_start_point(self, points):
-        if self.start_point == None:
+        if self.start_point == None or (self.start_point[0]==0 and self.start_point[1]==0):
             return points[0]
         else:
             neibors = self.getNeibors(self.start_point, points, self.neibor_distance*100)
