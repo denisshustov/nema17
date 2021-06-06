@@ -146,6 +146,7 @@ class PathFinder:
         goto_to_wall = False
         xy = self.get_start_point(self.mounting_points ) #self.mounting_points[0]
         i=0
+        step_finished = None
         #if not goto_to_wall:
         while True:
             neibors = self.getNeibors(xy,self.mounting_points,self.neibor_distance)
@@ -159,27 +160,38 @@ class PathFinder:
             index_right = [i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]==0]
             index_bottom = [i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]<0]
 
+#-,+ | 0,+ | +,+
+#-,0 |     | +,0
+#-,- | 0,- | +,-
+            if step_finished == None or step_finished == 'RIGHT':
+                if len(index_bottom)>0:
+                    self.path_points.append(round_neibors[index_bottom[0]])
+                    xy = round_neibors[index_bottom[0]]
+                else:
+                    step_finished = 'BOTTOM'
 
-            #TODO THIS!!!!!!!!!!!!!!!!
-            #TODO THIS!!!!!!!!!!!!!!!!
-            #TODO THIS!!!!!!!!!!!!!!!!
-            #TODO THIS!!!!!!!!!!!!!!!!
-            #TODO THIS!!!!!!!!!!!!!!!!
-            if len(index_bottom)>0:
-                self.path_points.append(round_neibors[index_bottom[0]])
-                xy = round_neibors[index_bottom[0]]
-            else:
-                if len(index_left)>0:
+            if step_finished == 'BOTTOM':
+                if  len(index_left)>0:
                     self.path_points.append(round_neibors[index_left[0]])
                     xy = round_neibors[index_left[0]]
                 else:
-                    if len(index_top)>0:
-                        self.path_points.append(round_neibors[index_top[0]])
-                        xy = round_neibors[index_top[0]]
-                    else:
-                        break
-            # if i>900:
-            #     break
+                    step_finished = 'LEFT'
+
+            if step_finished == 'LEFT':
+                if len(index_top)>0:
+                    self.path_points.append(round_neibors[index_top[0]])
+                    xy = round_neibors[index_top[0]]
+                else:
+                    step_finished = 'TOP'
+
+            if step_finished == 'TOP':
+                if len(index_right)>0:
+                    self.path_points.append(round_neibors[index_right[0]])
+                    xy = round_neibors[index_right[0]]
+                else:
+                    step_finished = 'RIGHT'
+            if i>2000:
+                break
             i+=1
         return None
 
