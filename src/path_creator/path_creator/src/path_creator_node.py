@@ -42,8 +42,8 @@ class Path_Creator:
 
         self.srv1 = rospy.Service('contur_creator/get_conturs', conturs_srv, self.get_conturs)
         self.srv2 = rospy.Service('contur_creator/get_by_id', conturs_srv, self.get_contur_by_id)
-        self.srv2 = rospy.Service('contur_creator/get_by_xy', conturs_by_point_srv, self.get_contur_by_xy)
-        self.srv3 = rospy.Service('contur_creator/get_by_next_by_id', conturs_srv, self.get_by_next_by_id)
+        self.srv3 = rospy.Service('contur_creator/get_by_xy', conturs_by_point_srv, self.get_contur_by_xy)
+        self.srv4 = rospy.Service('contur_creator/get_by_next_by_id', conturs_srv, self.get_by_next_by_id)
 
         # self.tf_listener = tf.TransformListener()
         rospy.loginfo("path_creator Starting...")
@@ -143,7 +143,8 @@ class Path_Creator:
             return conturs_by_point_srvResponse(error_code="CONTURS_NOT_FOUND_BY_POSITION")
 
         cor_con = self.correct_points(contur_by_point.corrected_contur)
-        return conturs_by_point_srvResponse(contur_id = contur_by_point.id, conturs = [map_contur_msg(points = cor_con)])
+        return conturs_by_point_srvResponse(contur_id = contur_by_point.id, \
+            conturs = [map_contur_msg(points = cor_con, contur_id = contur_by_point.id)])
 
     def correct_points(self, points):
         result = []
@@ -155,7 +156,7 @@ class Path_Creator:
 
     def get_by_next_by_id(self, request):
         if self.find_conutrs_in_progress:
-            return way_points_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
+            return conturs_srvResponse(error_code="FIND_CONTURS_IN_PROGRESS")
         if len(request.contur_id)==0:
             return conturs_srvResponse(error_code="contur_id_IS_EMPTY")
 

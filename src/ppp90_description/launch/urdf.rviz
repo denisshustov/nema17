@@ -37,7 +37,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -98,6 +98,8 @@ Visualization Manager:
               Value: false
             forward_top_1_Mirror__1:
               Value: false
+            map:
+              Value: true
             nema17_1:
               Value: false
             nema17_Mirror__1:
@@ -123,6 +125,8 @@ Visualization Manager:
           Show Axes: true
           Show Names: true
           Tree:
+            map:
+              {}
             odom:
               base_footprint:
                 base_link:
@@ -785,7 +789,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: odom
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -809,7 +813,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 8.317273139953613
+      Distance: 11.68517017364502
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1

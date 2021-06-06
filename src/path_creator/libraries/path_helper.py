@@ -69,4 +69,18 @@ def get_path(contur_id, current_position_x = None, current_position_y = None):
 
         return resp
     except rospy.ServiceException as e:
-        rospy.loginfo("Service call failed: %s"%e)            
+        rospy.loginfo("Service call failed: %s"%e)
+
+
+def get_by_next_by_id(contur_id):
+    try:
+        rospy.loginfo("try call service /contur_creator/get_by_next_by_id {}".format(contur_id))
+
+        get_next_countur = rospy.ServiceProxy('/contur_creator/get_by_next_by_id', conturs_srv)
+        rqt = conturs_srvRequest(contur_id)
+        resp = get_next_countur(rqt)
+        rospy.loginfo("call service /contur_creator/get_by_next_by_id {} success".format(contur_id))
+
+        return resp
+    except rospy.ServiceException as e:
+        rospy.loginfo("Service call failed: %s"%e)
