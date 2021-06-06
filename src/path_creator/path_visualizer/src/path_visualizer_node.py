@@ -93,7 +93,11 @@ class Path_Visualizer:
 
         current_conturs = []
         current_points = []
-
+#current_countur.points = > path.points
+#current_countur.points = > path.points
+#current_countur.points = > path.points
+#current_countur.points = > path.points
+#current_countur.points = > path.points
         if current_countur == None or len(current_countur.points)==0:
             rospy.loginfo("Conturs is empty for contur {}".format(current_countur.contur_id))
         else:
