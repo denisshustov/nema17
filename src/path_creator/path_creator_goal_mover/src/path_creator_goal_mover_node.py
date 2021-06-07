@@ -20,6 +20,7 @@ import os
 import sys
 sys.path.append(os.path.join(sys.path[0], '../../libraries'))
 from marker_lib import *
+from path_helper import *
 
 class Goal_move():
 
@@ -37,32 +38,6 @@ class Goal_move():
         self.client.wait_for_server(rospy.Duration(5))
         rospy.wait_for_service('contur_creator/get_by_xy')
         rospy.wait_for_service('path_creator/get_by_id')
-        
-    def get_conturs_by_xy(self,x,y):
-        try:
-            rospy.loginfo("try call service /contur_creator/get_by_xy")
-
-            get_by_xy = rospy.ServiceProxy('/contur_creator/get_by_xy', conturs_by_point_srv)
-            rqt = conturs_by_point_srvRequest(Point(x,y,0))
-            resp = get_by_xy(rqt)
-            
-            rospy.loginfo("call service /contur_creator/get_by_xy success")
-            return resp
-        except rospy.ServiceException as e:
-            rospy.loginfo("Service call failed: %s"%e)
-
-    def get_path(self, contur_id):
-        try:
-            rospy.loginfo("try call service /path_creator/get_by_id {}".format(contur_id))
-
-            get_path = rospy.ServiceProxy('/path_creator/get_by_id', way_points_srv)
-            rqt = way_points_srvRequest(contur_id, None, None)# check this!!!!!!!!!!!!!!!
-            resp = get_path(rqt)
-            rospy.loginfo("call service /path_creator/get_by_id {} success".format(contur_id))
-
-            return resp
-        except rospy.ServiceException as e:
-            rospy.loginfo("Service call failed: %s"%e)
 
     def shutdown(self):
         self.clean(False)
@@ -170,35 +145,19 @@ class Goal_move():
 
 if __name__ == '__main__':
     try:
-        #add localize robot!!!
-        #add localize robot!!!
-        #add localize robot!!!
-        
-        #VOLTAGE!!!
-
-
         g = Goal_move()
-        contur_error = True
-        tf_listener = tf.TransformListener()
 
-        while contur_error:
-            try:
-                (trans,rot) = tf_listener.lookupTransform('/map', '/base_link', rospy.Time(0))
-            except Exception as ex:
-                rospy.loginfo("Transform map => base_link NOT FOUND!!! ERROR:{}".format(ex))
-                rospy.sleep(1)
-                continue
-
-            current_contur = g.get_conturs_by_xy(trans[0], trans[1])
-            
-            contur_error = current_contur == None or current_contur.error_code != ''
-            if contur_error:
-                rospy.loginfo(current_contur.error_code)
-                rospy.sleep(1)
-            else:
-                break
-
-        goals = g.get_path(current_contur.contur_id)
+        way_points = get_way_points()
+        #path_point = way_points!!!
+        #TODO get path_point
+        #TODO get path_point
+        #TODO get path_point
+        #TODO get path_point
+        #TODO get path_point
+        #TODO get path_point
+        #TODO get path_point
+        #TODO get path_point
+        #TODO get path_point
         g.process(goals.points)
         g.clean(False)
 

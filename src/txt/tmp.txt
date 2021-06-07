@@ -4,6 +4,10 @@ if cmd_vel not move disable frush
 FIX:
 Map update loop missed its desired rate of 40.0000Hz... the loop actually took 0.0332 seconds
 DWA planner failed to produce path.
+
+#add localize robot!!!
+
+#VOLTAGE!!!
 -------------------------------------------------
 
 rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
