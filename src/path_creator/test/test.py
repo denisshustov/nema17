@@ -53,9 +53,9 @@ cnts = cnt_inst.get_conturs(40)
 # xxx = cnt_inst.merge('11','8')
 
 inter = cnt_inst.get_intersections(2)
-x=756
+x=1056
 y=299
-current_contur = cnts[0] #cnt_inst.get_contur_by_coord(x, y)
+current_contur = cnts[4] #cnt_inst.get_contur_by_coord(x, y)
 
 # img = cv2.normalize(img, None, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
 #np.uint8(img)
@@ -64,13 +64,14 @@ image = cv2.cvtColor(image,cv2.COLOR_GRAY2RGB)
 cnt_inst.show(image)
 
 i=1
-start_point = {0:500,1:150}
-#cv2.circle(image, (start_point[0], start_point[1]),10, (0,0,255), -1)
+start_point = {0:500,1:450}
+cv2.circle(image, (start_point[0], start_point[1]),10, (0,0,255), -1)
 
 while True:
     if not current_contur.is_processed:
         pth = PathFinder(current_contur.contur, image.shape, 5, 1, start_point=start_point, debug_mode=True)
         covered_points = pth.get_route2()
+        break
         if covered_points==None:
             break
         if len(covered_points)>0:

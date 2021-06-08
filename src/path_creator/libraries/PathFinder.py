@@ -131,15 +131,11 @@ class PathFinder:
         else:
             neibors = self.getNeibors(self.start_point, points, self.neibor_distance*100)
             return neibors[0]
-            # return points[0]
 
-    # def route2_get_next(self):
-    #     if self.route2_state == 'BOTTOM':
-
-
-    def add_point(self, round_neibors, step_to):
+    def add_point(self, round_neibors, step_to, without_add = False):
         new_pos=round_neibors[step_to[0]]
-        self.path_points.append((new_pos[0],new_pos[1]))
+        if not without_add:
+            self.path_points.append((new_pos[0],new_pos[1]))
         return (new_pos[0],new_pos[1])
 
     def get_route2(self):
@@ -148,7 +144,6 @@ class PathFinder:
         if len(self.mounting_points)==0:
             return []
 
-        goto_to_wall = False
         xy = self.get_start_point(self.mounting_points ) #self.mounting_points[0]
         x = xy[0]
         y = xy[1]
@@ -156,17 +151,17 @@ class PathFinder:
         step_finished = None
         #if not goto_to_wall:
         while True:
-            neibors = self.getNeibors(xy,self.mounting_points,self.neibor_distance)
+            neibors = self.getNeibors((x,y),self.mounting_points,self.neibor_distance)
             x_grid_slice = np.unique(np.array(self.mounting_points)[:,:1], axis=0)
             relevant_points = self.get_relevant_points(neibors,x_grid_slice, self.path_points)
-            #TODO !!!!!!!!!!!!
-            #TODO !!!!!!!!!!!!
-            #TODO !!!!!!!!!!!!
-            #TODO !!!!!!!!!!!!
-            #TODO !!!!!!!!!!!!
-            #TODO !!!!!!!!!!!!
-            min_distance = np.min(np.unique(np.array(relevant_points)[:,2:3], axis=0).flatten())    
-            round_neibors = [[r[0],r[1]] for r in relevant_points if r[2]==min_distance]
+            if len(relevant_points)==0:
+                q=123
+                break
+            #min_distance = np.min(np.unique(np.array(relevant_points)[:,2:3], axis=0).flatten())    
+            #round_neibors = [[r[0],r[1]] for r in relevant_points if r[2]==min_distance]
+            
+            sorted1 = sorted(relevant_points, key=lambda s: s[2])
+            round_neibors = [[r[0],r[1]] for r in sorted1]
 
             relative_round_neibors = round_neibors-np.array([x,y])
 
@@ -184,7 +179,7 @@ class PathFinder:
 #-,- | 0,- | +,-
             if step_finished == None or step_finished == 'RIGHT':
                 if len(b)>0:
-                    (x,y) = self.add_point(round_neibors, b)
+                    (x,y) = self.add_point(round_neibors, b, step_finished == None)
                 elif len(br)>0:
                     (x,y)  = self.add_point(round_neibors, br)
                 elif len(bl)>0:
@@ -192,7 +187,9 @@ class PathFinder:
                 else:
                     step_finished = 'BOTTOM'
 
-            if step_finished == 'BOTTOM':
+            elif step_finished == 'BOTTOM':
+                # if i>30:
+                #     break
                 if  len(l)>0:
                     (x,y)  = self.add_point(round_neibors, l)
                 elif len(lt)>0:
@@ -202,7 +199,7 @@ class PathFinder:
                 else:
                     step_finished = 'LEFT'
 
-            if step_finished == 'LEFT':
+            elif step_finished == 'LEFT':
                 if len(t)>0:
                     (x,y) = self.add_point(round_neibors, t)
                 elif len(lt)>0:
@@ -212,7 +209,7 @@ class PathFinder:
                 else:
                     step_finished = 'TOP'
 
-            if step_finished == 'TOP':                
+            elif step_finished == 'TOP':
                 if len(r)>0:
                     (x,y) = self.add_point(round_neibors, r)
                 elif len(rt)>0:
@@ -224,7 +221,7 @@ class PathFinder:
             if i>2000:
                 break
             i+=1
-        return None
+        return self.path_points
 
     def get_route(self):
         self.mounting_points = self.get_in_points()
