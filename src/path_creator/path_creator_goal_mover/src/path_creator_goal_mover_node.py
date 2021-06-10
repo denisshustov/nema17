@@ -35,7 +35,16 @@ class Goal_move():
 
         
         rospy.loginfo('Waiting for server...')
-        self.client.wait_for_server(rospy.Duration(5))
+        #self.client.wait_for_server(rospy.Duration(5))
+        #self.client.wait_for_server(rospy.Duration(5))
+        #self.client.wait_for_server(rospy.Duration(5))
+        #self.client.wait_for_server(rospy.Duration(5))
+        #self.client.wait_for_server(rospy.Duration(5))
+        #self.client.wait_for_server(rospy.Duration(5))
+        #self.client.wait_for_server(rospy.Duration(5))
+        #self.client.wait_for_server(rospy.Duration(5))
+        #self.client.wait_for_server(rospy.Duration(5))
+        #self.client.wait_for_server(rospy.Duration(5))
         rospy.wait_for_service('contur_creator/get_by_xy')
         rospy.wait_for_service('path_creator/get_by_id')
 
@@ -94,7 +103,7 @@ class Goal_move():
 
             #-----------------------------------------
             finished_within_time = False
-            timeout = rospy.Duration(20)
+            timeout = rospy.Duration(10)
             timeout_time = rospy.get_rostime() + timeout
             loop_period = rospy.Duration(0.1)
             lost_count = 0
@@ -148,18 +157,9 @@ if __name__ == '__main__':
         g = Goal_move()
 
         way_points = get_way_points()
-        #path_point = way_points!!!
-        #TODO get path_point
-        #TODO get path_point
-        #TODO get path_point
-        #TODO get path_point
-        #TODO get path_point
-        #TODO get path_point
-        #TODO get path_point
-        #TODO get path_point
-        #TODO get path_point
-        g.process(goals.points)
-        g.clean(False)
+        for w in way_points:
+            g.process(w.points)
+            g.clean(False)
 
         rospy.spin()
 
