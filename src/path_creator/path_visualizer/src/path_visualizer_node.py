@@ -18,7 +18,7 @@ class Path_Visualizer:
         rospy.loginfo("path_visualizer_node Starting...")
         self.rate = rospy.get_param('~rate',10.0)
     
-    def process2(self):
+    def process(self):
         way_points = get_way_points()
         if way_points == None:
             return

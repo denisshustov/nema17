@@ -1,5 +1,5 @@
 <launch>
-  <param name="/use_sim_time" value="true"/>
+  <!-- <param name="/use_sim_time" value="true"/> -->
   
   <include file="$(find odom_publisher)/launch/odom-pub.launch"/>
   <!-- <include file="$(find ppp90_description)/launch/display.launch"/> -->
