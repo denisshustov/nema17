@@ -138,7 +138,21 @@ class PathFinder:
             self.path_points.append((new_pos[0],new_pos[1]))
         return (new_pos[0],new_pos[1])
 
-    def get_route2(self):
+    def get_nearest_wall(self, mounting_points, x, y):
+        bottom = min(np.array(mounting_points)[:,0:1])#x
+        top  = max(np.array(mounting_points)[:,0:1])#x
+        left = min(np.array(mounting_points)[:,1:])#y
+        right = max(np.array(mounting_points)[:,1:])#y
+
+        min_directons = np.array([ \
+            self.dist([bottom, y],[x,y]), \
+            self.dist([top, y],[x,y]),    \
+            self.dist([x, left],[x,y]),   \
+            self.dist([x, right],[x,y])])
+
+        return ['BOTTOM','TOP','LEFT','RIGHT'][min_directons.argmin()]
+
+    def get_route2(self, is_clockwise = True):
         self.mounting_points = self.get_in_points()
 
         if len(self.mounting_points)==0:
@@ -148,8 +162,21 @@ class PathFinder:
         x = xy[0]
         y = xy[1]
         i=0
-        step_finished = None
-        #if not goto_to_wall:
+        goto_direct = self.get_nearest_wall(self.mounting_points,x,y)
+        direct_priority = {
+            'BOTTOM':[[2,0], [2,1], [2,2]],
+            'TOP':   [[0,0], [0,1], [0,2]],
+            'LEFT':  [[0,1], [1,2], [0,2]],
+            'RIGHT': [[2,0], [1,0], [0,0]]
+        }
+        direct_next = {
+            'BOTTOM':'LEFT',
+            'TOP':   'RIGHT',
+            'LEFT':  'TOP',
+            'RIGHT': 'BOTTOM'
+        }
+        is_no_way = True
+
         while True:
             neibors = self.getNeibors((x,y),self.mounting_points,self.neibor_distance)
             x_grid_slice = np.unique(np.array(self.mounting_points)[:,:1], axis=0)
@@ -159,66 +186,29 @@ class PathFinder:
                 break
             #min_distance = np.min(np.unique(np.array(relevant_points)[:,2:3], axis=0).flatten())    
             #round_neibors = [[r[0],r[1]] for r in relevant_points if r[2]==min_distance]
-            
+
             sorted1 = sorted(relevant_points, key=lambda s: s[2])
             round_neibors = [[r[0],r[1]] for r in sorted1]
 
             relative_round_neibors = round_neibors-np.array([x,y])
+            availabel_points = [[ [i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]>0], [i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]>0],[i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]>0]], \
+                    [[i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]==0],[],[i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]==0]], \
+                    [[i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]<0],[i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]<0], [i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]<0]]]
 
-            l = [i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]==0]
-            lt = [i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]>0]
-            t = [i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]>0]
-            rt = [i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]>0]
-            r = [i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]==0]
-            br = [i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]<0]
-            b = [i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]<0]
-            bl = [i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]<0]
+            for d in direct_priority[goto_direct]:
+                ap = availabel_points[d[0]][d[1]]
+                if len(ap)>0:
+                    is_no_way = False
+                    (x,y) = self.add_point(round_neibors, ap)
+                    break
+                is_no_way = True
+            if is_no_way:
+                goto_direct = direct_next[goto_direct]
 
-#-,+ | 0,+ | +,+
-#-,0 |     | +,0
-#-,- | 0,- | +,-
-            if step_finished == None or step_finished == 'RIGHT':
-                if len(b)>0:
-                    (x,y) = self.add_point(round_neibors, b, step_finished == None)
-                elif len(br)>0:
-                    (x,y)  = self.add_point(round_neibors, br)
-                elif len(bl)>0:
-                    (x,y)  = self.add_point(round_neibors, bl)
-                else:
-                    step_finished = 'BOTTOM'
-
-            elif step_finished == 'BOTTOM':
-                # if i>30:
-                #     break
-                if  len(l)>0:
-                    (x,y)  = self.add_point(round_neibors, l)
-                elif len(lt)>0:
-                    (x,y) = self.add_point(round_neibors, lt)
-                elif len(bl)>0:
-                    (x,y) = self.add_point(round_neibors, bl)
-                else:
-                    step_finished = 'LEFT'
-
-            elif step_finished == 'LEFT':
-                if len(t)>0:
-                    (x,y) = self.add_point(round_neibors, t)
-                elif len(lt)>0:
-                    (x,y) = self.add_point(round_neibors, lt)
-                elif len(rt)>0:
-                    (x,y) = self.add_point(round_neibors, rt)
-                else:
-                    step_finished = 'TOP'
-
-            elif step_finished == 'TOP':
-                if len(r)>0:
-                    (x,y) = self.add_point(round_neibors, r)
-                elif len(rt)>0:
-                    (x,y) = self.add_point(round_neibors, rt)
-                elif len(br)>0:
-                    (x,y) = self.add_point(round_neibors, br)
-                else:
-                    step_finished = 'RIGHT'
-            if i>2000:
+# #-,+ | 0,+ | +,+
+# #-,0 |     | +,0
+# #-,- | 0,- | +,-
+            if i>50:
                 break
             i+=1
         return self.path_points
