@@ -166,8 +166,8 @@ class PathFinder:
         direct_priority = {
             'BOTTOM':[[2,0], [2,1], [2,2]],
             'TOP':   [[0,0], [0,1], [0,2]],
-            'LEFT':  [[0,1], [1,2], [0,2]],
-            'RIGHT': [[2,0], [1,0], [0,0]]
+            'LEFT':  [[2,0], [1,0], [0,0]],
+            'RIGHT': [[0,1], [1,2], [0,2]]
         }
         direct_next = {
             'BOTTOM':'LEFT',
@@ -205,9 +205,9 @@ class PathFinder:
             if is_no_way:
                 goto_direct = direct_next[goto_direct]
 
-# #-,+ | 0,+ | +,+
-# #-,0 |     | +,0
-# #-,- | 0,- | +,-
+#-,+ | 0,+ | +,+
+#-,0 |     | +,0
+#-,- | 0,- | +,-
             if i>50:
                 break
             i+=1
