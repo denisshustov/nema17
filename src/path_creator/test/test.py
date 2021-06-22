@@ -64,14 +64,15 @@ image = cv2.cvtColor(image,cv2.COLOR_GRAY2RGB)
 cnt_inst.show(image)
 
 i=1
-start_point = {0:500,1:450}
+start_point = {0:100,1:450}
 cv2.circle(image, (start_point[0], start_point[1]),10, (0,0,255), -1)
 
 while True:
     if not current_contur.is_processed:
         pth = PathFinder(current_contur.contur, image.shape, 5, 1, start_point=start_point, debug_mode=True,neibor_distance=8)
         covered_points = pth.get_route2()
-        break
+        if i==3:
+            break
         if covered_points==None:
             break
         if len(covered_points)>0:
