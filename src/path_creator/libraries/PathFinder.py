@@ -139,18 +139,19 @@ class PathFinder:
         return (new_pos[0],new_pos[1])
 
     def get_nearest_wall(self, mounting_points, x, y):
-        bottom = min(np.array(mounting_points)[:,0:1])#x
-        top  = max(np.array(mounting_points)[:,0:1])#x
-        left = min(np.array(mounting_points)[:,1:])#y
-        right = max(np.array(mounting_points)[:,1:])#y
+        left = min(np.array(mounting_points)[:,0:1])#x
+        right = max(np.array(mounting_points)[:,0:1])#x
+
+        top = min(np.array(mounting_points)[:,1:])#y
+        bottom = max(np.array(mounting_points)[:,1:])#y
 
         min_directons = np.array([ \
-            self.dist([bottom, y],[x,y]), \
-            self.dist([top, y],[x,y]),    \
-            self.dist([x, left],[x,y]),   \
-            self.dist([x, right],[x,y])])
+            self.dist([x, bottom],[x,y]), \
+            self.dist([x, top],[x,y]),    \
+            self.dist([left, y],[x,y]),   \
+            self.dist([right, y],[x,y])])
 
-        return ['BOTTOM','TOP','LEFT','RIGHT'][min_directons.argmin()]
+        return ['LEFT','RIGHT', 'TOP','BOTTOM'][min_directons.argmin()]
 
     def get_route2(self, is_clockwise = True):
         self.mounting_points = self.get_in_points()
@@ -161,10 +162,11 @@ class PathFinder:
         xy = self.get_start_point(self.mounting_points ) #self.mounting_points[0]
         x = xy[0]
         y = xy[1]
+        self.add_point([[x,y]], [0])
         i=0
         goto_direct = self.get_nearest_wall(self.mounting_points,x,y)
         direct_priority = {
-            'BOTTOM':[[2,0], [2,1], [2,2]],
+            'BOTTOM':[[2,2], [2,1], [2,0]],
             'TOP':   [[0,0], [0,1], [0,2]],
             'LEFT':  [[2,0], [1,0], [0,0]],
             'RIGHT': [[0,1], [1,2], [0,2]]
@@ -184,17 +186,15 @@ class PathFinder:
             if len(relevant_points)==0:
                 q=123
                 break
-            #min_distance = np.min(np.unique(np.array(relevant_points)[:,2:3], axis=0).flatten())    
-            #round_neibors = [[r[0],r[1]] for r in relevant_points if r[2]==min_distance]
-
             sorted1 = sorted(relevant_points, key=lambda s: s[2])
             round_neibors = [[r[0],r[1]] for r in sorted1]
 
             relative_round_neibors = round_neibors-np.array([x,y])
-            availabel_points = [[ [i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]>0], [i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]>0],[i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]>0]], \
+            availabel_points = [[ [i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]<0], [i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]<0],[i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]<0]], \
                     [[i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]==0],[],[i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]==0]], \
-                    [[i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]<0],[i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]<0], [i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]<0]]]
+                    [[i for i,r in enumerate(relative_round_neibors) if r[0]<0 and r[1]>0],[i for i,r in enumerate(relative_round_neibors) if r[0]==0 and r[1]>0], [i for i,r in enumerate(relative_round_neibors) if r[0]>0 and r[1]>0]]]
 
+            print('{}.'.format(goto_direct))
             for d in direct_priority[goto_direct]:
                 ap = availabel_points[d[0]][d[1]]
                 if len(ap)>0:
@@ -204,12 +204,17 @@ class PathFinder:
                 is_no_way = True
             if is_no_way:
                 goto_direct = direct_next[goto_direct]
-
+#decart coordinates
 #-,+ | 0,+ | +,+
 #-,0 |     | +,0
 #-,- | 0,- | +,-
-            if i>50:
-                break
+
+#array coordinates
+#-,- | 0,- | +,-
+#-,0 |     | +,0
+#-,+ | 0,+ | +,+
+            # if i>50:
+            #     break
             i+=1
         return self.path_points
 

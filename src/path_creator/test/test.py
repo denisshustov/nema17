@@ -69,7 +69,7 @@ cv2.circle(image, (start_point[0], start_point[1]),10, (0,0,255), -1)
 
 while True:
     if not current_contur.is_processed:
-        pth = PathFinder(current_contur.contur, image.shape, 5, 1, start_point=start_point, debug_mode=True)
+        pth = PathFinder(current_contur.contur, image.shape, 5, 1, start_point=start_point, debug_mode=True,neibor_distance=8)
         covered_points = pth.get_route2()
         break
         if covered_points==None:
