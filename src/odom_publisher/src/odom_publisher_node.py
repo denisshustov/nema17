@@ -20,7 +20,7 @@ class Cmd_to_odom:
 
         rospy.loginfo("Cmd_to_odom Starting...")
         
-        self.rate = rospy.get_param('~rate',10.0)#1000.0
+        self.rate = rospy.get_param('~rate',100.0)#1000.0
         self.odom_frame_id = rospy.get_param('~odom_frame_id', 'odom')
         self.base_footprint_id = rospy.get_param('~base_footprint_id', 'base_footprint')
         self.odom_broadcaster = tf.TransformBroadcaster()
