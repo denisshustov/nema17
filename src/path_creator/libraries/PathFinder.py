@@ -215,6 +215,7 @@ class PathFinder:
 #-,+ | 0,+ | +,+
             # if i>50:
             #     break
+            
             i+=1
         return self.path_points
 
