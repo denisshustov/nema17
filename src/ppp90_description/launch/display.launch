@@ -1,5 +1,5 @@
 <launch>
-  <param name="/use_sim_time" value="true"/>
+  <!-- <param name="/use_sim_time" value="true"/> -->
   
   <arg default="$(find ppp90_description)/urdf/ppp90.xacro" name="model"/>
   <arg default="true" name="gui"/>

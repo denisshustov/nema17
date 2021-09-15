@@ -1,7 +1,7 @@
 <launch>
-  <param name="/use_sim_time" value="true"/>
+  <!-- <param name="/use_sim_time" value="true"/> -->
   
-  <!-- <include file="$(find odom_publisher)/launch/odom-pub.launch"/> -->
+  <include file="$(find odom_publisher)/launch/odom-pub.launch"/>
   <include file="$(find ppp90_description)/launch/display.launch"/>
 
   <!-- <include file="$(find path_creator)/path_launcher/launch/path_creator.launch"/> -->
@@ -21,34 +21,5 @@
   <node pkg="rosservice" type="rosservice" name="global_loc" args="call --wait /global_localization" />
   
   <include file="$(find nav)/launch/move.launch"/>
-
-  <!-- <include file="$(find convert_range_sensors_values)/launch/convert_range_sensors_values.launch"/>
-  <include file="$(find sensor_pointcloud)/launch/sensor_pointcloud.launch"/> -->
-
-  <!-- <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
-      <remap from="cloud_in" to="/sensor_pointcloud_node/pointcloud"/>
-      <remap from="scan" to="/scan2" />
-      <rosparam>
-        target_frame: sonyc_1
-        transform_tolerance: 0.01
-        min_height: 0.0
-        max_height: 1.0
-        
-        angle_min: -1.5708
-        angle_max: 1.5708
-        angle_increment: 0.0087
-        scan_time: 0.3333
-        range_min: 0.1
-        range_max: 0.5
-        use_inf: true
-        
-        #concurrency_level affects number of pc queued for processing and the number of threadsused
-        # 0: Detect number of cores
-        # 1: Single threaded
-        # 2: inf : Parallelism level
-        concurrency_level: 1
-      </rosparam>
-    </node> -->
-
 
 </launch>

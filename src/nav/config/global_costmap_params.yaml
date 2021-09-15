@@ -16,3 +16,4 @@ plugins:
   - {name: static,                  type: "costmap_2d::StaticLayer"}
   - {name: obstacles_laser,         type: "costmap_2d::VoxelLayer"}
   - {name: inflation,               type: "costmap_2d::InflationLayer"}
+  - {name: ultrasonic_layer,        type: "range_sensor_layer::RangeSensorLayer"}  

@@ -144,9 +144,10 @@ Visualization Manager:
                     forward_top_1_1:
                       {}
                     forward_top_1_Mirror__1:
+                      Lidar_1:
+                        {}
                       Lidar_Box:
-                        Lidar_1:
-                          {}
+                        {}
                     nema17_1:
                       wheel_1:
                         {}
@@ -655,7 +656,7 @@ Visualization Manager:
           Topic: /ppp/range_sensor3
           Unreliable: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: Range
     - Class: rviz/Group
       Displays:
@@ -731,7 +732,7 @@ Visualization Manager:
           Marker Topic: /viz__2_3_4_5_6_7_8_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -739,7 +740,7 @@ Visualization Manager:
           Marker Topic: /viz__0_1_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -747,7 +748,7 @@ Visualization Manager:
           Marker Topic: /viz_10_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -755,7 +756,7 @@ Visualization Manager:
           Marker Topic: /viz_11_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -763,7 +764,7 @@ Visualization Manager:
           Marker Topic: /viz_12_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -771,7 +772,7 @@ Visualization Manager:
           Marker Topic: /viz_9_markers
           Name: Marker
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -779,7 +780,7 @@ Visualization Manager:
           Marker Topic: /viz_current_goal_markers
           Name: GOAL
           Namespaces:
-            hz_namespace: true
+            {}
           Queue Size: 100
           Value: true
       Enabled: true
@@ -812,7 +813,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 18.398731231689453
+      Distance: 9.70959758758545
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -820,9 +821,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -1.6722850799560547
-        Y: 2.4500746726989746
-        Z: -0.6754546761512756
+        X: -0.5426557064056396
+        Y: 0.8428787589073181
+        Z: -0.7343940138816833
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false

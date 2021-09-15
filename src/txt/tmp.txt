@@ -61,7 +61,7 @@ rosbag record /ppp/cmd_vel /ppp/real_cmd_vel /rosout /scan /voltage /ppp/real_cm
 rosbag play --clock -l 6.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/real_cmd_vel /ppp/range_sensor1 /ppp/range_sensor2 /ppp/range_sensor3 /rangeSonar1 /rosout /scan /voltage /ppp/real_cmd_vel /odom /tf /tf_static
 
 rosbag play --clock -l 7N.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/real_cmd_vel /scan /tf /tf_static /odom 
-rosbag play --clock -l N8.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/real_cmd_vel /scan /tf /tf_static /odom 
+rosbag play --clock -l N8.bag --topics /imu /joint_states /ppp/cmd_vel /ppp/real_cmd_vel /scan /tf /tf_static /odom  /ppp/range_sensor1 /ppp/range_sensor2 /ppp/range_sensor3
 ------------------------------------------------------------------------------
 test map:
 roslaunch ppp90_description display.launch 
