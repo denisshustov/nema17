@@ -25,7 +25,7 @@
       <param name="odom_alpha1" value="5"/><!--TEST THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
       <param name="odom_alpha2" value="2"/>
       <param name="odom_alpha3" value="2"/>
-      <param name="odom_alpha4" value="0.2"/>
+      <param name="odom_alpha4" value="1"/>
 
       <param name="laser_min_range" value="-1"/><!--0.15-->
       <param name="laser_max_range" value="-1"/><!--12-->
