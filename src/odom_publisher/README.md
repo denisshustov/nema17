@@ -8,4 +8,5 @@ odom-pub.launch
 Better run it on PC, b/c if run in rasperry it works slow
 
 # How it works
-Subscribe topic /ppp/real_cmd_vel than convert and publish it to odom topic 
+Subscribe topic /ppp/real_cmd_vel than convert and publish it to odom topic.
+And there service witch can reset odom: reset_odom_service
