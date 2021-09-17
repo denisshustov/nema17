@@ -2,5 +2,8 @@
 
 | Node | README |
 | ------ | ------ |
-| Brush UltraSonyc Sensors and Voltage | [src/brushUltraSonycSensorsVoltage/README.md](src/brushUltraSonycSensorsVoltage/README.md) |
-| convert_range_sensors_values | [src/convert_range_sensors_values/README.md](src/convert_range_sensors_values/README.md) |
+| Brush UltraSonyc Sensors and Voltage | [brushUltraSonycSensorsVoltage/README.md](brushUltraSonycSensorsVoltage/README.md) |
+| convert_range_sensors_values | [convert_range_sensors_values/README.md](convert_range_sensors_values/README.md) |
+| motor_driver | [motor_driver/README.md](motor_driver/README.md) |
+| odom_publisher | [odom_publisher/README.md](odom_publisher/README.md) |
+
