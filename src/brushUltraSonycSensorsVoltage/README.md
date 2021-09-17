@@ -3,7 +3,7 @@
 3_2.ino - arduino scatch for ultrasonic sensors and voltage measure to receive <br>
 and subscribe funAndBrushes
 
-rangeSonar is raw data for get normal data use convert_range_sensors_values [src/convert_range_sensors_values/README.md]
+rangeSonar is raw data for get normal data use convert_range_sensors_values [src/convert_range_sensors_values/README.md](src/convert_range_sensors_values/README.md)
 
 # Topics
 public:
