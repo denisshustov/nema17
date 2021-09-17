@@ -1,5 +1,38 @@
 # nema17
 
+# Description
+
+
+
+
+# Details
+
+1) Raspberry py 3<br>
+2) Lidar rplidar a1<br>
+3) Motor Nema17<br>
+4) Two small motors with reductor for brushes like this (https://www.amazon.com/uxcell-36RPM-Reduction-Terminals-Engine/dp/B0716T8KPD)<br>
+5) Driver DRV8825<br>
+6) IMU - remove b/c it get a lot of diveation<br>
+7) 18650x4<br>
+8) UltraSonic sensors x 2
+
+
+# Run
+run launch file on raspberry<br>
+```
+ppp_run/launch/ppp_run.launch 
+```
+and run on PC it sepatate console:
+```
+roslaunch nav nav.launch 
+roslaunch path_creator path_creator.launch 
+roslaunch path_visualizer path_visualizer.launch 
+roslaunch path_creator_goal_mover path_creator.launch
+```
+
+
+# Links
+
 | Node | README |
 | ------ | ------ |
 | Brush UltraSonyc Sensors and Voltage | [brushUltraSonycSensorsVoltage](brushUltraSonycSensorsVoltage) |

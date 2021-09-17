@@ -17,6 +17,7 @@ funAndBrushes - ByteMultiArray, it receive 3 values, for two brushes and one tur
 rosrun rosserial_python serial_node.py /dev/ttyUSB0<br>
 
 run funAndBrushes:<br>
+```python
 rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
   dim:
   - label: ''
@@ -27,8 +28,9 @@ data:
 - 1
 - 1
 - 1" 
-
+```
 stop funAndBrushes:<br>
+```python
 rostopic pub /funAndBrushes std_msgs/ByteMultiArray "layout:
   dim:
   - label: ''
@@ -39,7 +41,7 @@ data:
 - 0
 - 0
 - 0" 
-
+```
 
 see topic
 rostopic echo /rangeSonar1<br>

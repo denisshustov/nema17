@@ -31,6 +31,8 @@ recovery_behaviors:
     #type: 'clear_costmap_recovery/ClearCostmapRecovery'
   #- name: 'aggressive_reset1'
     #type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'obstacles_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'    
   - name: 'clearing_rotation1'
     type: 'rotate_recovery/RotateRecovery'
   #- name: 'super_conservative_reset2'
