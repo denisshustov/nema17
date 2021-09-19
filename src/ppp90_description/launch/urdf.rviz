@@ -6,12 +6,10 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /ROBOT1/TF1
         - /ROBOT1/TF1/Frames1
         - /Areas1/Polygon4
         - /Areas1/Polygon5
         - /Areas1/Polygon6
-        - /Markers1
         - /Markers1/Marker3
         - /Markers1/Marker4
         - /Markers1/Marker5
@@ -85,7 +83,7 @@ Visualization Manager:
             ball:
               Value: false
             base_footprint:
-              Value: false
+              Value: true
             base_imu_link:
               Value: false
             base_link:
@@ -144,10 +142,9 @@ Visualization Manager:
                     forward_top_1_1:
                       {}
                     forward_top_1_Mirror__1:
-                      Lidar_1:
-                        {}
                       Lidar_Box:
-                        {}
+                        Lidar_1:
+                          {}
                     nema17_1:
                       wheel_1:
                         {}
@@ -813,7 +810,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.70959758758545
+      Distance: 15.598491668701172
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -821,17 +818,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -0.5426557064056396
-        Y: 0.8428787589073181
-        Z: -0.7343940138816833
+        X: 3.256932497024536
+        Y: 4.3232831954956055
+        Z: -0.7163417935371399
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5347963571548462
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 4.738829612731934
+      Yaw: 4.903829574584961
     Saved: ~
 Window Geometry:
   Displays:
