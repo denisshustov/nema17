@@ -1,12 +1,14 @@
-# nema17
-
-# Description
+# Vacuum cleaner operation by ROS
 
 
-using for converting from Fusino 360 to urfd tool: https://github.com/syuntoku14/fusion2urdf
+## Model
+For desing use Fusion 360. For converting from Fusion 360 to urfd tool: https://github.com/syuntoku14/fusion2urdf
 
+![N|Solid](model/i1.PNG)
 
-# Details
+link to model f2d: [model/ppp_4_v79_c.f3d](model/ppp_4_v79_c.f3d)
+
+## Details
 
 1) Raspberry py 3<br>
 2) Lidar rplidar a1<br>
@@ -17,8 +19,11 @@ using for converting from Fusino 360 to urfd tool: https://github.com/syuntoku14
 7) 18650x4<br>
 8) UltraSonic sensors x 2
 
+## Soft
+For robot use Ubuntu 18, but it has some problems with wifi. And ROS melodic.
+For PC use Ubuntu 20 and ROS noetic.
 
-# Run
+## Run
 run launch file on raspberry<br>
 ```
 ppp_run/launch/ppp_run.launch 
@@ -32,7 +37,7 @@ roslaunch path_creator_goal_mover path_creator.launch
 ```
 
 
-# Links
+## Links
 
 | Node | README |
 | ------ | ------ |

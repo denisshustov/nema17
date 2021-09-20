@@ -11,3 +11,30 @@ conservative_reset_dist: 3.0 # 0.1 # distance from an obstacle at which it will 
 cost_factor: 1.0
 neutral_cost: 55
 lethal_cost: 253
+
+
+recovery_behavior_enabled: true
+
+recovery_behaviors:
+  - name: 'super_conservative_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'conservative_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'aggressive_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'move_slow_and_clear'
+    type: 'move_slow_and_clear/MoveSlowAndClear'
+super_conservative_reset:
+  reset_distance: 5.0    
+conservative_reset:
+  reset_distance: 0.1
+  layer_names: ['obstacle_layer']
+aggressive_reset:
+  reset_distance: 0.0
+  layer_names: ['obstacle_layer']
+
+move_slow_and_clear:
+  clearing_distance: 0.5
+  limited_trans_speed: 0.25
+  limited_rot_speed: 0.45
+  limited_distance: 0.3
