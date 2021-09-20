@@ -142,9 +142,10 @@ Visualization Manager:
                     forward_top_1_1:
                       {}
                     forward_top_1_Mirror__1:
+                      Lidar_1:
+                        {}
                       Lidar_Box:
-                        Lidar_1:
-                          {}
+                        {}
                     nema17_1:
                       wheel_1:
                         {}
@@ -810,7 +811,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 15.598491668701172
+      Distance: 9.577652931213379
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -818,9 +819,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 3.256932497024536
-        Y: 4.3232831954956055
-        Z: -0.7163417935371399
+        X: -0.3526012897491455
+        Y: 1.1334322690963745
+        Z: -0.7187867164611816
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false

@@ -1,5 +1,37 @@
 # path_creator
 
+# How to use
+## path_creator_node 
+
+Main service is [path_creator/src/path_creator_node.py](path_creator/src/path_creator_node.py)
+
+it get map, split it to counturs, and generate path on eatch contur. Also you can merge counturs<br>
+launch it:
+```bash
+roslaunch path_creator path_creator.launch 
+```
+<br>
+in launch file you can merge it like this:<br>
+
+```xml
+<node name="path_creator" pkg="path_creator" output="screen" type="path_creator_node.py">
+        <param name="merge_0" value="['0','1']" />
+        <param name="merge_1" value="['2','3','4','5','6','7','8']" />
+</node>
+```
+
+## path_visualizer
+
+For visualize counturs and path
+
+launch:
+```
+roslaunch path_visualizer path_visualizer.launch 
+```
+
+## path_creator_goal_mover
+For start creating full covarage path of conurs, and run it by sending goals to move_base.
+<br>
 # Libs
 Conturs.py - lib for work with counturs
 

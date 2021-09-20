@@ -3,6 +3,7 @@
 # Description
 
 
+using for converting from Fusino 360 to urfd tool: https://github.com/syuntoku14/fusion2urdf
 
 
 # Details
@@ -39,4 +40,5 @@ roslaunch path_creator_goal_mover path_creator.launch
 | convert_range_sensors_values | [convert_range_sensors_values](convert_range_sensors_values) |
 | motor_driver | [motor_driver](motor_driver) |
 | odom_publisher | [odom_publisher](odom_publisher) |
+| path_creator | [path_creator](path_creator) |
 
