@@ -80,18 +80,12 @@ Visualization Manager:
               Value: false
             back_top_1:
               Value: false
-            ball:
-              Value: false
             base_footprint:
               Value: true
             base_imu_link:
               Value: false
             base_link:
               Value: true
-            brush_1:
-              Value: false
-            brush_Mirror__1:
-              Value: false
             forward_top_1_1:
               Value: false
             forward_top_1_Mirror__1:
@@ -104,17 +98,11 @@ Visualization Manager:
               Value: false
             odom:
               Value: true
-            roll_celinder:
-              Value: false
             sonyc_1:
               Value: false
             sonyc_Mirror__1:
               Value: false
             sonyc__1__1:
-              Value: false
-            wheel_1:
-              Value: false
-            wheel_Mirror__1:
               Value: false
           Marker Alpha: 1
           Marker Scale: 1
@@ -128,11 +116,9 @@ Visualization Manager:
                 base_footprint:
                   base_link:
                     12GAN20__1__1:
-                      brush_1:
-                        {}
+                      {}
                     12GAN20__1__Mirror__1:
-                      brush_Mirror__1:
-                        {}
+                      {}
                     back_top2_1:
                       {}
                     back_top_1:
@@ -142,19 +128,13 @@ Visualization Manager:
                     forward_top_1_1:
                       {}
                     forward_top_1_Mirror__1:
-                      Lidar_1:
-                        {}
                       Lidar_Box:
-                        {}
+                        Lidar_1:
+                          {}
                     nema17_1:
-                      wheel_1:
-                        {}
+                      {}
                     nema17_Mirror__1:
-                      wheel_Mirror__1:
-                        {}
-                    roll_celinder:
-                      ball:
-                        {}
+                      {}
                     sonyc_1:
                       {}
                     sonyc_Mirror__1:
@@ -811,7 +791,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.577652931213379
+      Distance: 12.928688049316406
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -819,17 +799,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -0.3526012897491455
-        Y: 1.1334322690963745
-        Z: -0.7187867164611816
+        X: 0.8008313775062561
+        Y: -0.6429569721221924
+        Z: -1.6375861167907715
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 1.1468827724456787
       Target Frame: <Fixed Frame>
-      Yaw: 4.903829574584961
+      Yaw: 5.670104503631592
     Saved: ~
 Window Geometry:
   Displays:
